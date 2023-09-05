@@ -32,11 +32,10 @@ router.get('/login', function(req,res){
   catch (err) { is_file = false; }
 
   if ( is_file == true )
-    res.render('login', {maintenance: true});
+    res.render('login', {maintenance: true}).end();;
   else
-    res.render('login');
-  
-  res.sendStatus(200).end();
+    res.render('login').end();;
+
 });
 
 // used to turn the first letter of firstnames and lastnames into an uppercase one
