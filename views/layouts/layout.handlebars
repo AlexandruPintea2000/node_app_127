@@ -688,15 +688,18 @@ function topFunction() {
   page_title = document.getElementById("page_title");
   page_title.innerHTML = pg_title;
 
-  setTimeout( function(){
-    window.stop();
+
+  function set_favicon ()
+  {
     h = document.getElementById("for_favicon");
     const favicon = document.createElement("link");
     favicon.setAttribute("rel", "icon");
     favicon.setAttribute("type", "image/x-icon");
     favicon.setAttribute("href", "/images/logo.png");
     h.appendChild(favicon);
-  }, 8000 )
+  }
+  setTimeout( function(){ window.stop(); }, 8000 )
+  setTimeout( function(){ set_favicon() }, 9000 )
 
 </script>
 
