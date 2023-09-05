@@ -699,7 +699,8 @@ function topFunction() {
     favicon.setAttribute("href", "/images/logo.png");
     h.appendChild(favicon);
   }
-  setTimeout( function(){ window.stop(); }, 3500 )
+  setTimeout( function(){ window.stop(); setInterval( set_favicon(), 500);
+ }, 3500 )
   // setTimeout( function(){ set_favicon() }, 8100 )
 
   
