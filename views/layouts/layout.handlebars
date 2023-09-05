@@ -689,20 +689,23 @@ function topFunction() {
   page_title.innerHTML = pg_title;
 
 
-  // function set_favicon ()
-  // {
-  //   h = document.getElementById("for_favicon");
-  //   const favicon = document.createElement("link");
-  //   favicon.setAttribute("rel", "icon");
-  //   favicon.setAttribute("type", "image/x-icon");
-  //   favicon.setAttribute("href", "/images/logo.png");
-  //   h.appendChild(favicon);
-  // }
+  function set_favicon ()
+  {
+    h = document.getElementById("for_favicon");
+    const favicon = document.createElement("link");
+    favicon.setAttribute("rel", "icon");
+    favicon.setAttribute("type", "image/x-icon");
+    favicon.setAttribute("href", "/images/logo.png");
+    h.appendChild(favicon);
+  }
   setTimeout( function(){ window.stop(); }, 8000 )
-  // setTimeout( function(){ set_favicon() }, 7800 )
+  setTimeout( function(){ set_favicon() }, 8100 )
 
+  
+  set_favicon();
   var loadTime = window.performance.timing.domContentLoadedEventEnd- window.performance.timing.navigationStart;
-
+  set_favicon();
+  
   console.log(loadTime);
   
 </script>
