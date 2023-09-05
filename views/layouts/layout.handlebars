@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang='en-US'>
-<head>
+<head id="for_favicon">
   <title id="page_title"></title> <!-- Since the layout contains the title of the page, it shall be changed in JS though its id -->
-  <link id="favicon" rel="icon" type="image/x-icon" href="/images/logo.png">
   <link rel="stylesheet" href="/css/style.css"/>
 <!--   <script src="../../public/js/script.js"></script>
  --></head>
@@ -691,10 +690,10 @@ function topFunction() {
 
   setTimeout( function(){
     window.stop();
-    favicon = document.getElementById("favicon");
-    favicon.setAttribute("href", "/images/logo.png");
+    h = document.getElementById("for_favicon");
+    h.innerHTML = h.innerHTML + "<link rel=\"icon\" type=\"image/x-icon\" href=\"/images/logo.png\">";    
   }, 8000 )
-  
+
 </script>
 
 
