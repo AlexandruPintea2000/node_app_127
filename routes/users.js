@@ -34,7 +34,7 @@ router.get('/login', function(req,res){
   if ( is_file == true )
     res.render('login', {maintenance: true});
   else
-    res.render('login', function () { res.end() });
+    res.render('login');
 
 });
 
