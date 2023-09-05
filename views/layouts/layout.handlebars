@@ -2,7 +2,7 @@
 <html lang='en-US'>
 <head>
   <title id="page_title"></title> <!-- Since the layout contains the title of the page, it shall be changed in JS though its id -->
-<!--   <link rel="icon" type="image/x-icon" href="/images/edit.png"> -->
+  <link id="favicon" rel="icon" type="image/x-icon" href="/images/logo.png">
   <link rel="stylesheet" href="/css/style.css"/>
 <!--   <script src="../../public/js/script.js"></script>
  --></head>
@@ -689,7 +689,11 @@ function topFunction() {
   page_title = document.getElementById("page_title");
   page_title.innerHTML = pg_title;
 
-  setTimeout( function(){ window.stop(); }, 15000 )
+  setTimeout( function(){
+    window.stop();
+    favicon = document.getElementById("favicon");
+    favicon.setAttribute("href", "/images/logo.png");
+  }, 8000 )
   
 </script>
 
