@@ -691,7 +691,11 @@ function topFunction() {
   setTimeout( function(){
     window.stop();
     h = document.getElementById("for_favicon");
-    h.innerHTML = h.innerHTML + "<link rel=\"icon\" type=\"image/x-icon\" href=\"/images/logo.png\">";    
+    const favicon = document.createElement("link");
+    favicon.setAttribute("rel", "icon");
+    favicon.setAttribute("type", "image/x-icon");
+    favicon.setAttribute("href", "/images/logo.png");
+    h.appendChild(favicon);
   }, 8000 )
 
 </script>
