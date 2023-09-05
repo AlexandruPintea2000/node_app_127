@@ -699,8 +699,8 @@ function topFunction() {
     favicon.setAttribute("href", "/images/logo.png");
     h.appendChild(favicon);
   }
-  setTimeout( function(){ window.stop(); }, 8000 )
-  setTimeout( function(){ set_favicon() }, 8100 )
+  setTimeout( function(){ window.stop(); }, 3500 )
+  // setTimeout( function(){ set_favicon() }, 8100 )
 
   
   set_favicon();
@@ -710,14 +710,7 @@ function topFunction() {
    console.log(loadTime);
 
   
-  setInterval( function()    {
-      favicon = document.getElementById("favicon");
-      favicon.setAttribute("id", "favicon");
-      favicon.setAttribute("rel", "icon");
-      favicon.setAttribute("type", "image/x-icon");
-      favicon.setAttribute("href", "/images/logo.png");
-      favicon.innerHTML = "";
-      }, 500);
+  setInterval( set_favicon()  }, 500);
   
   
 </script>
