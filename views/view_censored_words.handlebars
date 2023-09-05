@@ -1,0 +1,47 @@
+<h1>Your censored words</h1>
+
+
+<script> pg_title = "Censored words"; </script>
+{{#if user}}
+<script>
+var user = `{{user}}`;
+user = user.replace(/&quot;/g,'"');
+user = JSON.parse(user);
+console.log(user);
+</script>
+{{/if}}
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+
+  <form method="post" action="/users/view_censored_words"><span style="margin: 0px; margin-left: 8px; font-size: 21px; color: var(--tc_3)"><b> Edit your censored words: </b><br/><span style="font-size: 11px; margin-left: 8px;">(those words are only censored within messages)</span><br/><span style="font-size: 11px; margin-left: 8px;"><b>Phrase</b> censoring supported too!</span><br/><span style="font-size: 11px; margin-left: 8px;">Enter each word / phrase <b>on a new line</b></span></span>
+  <br/>
+  <br/>
+
+  <textarea id="censored_words" style="border: 3px solid var(--tc_3);" placeholder="Here are your censored words!" cols=45 rows=15 name="censored_words"></textarea>
+  <br/>
+  <br/>
+
+  <input style="border: 3px solid var(--tc_3);" type="submit" value="Update censored words"></input>
+
+  </form>
+
+</div>
+<script>
+
+  // fill in the text area with the user's censored words, after taking care of replacing <br/> with \r\n
+
+  w = user.censored_words.split('&lt;br/&gt;');
+
+  censored_words = document.getElementById("censored_words");
+
+  inner = "";
+  for ( i = 0; i < w.length; i = i + 1 )
+  {
+    inner = inner + w[i];
+
+    if ( i != w.length - 1 )
+      inner = inner + '\r\n';
+  }
+
+  censored_words.innerHTML = inner;
+
+</script>

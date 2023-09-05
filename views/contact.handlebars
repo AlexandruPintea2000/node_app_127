@@ -1,0 +1,40 @@
+<h1>Contact</h1>
+
+
+<script> pg_title = "Contact"; </script>
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+
+  <!-- <br/> -->
+
+  <table style="border: 2px solid black; border-radius: 10px; padding: 7px 10px; font-weight: bold; font-size: 17px; width: 100%;">
+    <tr><td>Address:</td> <td>Change the address here</td></tr>
+    <tr><td colspan="2" style="border-top: 1px solid black;"></td></tr>
+    <tr><td>Phone:</td> <td>+4000000000</td></tr>
+    <tr><td colspan="2" style="border-top: 1px solid black;"></td></tr>
+    <tr><td>Email:</td> <td>whoknows@mail.com</td></tr>
+    <tr><td colspan="2" style="border-top: 1px solid black;"></td></tr>
+  </table>
+
+  <form method="post" action="/contact"> <!-- send an email though a POST request -->
+  <br/>
+  <br/>
+  <span style="margin: 0px; margin-left: 8px; font-size: 21px; color: var(--tc_3)"><b> Email us now: </b></span>
+  <br/>
+  <br/>
+  <input placeholder="Subject" type="text" name="subject" style="width: calc(100% - 25px );" title="Enter the topic of your inquiry">
+  <br/>
+  <br/>
+  <input title="Enter your email" placeholder="Your Email" type="email" name="email" style="width: calc(100% - 25px );">
+  <br/>
+  <br/>
+
+  <textarea style="border: 3px solid var(--tc_3);" placeholder="Enter your message here!" cols=45 rows=15 name="text"></textarea>
+  <br/>
+  <br/>
+
+  <input style="border: 3px solid var(--tc_3);" type="submit"></input>
+
+  </form>
+
+</div>

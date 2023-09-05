@@ -1,0 +1,772 @@
+<script> pg_title = "Discussions"; localStorage.setItem("refresh", true); </script>
+<div class="text_border" style="margin-top: 17px;">
+  <!-- check if the string values arrived to the front-end and convert them into front-end Js variables -->
+  {{#if user_id}}
+  <script>
+  var r = `{{r}}`;
+  var users = `{{users}}`;
+  var user = `{{user}}`;
+  var user_id = `{{user_id}}`;
+  var discussion_id = `{{discussion_id}}`;
+
+  user = JSON.parse( user.replace(/&quot;/g,'"').replace(/\r\n/g,',') );
+  </script>
+  {{/if}}
+
+
+
+  <script>
+    
+
+  </script>
+
+  <br/>
+
+  <a href="#down" id="scroll_bottom" style="display: none;"></a>
+
+  <div id="discussion_container" style="margin-top: 10px;">
+
+  </div>
+
+
+  <script>
+
+  console.log(user);
+
+
+  if ( typeof user.censored_words != 'undefined' )
+  {
+    w = user.censored_words.split(',');
+    w_replacements = [];
+  
+    for ( i = 0; i < w.length; i = i + 1 )
+    {
+      w_replacements.push("");
+      for ( j = 0; j < w[i].length; j = j + 1 )
+        w_replacements[i] = w_replacements[i] + '*';
+    }
+  }
+
+
+  // if (typeof r == 'undefined')
+  //   return;
+
+  r = r.replace(/&quot;/g,'"').replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&#x3D;/g, "=");
+  console.log(r);
+
+  r = JSON.parse(r);
+
+
+
+  console.log("HERE IS R");
+  console.log(r);
+
+	// show all the messages that the user is supposed to see
+    function see_messages (r, user)
+    {
+
+
+      empty_r = false
+      if ( r.length == 0 )
+        empty_r = true
+
+
+      if ( empty_r == true )
+        alert("EMPTY R")
+
+      if ( discussion_id == '' && empty_r == false )
+        discussion_id = r[0].id;
+      if ( discussion_id == '' && typeof localStorage.getItem( "discussion_id" ) != undefined )
+        discussion_id = localStorage.getItem( "discussion_id" );
+
+
+      d = document.getElementById("discussion_container");
+
+      inner = ""
+
+      r_copy = r;
+      for (i = 0; i < r_copy.length; i = i + 1)
+      {
+        r[i].special_messages = [];
+        for (j = 0; j < r_copy[i].messages.length; j = j + 1)
+        {
+          if( r_copy[i].messages[j].text.slice(0, 2) == "[[" )
+          {
+            r[i].special_messages.push(j);
+            r[i].special_messages.push(r_copy[i].messages[j].text);
+          }
+        }
+
+        console.log(r[i].special_messages);
+     }
+
+      for (i = 0; i < r.length; i = i + 1)
+      {
+        inner = inner + "<div id=\"" + r[i].id + "\" class=\"discussion\" style='height: 100px !important; overflow-y: scroll !important;'>";
+        inner = inner + "<div class=\"discussion_title\">" + r[i].name + "</div>";
+        inner = inner + "<table class=\"discussion_messages\">"
+
+
+        for (j = 0; j < r[i].messages.length; j = j + 1)
+        {
+          censored_result = r[i].messages[j].text;
+
+          if ( censored_result == "((INVISIBLE_MESSAGE_TO_UPDATE_SENT_FILE))" )
+          {
+            localStorage.setItem("refresh", true);
+
+            location.reload()
+            location.reload()
+          }
+
+          special_message = false;
+          if ( r[i].special_messages.includes(j) )
+            special_message = true;
+
+
+          if ( !special_message )
+          {
+            if ( typeof user.censored_words != 'undefined' )
+              for ( k = 0; k < w.length; k = k + 1 )
+              {
+                censored_result = censored_result.replaceAll(w[k], w_replacements[k]);
+              }
+          }
+
+
+
+          if ( special_message )
+          {
+            special_message = true;
+
+            iter = -1;
+            for ( p = 0; p < r[i].special_messages.length; p = p + 1 )
+              if ( r[i].special_messages[p] == j )
+              {
+                iter = p;
+                break;
+              }
+
+            if ( iter != -1 )
+            {
+
+            special_text = r[i].special_messages[iter + 1];
+
+            special_content = special_text.slice(2, -2)
+
+            console.log("SPECIAL TEXT" +special_text);
+
+            identifier = special_content.slice(0, 6);
+
+            special_content = special_content.slice(6, special_text.length);
+
+            console.log(identifier)
+            console.log(special_content)
+
+            if ( identifier == "files:" )
+            {
+              files = special_content.split('/');
+              console.log(files);
+
+              sinr = "<table class='file_table'><tr>";
+
+              for ( o = 0; o < files.length; o = o + 1 )
+              {
+                filename = files[o];
+                if (files[o].includes("(("))
+                {
+                  if ( files[o].includes('.') )
+                  {
+                    f = files[o].split('.');
+                    filename = f[0].slice(0, -6);
+                    filename = filename + '.' + f[1];
+                  }
+                  else
+                    filename = files[o].slice(0, -6);
+                }
+              
+                filename = filename.replaceAll("([replace](", "((");
+            
+
+                sinr = sinr + "<td><a href='/messages/download:" + files[o] + "!" + filename + "'><div></div>" + filename + "</a></td>";
+              }
+
+              sinr = sinr + "</tr></table>";
+
+              // ALWAYS set the result in this variable
+              censored_result = sinr;
+              console.log("IT GETS HERE END OF FILES");
+            }
+            }
+          }
+
+          console.log(censored_result);
+
+          // make sure to add admin functionalities here
+          console.log(r[i].messages[j])
+          console.log(user.username)
+
+          date = new Date(r[i].messages[j].createdAt);
+          update_date = new Date();
+          have_updated_msg = false
+          if ( r[i].messages[j].createdAt != r[i].messages[j].updatedAt )
+          {
+            have_updated_msg = true
+            update_date = new Date(r[i].messages[j].updatedAt);
+          }
+
+
+          if ( have_updated_msg == false )
+          {
+            date = "Sent:" + date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+          }
+          else
+          {
+            date = "Sent:" + date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + " Edited: " + update_date.getFullYear() + "/" + (update_date.getMonth()+1) + "/" + update_date.getDate() + " " + update_date.getHours() + ":" + update_date.getMinutes();
+          }
+
+          if ( new String(r[i].messages[j].source_username).valueOf() ==  new String(user.username).valueOf())
+          {
+            if ( typeof user.hidden_messages == 'undefined' )
+            {
+            console.log(r[i].messages[j].id);
+            inner = inner + "<tr><td></td><td><div class=\"my_message message\" id=\"" + r[i].messages[j].id + "\" msg=\"" + censored_result + "\" umsg=\"" + r[i].messages[j].text.replaceAll("<br/>", "\r\n") + "\" title=\"" + date + "\">" + censored_result + "</div>";
+            continue;
+            }
+
+            if (!user.hidden_messages.includes(r[i].messages[j].id))
+            {
+            console.log(r[i].messages[j].id);
+            inner = inner + "<tr><td></td><td><div class=\"my_message message\" id=\"" + r[i].messages[j].id + "\" msg=\"" + censored_result + "\" umsg=\"" + r[i].messages[j].text.replaceAll("<br/>", "\r\n") + "\" title=\"" + date + "\">" + censored_result + "</div>";
+            }
+            else
+            {            
+              inner = inner + "<tr><td></td><td><div class=\"my_message message\" visibility=\"hidden\" id=\"" + r[i].messages[j].id + "\" msg=\"hidden\" title=\"" + date + "\">hidden</div>";
+            }
+          }
+          else
+          {
+            if ( typeof user.hidden_messages == 'undefined' )
+            {
+              inner = inner + "<tr><td><div class=\"their_message message\" id=\"" + r[i].messages[j].id + "\" msg=\"" + censored_result + "\" umsg=\"" + r[i].messages[j].text.replaceAll("<br/>", "\r\n") + "\" title=\"" + date + "\">";
+              inner = inner + "<div class=\"sender\" discussion_iter=" + String(i) + "><img class=\"profile_image nav_image\" onerror=\"this.style.display = 'none'\" src=\"/images/" + r[i].messages[j].source_username + "_profile_image\"/>" + r[i].messages[j].source_username + "</div>" + censored_result + "</div></td><td>";
+              continue;
+            }
+
+            if (!user.hidden_messages.includes(r[i].messages[j].id))
+            {            
+              inner = inner + "<tr><td><div class=\"their_message message\" id=\"" + r[i].messages[j].id + "\" msg=\"" + censored_result + "\" umsg=\"" + r[i].messages[j].text.replaceAll("<br/>", "\r\n") + "\" title=\"" + date + "\">";
+              inner = inner + "<div class=\"sender\" discussion_iter=" + String(i) + "><img class=\"profile_image nav_image\" onerror=\"this.style.display = 'none'\" src=\"/images/" + r[i].messages[j].source_username + "_profile_image\"/>" + r[i].messages[j].source_username + "</div>" + censored_result + "</div></td><td>";
+            }
+            else
+            {
+              inner = inner + "<tr><td><div class=\"their_message message\" visibility=\"hidden\" id=\"" + r[i].messages[j].id + "\" msg=\"hidden\" title=\"" + date + "\">";
+              inner = inner + "<div class=\"sender\" discussion_iter=" + String(i) + "><img class=\"profile_image nav_image\" onerror=\"this.style.display = 'none'\" src=\"/images/" + r[i].messages[j].source_username +"_profile_image\"/>" + r[i].messages[j].source_username + "</div>hidden</div></td><td>";
+            }
+ 
+          }
+
+          // // if ( j == r[i].messages.length - 1 )
+          //   inner = inner + "";
+
+          inner = inner + "</td></tr>";
+        }
+
+        inner = inner + "</table>";
+        inner = inner + "<div id='down'>- End of discussion -</div></div>";
+
+      }
+
+
+      d.innerHTML = inner;
+
+
+    }
+
+
+
+    see_messages(r, user);
+
+
+	// all messages need to be added delete and edit options on hever. That cannot happen until now, since the innerHTMl of the messages needs to be saved in an array, so as to be able to revert back to it once the user stops hovering on the message (which therefore makes the delete and edit message options dissapear)
+
+  function html_to_string(k)
+  {
+    var tmp = document.createElement("div");
+    tmp.appendChild(k.cloneNode(true));
+    return tmp.innerHTML;
+  }
+
+  function my_add_edit_hide_delete ()
+  {
+    my = document.getElementsByClassName("my_message");
+    their = document.getElementsByClassName("their_message");
+
+    my_html = [];
+
+    for (i = 0; i < my.length; i = i + 1)
+    {
+      my_html.push( my[i].innerHTML );
+      my[i].addEventListener("mouseenter", function(){
+        if (this.firstChild.tagName == "TEXTAREA")
+          return;
+
+        if (this.getAttribute("visibility") == "hidden")
+        this.innerHTML = this.getAttribute("msg") + "<div class='my edit_delete_container'><button class='show' onclick='show_message(this)'></button></div>";
+        else
+        {
+        this.innerHTML = this.getAttribute("msg") + "<div class='my edit_delete_container'><button class='delete'></button><button class='hide' onclick='hide_message(this)'></button><button class='edit'></button></div>";
+
+        this.lastChild.firstChild.addEventListener("click", function(i){
+        console.log("clicked");
+        location.replace("/messages/delete:" + this.parentElement.parentElement.getAttribute("id"))
+        });
+
+      
+        this.lastChild.lastChild.addEventListener("click", function(){
+        console.log("clicked edit");
+
+        msg = this.parentElement.parentElement;
+        console.log(msg);
+
+        msg_id = msg.getAttribute("id");
+
+        msg.innerHTML = "<textarea>" + msg.getAttribute("umsg") + "</textarea><div class='update_cencel_container'><button class='update' onclick='update_message(this)'></button><button class='cancel' onclick='location.reload();'></button></div>";
+        });
+        }
+      });
+      my[i].addEventListener("mouseleave", function(i){
+        if (this.firstChild.tagName == "TEXTAREA")
+          return; 
+        // this.removeChild(this.lastChild);
+        this.innerHTML = this.getAttribute("msg");
+      });
+    }
+  }
+
+  my_add_edit_hide_delete();
+
+
+    function update_message(e)
+    {
+      updated_message = e.parentElement.parentElement.firstChild.value;
+
+      message_id = e.parentElement.parentElement.getAttribute("id");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/messages/edit", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+          id: message_id,
+          msg: updated_message.replace(/\n/g, "_system_enter_")
+      }));
+
+      notif_users();
+      location.reload();
+      location.reload();
+
+      // get_updated_json();
+    }
+
+    function hide_message(e)
+    {
+      message_id = e.parentElement.parentElement.getAttribute("id");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/messages/hide", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+          id: message_id,
+      }));
+
+      // alert("gets")
+
+      location.reload();
+      location.reload();
+
+      // get_updated_user();
+    }
+
+    function show_message(e)
+    {
+      message_id = e.parentElement.parentElement.getAttribute("id");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/messages/show", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+          id: message_id,
+      }));
+
+      location.reload();
+      location.reload();
+
+      // get_updated_user();
+    }
+
+
+    function their_add_edit_hide_delete ()
+    {
+    their_html = [];
+
+    for (i = 0; i < their.length; i = i + 1)
+    {
+      their_html.push( their[i].innerHTML );
+      their[i].addEventListener("mouseenter", function(){
+        if (this.firstChild.tagName == "TEXTAREA")
+          return;
+
+        if (this.getAttribute("visibility") == "hidden")
+        this.innerHTML = html_to_string(this.firstChild) + this.getAttribute("msg") + "<div class='edit_delete_container'><button class='show' onclick='show_message(this)'></button></button></div>";
+        else
+        {
+        if ( user.type != "regular" )
+        {
+        this.innerHTML = html_to_string(this.firstChild) + this.getAttribute("msg") + "<div class='edit_delete_container'><button class='delete'></button><button class='hide' onclick='hide_message(this)'></button><button class='edit'></button></div>";
+
+        this.lastChild.firstChild.addEventListener("click", function(){
+
+        console.log("clicked");
+        location.replace("/messages/delete:" + this.parentElement.parentElement.getAttribute("id"))
+        });
+      
+        this.lastChild.lastChild.addEventListener("click", function(){
+        console.log("clicked edit");
+
+        msg = this.parentElement.parentElement;
+
+        msg_id = msg.getAttribute("id");
+
+        sender = html_to_string(msg.firstChild);
+
+        msg.innerHTML = "<textarea>" + msg.getAttribute("umsg") + "</textarea><div class='update_cencel_container'><button class='update' onclick='update_message(this)'></button><button class='cancel' onclick='location.reload();'></button></div>";
+
+        msg.innerHTML = msg.innerHTML + sender;
+
+      });
+      }
+      else // if the user is regular
+        this.innerHTML = html_to_string(this.firstChild) + this.getAttribute("msg") + "<div class='edit_delete_container'><button class='hide' onclick='hide_message(this)'></button></div>";
+      }
+      });
+
+      their[i].addEventListener("mouseleave", function(){
+        if (this.firstChild.tagName == "TEXTAREA")
+          return;
+
+        this.removeChild(this.lastChild);
+        // this.innerHTML = this.getAttribute("msg");
+      });
+    }
+    // dlt_buttons = document.getElementsByClassName("delete");
+
+    // for ( i = 0; i < dlt_buttons.length; i = i + 1 )
+    // {
+    //   dlt_buttons[i].addEventListener("click", function(i){
+    //     console.log("clicked");
+    //     location.replace("/messages/delete:" + dlt_buttons[i].parentElement.parentElement.getAttribute("id"))
+    //   });
+    // }
+
+
+    }
+
+    their_add_edit_hide_delete();
+  </script>
+  
+  
+  <!-- form for sending a message though POST -->
+  
+  <table><tr><td>
+  <form method="post" action="/messages/create_message">
+  <table id="message_options_table">
+
+  <tr>
+  <td><select style="height: 47px; margin-top: -4px; border-radius: 10px; border-color: var(--tc_5);" id="discussion_dropdown" onchange="hide_unselected_discussions()" name="discussion">
+  </select></td>
+
+  <td><textarea id="text" type="password" name='text' placeholder="Enter your message text here!"></textarea> </td>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+
+  <script src="/main.js"></script>
+
+  <td><input onclick="localStorage.setItem('refresh', true); send_socket_msg();" style="padding: 3px 6px 2px 9px; margin-top: -3px; font-size: 31px; font-family: bold_font; border: 3px solid var(--tc_5); border-radius: 10px 25px 25px 10px;      background-color: var(--otc_5);
+      color: var(--tc_5);
+" type="button" value="&#8669;" title="Send message to members"></input></td></tr>
+  <tr>
+  </form>
+
+  <td id="hide_td"><a title="Start a new discussion" id="create_discussion" href="/discussions/create_discussion:"> Create Discussion </a></td>
+
+  <form id="file_upload_form" action="/messages/file_upload" method="post" enctype="multipart/form-data">
+    <td id="change_colspan"><input style="display: none;" type="text" name="discussion" id="discussion_id_for_file_upload"></input><label class="custom-file-upload" style="margin-top: -5px; width: calc( 100% - 30px )">Select a file to send
+    <input type="file" value="" multiple="multiple" name="file_upload" id="file_upload" onchange="notif_users(); document.getElementById('file_upload_form').submit();"></input></label>
+    </td>
+    <td>
+      <input id="send_notif" onclick="send_notif_msg()" type="button" value="!" title="Send (here) and email message to members"></input>
+    </td>
+  </form>
+  </tr>
+
+<tr><td colspan=2>
+
+    <input type="text" id="search" placeholder="Enter what you want to search here!" style="width: calc(100% - 25px);"></input>
+  <input type="hidden" id="hid_search">
+
+</td><td colspan=2>
+
+
+  <div>
+    <input onclick="doSearch(document.getElementById('search').value)" type="button" id="search_btn" value="?"></input>
+  <div>
+
+</td></tr>
+
+</table>
+</td><td id="banned_error" >
+<div class="error" style="margin-top: -5px;">
+  You were <b>banned</b> from this discussion and are not allowed to send any messagages here. <br/><br/>
+  All messages sent by banned users are underemphasized.
+</div></td><td id="banned_messages_info">
+<div class="error" style="margin-top: -5px;">
+  All messages sent by banned users are underemphasized.
+</div>
+
+</td><td id="prefixes_info">
+<div class="error" style="margin-top: -5px;">
+  Prefixes for linking:<br/>
+  <table>
+  <tr><td><b>></b></td><td>users</td>
+  <td><b style="margin-left: 10px">%</b></td><td>discussions</td></tr>
+  <tr><td><b>&</b></td><td>topics</td>
+  <td><b style="margin-left: 10px">!</b></td><td>assignment</td></tr>
+  </table><br/>
+  e.g. <b>>username</b>, how is <b>!assignment-name</b>?
+
+</div>
+
+</td></tr>
+
+</table>
+</div>
+
+
+<script>
+
+  if ( user.type == "regular" )
+  {
+    hide_td = document.getElementById("hide_td");
+    change_colspan =  document.getElementById("change_colspan");
+
+    hide_td.style.display = "none";
+    change_colspan.setAttribute("colspan", 2);
+  }
+
+  function send_notif_msg()
+  {
+    id = localStorage.getItem("discussion_id");
+    text = document.getElementById("text").value;
+    localStorage.setItem("refresh", true);
+
+    if (text == "")
+      location.replace("/messages/send_notif_msg:" + id);
+    else
+      location.replace("/messages/send_notif_msg:!" + text.replace(/\n/g, "_system_enter_") + '!' + id);
+      // location.replace("/messages/send_notif_msg:!" + text.replace(/\n/g, "&lt;br&#47;&gt;") + '!' + id);
+  }
+
+
+  file_upload = document.getElementById('file_upload');
+
+  discussion_id_for_file_upload = document.getElementById('discussion_id_for_file_upload');
+
+  file_upload.value = "";
+  file_upload.form.reset();
+  document.getElementById("file_upload_form").reset();
+  // file_upload.addEventListener("change", send_socket_file(this)
+
+  //   // document.getElementById("file_upload_form").submit();
+  // );
+
+  // code that creates a dropdown filled with all the discussions the user can move between
+  users = users.replace(/&quot;/g,'"')
+  users = JSON.parse(users);
+
+  console.log(users);
+
+  dropdown = document.getElementById("discussion_dropdown");
+
+  if (r.length == 0) // if no discussions are available, hide the dropdown
+    dropdown.style.display = "none";
+  else
+    dropdown.style.display = "intial";
+
+  inner = "";
+  for (i = 0; i < r.length; i = i + 1)
+  {
+    if ( discussion_id != "" && r[i].id == discussion_id )
+    inner = inner + "<option value=\"" + r[i].id + "\" selected>" + r[i].name + " ( ";
+    else
+    inner = inner + "<option value=\"" + r[i].id + "\" >" + r[i].name + " ( ";
+    for (j = 0; j < r[i].members.length; j = j + 1)
+    {
+      inner = inner + r[i].members[j];
+      if (j != r[i].members.length - 1)
+        inner = inner + ", ";
+    }
+
+    inner = inner + " )</option>";
+  }
+
+dropdown.selectedIndex = 0;
+
+dropdown.innerHTML = inner;
+if ( discussion_id == "" )
+  dropdown.selectedIndex = 0;
+else
+  localStorage.setItem("discussion_id", discussion_id);
+  
+discussion_id_for_file_upload.value = dropdown.value;
+
+if (localStorage.hasOwnProperty('discussion_id'))
+  dropdown.value = localStorage.getItem("discussion_id");
+
+banned_error = document.getElementById("banned_error");
+banned_messages_info = document.getElementById("banned_messages_info");
+prefixes_info = document.getElementById("prefixes_info");
+
+have_banned_user_messages = false;
+
+for ( i = 0; i < r.length; i = i + 1 )
+  for ( j = 0; j < r[i].messages.length; j = j + 1 )
+    if ( r[i].banned_usernames.includes( r[i].messages[j].source_username ) )
+    {
+      have_banned_user_messages = true;
+      break;
+    }
+
+console.log("have_banned_user_messages");
+console.log(have_banned_user_messages);
+
+function hide_unselected_discussions()
+{
+  if (empty_r == true) return;
+
+  localStorage.setItem("discussion_id", dropdown.value);
+  discussion_id_for_file_upload.value = dropdown.value;
+
+  if ( dropdown.selectedIndex == -1 )
+    dropdown.selectedIndex = 0;
+
+
+  console.log(dropdown.selectedIndex);
+
+  discussions = document.getElementsByClassName("discussion");
+  for ( i = 0; i < discussions.length; i = i + 1 )
+  {
+    if ( i == dropdown.selectedIndex)
+      discussions[i].style.display = "inline";
+    else
+      discussions[i].style.display = "none";
+  }
+
+
+  console.log("r[ dropdown.selectedIndex ]");
+  console.log(r[ dropdown.selectedIndex ]);
+  console.log( "dropdown.selectedIndex" );
+  console.log( dropdown.selectedIndex );
+
+
+
+  if ( r[ dropdown.selectedIndex ].banned_user_ids.includes( user_id ) )
+  {
+    banned_messages_info.style.display = "none";
+    banned_error.style.display = "inline";
+    prefixes_info.style.display = "none"
+  }
+  else
+  {
+    banned_error.style.display = "none";    
+
+    if (have_banned_user_messages == true)
+    {
+      banned_messages_info.style.display = "inline";
+      prefixes_info.style.display = "none"
+    }
+    else
+    {
+      banned_messages_info.style.display = "none";
+      prefixes_info.style.display = "inline"
+    }
+  }
+}
+  
+hide_unselected_discussions();
+
+
+
+
+  function user_page_and_banning ()
+  {
+
+  senders = document.getElementsByClassName("sender");
+
+  for ( i = 0; i < senders.length; i = i + 1)
+  {
+    iter = 0;
+    discussion_iter = senders[i].getAttribute("discussion_iter");
+    for ( j = 0; j < r[discussion_iter].members.length; j = j + 1 )
+      if ( r[discussion_iter].members[j] == senders[i].innerText )
+      {
+        iter = j;
+        break;
+      }
+
+    senders[i].setAttribute("onclick", "location.replace('/users/view_user:" + r[discussion_iter].member_ids[iter] + "')"); 
+  }
+
+  messages = document.getElementsByClassName("message");
+  for ( i = 0; i < messages.length; i = i + 1)
+  {
+    discussion_iter = 0;
+    sender_username = "";
+    msg_id = messages[i].getAttribute("id");
+    for ( j = 0; j < r.length; j = j + 1 )
+      for ( k = 0; k < r[j].messages.length; k = k + 1 )
+        if ( r[j].messages[k].id == msg_id )
+        {
+          sender_username = r[j].messages[k].source_username;
+          if ( r[j].banned_usernames.includes( sender_username ) )
+             messages[i].classList.add("banned_discussion_user");
+        }
+
+   }
+
+  }
+
+  user_page_and_banning();
+
+  if ( empty_r == true )
+  {
+    discussion_container.parentElement.innerHTML = "<b>Look at that!</b><br/><br/>There are no discussions and no messages<br/><br/>Go to <a href='/discussions/create_discussion:' > this page</a> to create a discussion"
+    discussion_container.style.display = "none"
+  }
+
+  document.getElementById("scroll_bottom").click();
+
+
+
+</script>
+<style>
+  
+  #down
+  {
+    width: 95%;
+    text-align:  center;
+    padding: 10px;
+  }
+
+
+</style>

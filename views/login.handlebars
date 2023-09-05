@@ -1,0 +1,128 @@
+<script> pg_title = "Login"; </script>
+
+{{#if error}} <!-- tell the user to verify their email -->
+    <div class="error login_error">You have to verify your email at: <b>{{error}}</b> before you can sign in! <b>(check spam too)</b></div>
+{{/if}}
+
+{{#if msg}} <!-- tell the user to verify their email after they just registered -->
+    <div class="error login_error">Please verify your email at: <b>{{msg}}</b> before you can signing in! <b>(check spam too)</b></div>
+{{/if}}
+
+{{#if banned_username}} <!-- tell the user thye are banned -->
+    <div class="error login_error">The username: <b>{{banned_username}}</b> made on the email: <b>{{banned_email}}</b> is banned.</div>
+{{/if}}
+
+{{#if forgot}} <!-- tell the user their password was reset and sent to their email  -->
+    <div class="error login_error">Your new password was sent to: <b>{{forgot}}</b> <b>(check spam too)</b></div>
+{{/if}}
+
+{{#if unrecognised}} <!-- tell the user that their username / email were not found in the db  -->
+    <div class="error login_error">"<b>{{unrecognised}}</b>" is not recognised <b>(check for mispellings)</b></div>
+{{/if}}
+
+{{#if issue}} <!-- if something goes wrong with sending the user emails (unlikely), tell the user their email address could not be verified -->
+    <div class="error login_error">Unfortunatly, the username: <b>{{issue}}</b> could not be verified.<br/>Please retry signing up with another email address.<br/>We apologise for the inconvenience.</div>
+{{/if}}
+
+{{#if maintenance}} <!-- tell the user that the website is in maintenance mode and only admins can sign in  -->
+    <div class="error login_error">Only administrators allowed to log in during maintenance.</div>
+{{/if}}
+
+{{#if success}} <!-- tell the user that their email was verified and that they many now sign in -->
+    <div class="error login_error">The username: <b>{{success}}</b> was verified. You may now sign in.</div>
+{{/if}}
+
+<table style="width: 80%;"><tr><td style="min-width: 400px; vertical-align:top">
+<h2>Account Login</h2>
+<div id="login_container" class="text_border" style="width: fit-content;">
+<form method="post" action="/users/login">
+<table>
+  <tr>
+    <td>Username</td>
+    <td> <input id="username" type="text" name='username' placeholder="Username"> </td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td> <input id="password" type="password" name='password' placeholder="Password"> </td>
+  </tr>
+</table>
+  <input id="password_visibility_toggle" type="checkbox"></input>
+  <span style="margin-left: 10px;">Make password visible  </span>
+  <br/>
+  <br/>
+  <input type="submit"></input>
+<input id="forgot_password" type="button" value="Forgot password?"></input>
+</form>
+
+</div>
+</td>
+{{#unless maintenance}}
+ <!-- only show the "home" part of the UI if the website is notunder maintenance, cause that part has links to places that would just tell the user that the website is under maintenance  -->
+<td style="width: 80%; vertical-align:top;">
+
+<h2 style="width: 100%; text-align: center;">Home</h2>
+<div class="text_border" style="width: 118%;">
+  
+  Welcome to the APP!<br/><br/>
+  Here are some pages that you can view without having to <a href="/users/register">register</a>:<br/>
+  <a href="/contact">Contact</a><br/>
+  <a href="/licence">Licence</a><br/>
+  <a href="/conditions">Terms and Conditions</a><br/>
+  <a href="/about">About</a><br/>
+  <a href="/privacypolicy">Privacy Policy</a><br/><br/>
+  We cannot wait to have you as our member! <br/>
+  <b>Info:</b> The application is best viewed on a desktop device.
+
+</div>
+</td>
+{{/unless}}
+
+</tr></table>
+
+<script>
+
+  
+  // handle forgetting password
+  var forgot_password = document.getElementById("forgot_password");
+  var username = document.getElementById("username");
+  var login_container = document.getElementById("login_container");
+
+
+  forgot_password.addEventListener("click", function(){
+    if ( username.value == "" ) // if the user wants to reset their password, but they entered no username or email, tell them to
+    {
+      const div = document.createElement("div");
+      div.innerHTML = "Enter your <b>username</b> or <b>email</b> before attempting to change your password";
+      div.setAttribute("class", "error");
+      login_container.parentElement.insertBefore(div, login_container);
+      return;
+    }
+
+    username_or_email = username.value;
+    location.replace("/users/forgot_password:" + username_or_email);
+  });
+
+  // toggle password visibility
+  var pvt = document.getElementById("password_visibility_toggle");
+  var p = document.getElementById("password");
+
+  pvt.addEventListener( "click", function(){
+    if (pvt.checked)
+      p.setAttribute("type", "text");
+    else
+      p.setAttribute("type", "password");
+  });
+
+</script>
+
+<style>
+
+  #forgot_password
+  {
+    border: none;
+    margin-left: 2px;
+    text-decoration: underline;
+    text-decoration-style: double;
+  }
+
+</style>

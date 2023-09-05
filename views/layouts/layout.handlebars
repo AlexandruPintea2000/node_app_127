@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+  <title id="page_title"></title> <!-- Since the layout contains the title of the page, it shall be changed in JS though its id -->
+<!--   <link rel="icon" type="image/x-icon" href="/images/edit.png"> -->
+  <link rel="stylesheet" href="/css/style.css"/>
+<!--   <script src="../../public/js/script.js"></script>
+ --></head>
+
+{{#if user.theme}} <!-- if the user is sent to the UI -->
+<script>
+
+  thme = "{{user.theme}}";
+
+  val = thme.split(',');
+  val[0] = "#" + val[0];
+  localStorage.setItem("tc", val[0]);
+  localStorage.setItem("tc_diff", Number( val[1] ));
+
+</script>
+{{/if}}
+
+ <script>
+
+console.log(window.location.href);
+u = window.location.href.slice(22);
+console.log(u);
+let state_object = { id: "100" };
+if (u.includes(':')) // clears GET parameters, preventing sending GET requests on refresh
+{
+  u = u.substring(0, u.lastIndexOf(':'));
+  window.history.pushState(state_object,"Page", "");
+}
+
+if (u.includes('messages/delete')) // always have to refresh in this case
+{
+  location.reload();
+  location.reload();
+}
+
+
+if (localStorage.getItem("refresh") != null) // check if a page refresh was set - usually set to get updated date from the server
+{
+  localStorage.removeItem("refresh");
+  location.reload();
+  location.reload();
+}
+
+if (u.includes('virtual')) // clears GET parameters, preventing sending GET requests on refresh
+{
+  window.history.pushState(state_object,"Page", "/");
+}
+
+if ( u.includes('logout') ) // since the logout page has no view, users shouldnt be given the opportunity to refresh it
+{
+  // if ( u.includes('logout:'))
+  window.history.pushState(state_object,"Page", "/");
+  loaction.reload();
+  // else
+  //   window.history.pushState(state_object,"Page", "/users/login");
+}
+
+
+// if ( u.includes('#refresh') ) // attempt at refreshing
+// {
+//   window.history.pushState(state_object,"Page", u.slice(0, -8));
+//   location.reload();
+// }
+
+if (localStorage.getItem("tc_diff") == null || Number(localStorage.getItem("tc_diff")) == NaN ) // check if the user has already chosen a theme for their UI
+{
+  localStorage.setItem("tc", "#ffb900");
+  localStorage.setItem("tc_diff", 35);
+}
+
+function show_js_title (text) // show custom JS tooltip (used if the CSS tooltip did not function because the page was not fully loaded)
+{
+  var a = document.getElementById("js_title");
+  a.style.display="inline";
+  a.innerHTML = text;
+}
+
+function hide_js_title () // hide custom JS tooltip (used if the CSS tooltip did not function because the page was not fully loaded)
+{
+  var a = document.getElementById("js_title");
+  a.style.display="none";
+}
+
+function inIframe () { // check if the current page is viewed within an iframe - used to show all user assignments in an iframe on the user's view page
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
+// script for counting the css classes (REMOVE IN FINAL VERSION)
+function count_css()
+{
+
+  styleSheets = document.styleSheets,
+  totalStyleSheets = styleSheets.length;
+
+  for ( j = 0; j < totalStyleSheets; j++){
+    styleSheet = styleSheets[j],
+    rules = styleSheet.cssRules,
+    totalRulesInStylesheet = rules.length,
+    totalSelectorsInStylesheet = 0;
+
+    for ( i = 0; i < totalRulesInStylesheet; i++) {
+      if (rules[i].selectorText){
+        totalSelectorsInStylesheet += rules[i].selectorText.split(',').length;
+      }
+    }
+    console.log("Stylesheet: "+styleSheet.href);
+    console.log("Total rules: "+totalRulesInStylesheet);
+    console.log("Total selectors: "+totalSelectorsInStylesheet);
+  }
+}
+count_css();
+
+
+// this code was adapted from an online source that can only be identified and classified as a question-and-answer website (stackoverflow for example). I did not ask anyone for this code.
+function do_search(text,color="yellow") {
+    if (color!="transparent") {
+      do_search(document.getElementById('hidden_search').value,"transparent"); 
+      document.getElementById('hidden_search').value = text; 
+      }
+    if (window.find && window.getSelection) {
+        document.designMode = "on";
+        var sel = window.getSelection();
+        sel.collapse(document.body, 0);
+        
+        while (window.find(text)) {
+            document.execCommand("HiliteColor", false, color);
+            sel.collapseToEnd();
+        }
+        document.designMode = "off";
+    } else if (document.body.createtext_range) {
+        var text_range = document.body.createtext_range();
+        while (text_range.findText(text)) {
+            text_range.execCommand("BackColor", false, color);
+            text_range.collapse(false);
+        }
+    }
+}
+
+
+
+</script>
+<body style="width: 1310px; margin: 0 auto; overflow: auto;">
+
+<style id="toggle_scalability_style"> /* this is going to be applied or not, based on whether the scalability toggle is enabled or not  */
+
+    /* Styling for website scalability */    
+    @media screen and (max-width: 600px) {
+      body
+      {
+        display: none;
+      }
+    }
+    @media screen and (max-width: 845px) {
+      body *
+      {
+        font-size: 35px;
+      }
+
+      #nav *
+      {
+        font-size: 25px !important;
+
+      }
+
+      #title
+      {
+        font-size: 47px;
+      }
+
+      #nav
+      {
+        padding: 25px 15px 0px 5px;
+        height:  65px;
+        margin:  0px;
+        top: 10px;
+      }
+
+      footer table tr td a, footer table tr td
+      {
+        font-size: 21px;
+        line-height: 30px;
+      } 
+
+      footer table tr td
+      {
+        padding: 8px;
+      }
+
+      footer
+      {
+        margin-bottom: 80px;
+      }
+    }
+
+
+    /* change the aspect of the ui based on the screen size of the device (max-width is specified) */
+    @media screen and (max-width: 1040px) {
+      #dashboard_table tr td
+      {
+        display: block;
+        background: none;
+        background-image: none !important;
+        border: none !important;
+        width: fit-content !important;
+      }
+
+
+      #dashboard_table tr, #dashboard_table tbody, #dashboard_table
+      {
+        width: fit-content !important;
+        margin: 0px;
+      }
+      input[type="button"]
+      {
+        font-size: 14px;
+        padding: 3px 10px;
+        border-width: 3px;
+      }
+
+
+    }
+
+    /* change the aspect of the ui based on the screen size of the device (max-width is specified) */
+    @media screen and (max-width: 845px) {
+
+      .btn_table tr td
+      {
+        padding: 0px;
+        width: fit-content !important;
+      }
+
+
+      #dashboard_text_border tr td
+      {
+        display: block;
+      }
+
+      #dashboard
+      {
+        top: 80px;
+      }
+    }
+
+</style>
+
+<!-- the loader the application displays while it is loading -->
+<div id="loader" style="font-size: 150px; width: 100%; text-align: center; border: 10px solid black; padding: 10px; border-radius: 20px; background-color: rgba(254, 254, 254, 0.7);">Loading</div>
+
+<div id="body">
+<button class="iframe_toggle" onclick="topFunction()" id="backtotop" title="Back to top">&#8679;</button>
+
+<div id="js_title" class="title"></div> <!-- used for showing custom JS tooltips (if the CSS one could not do it since the page was not loaded yet) -->
+
+  <div>
+
+    <script>
+
+      // code for toggling the visibility of the body and of the loader, depending on whether the page was loaded or not
+      body = document.querySelector("#body");
+      loader = document.querySelector("#loader");
+      body.style.display = "none";
+      loader.style.display = "inline";
+
+      document.onreadystatechange = function() {
+        if (document.readyState !== "complete") {
+            body.style.display = "none";
+            loader.style.display = "initial";
+        } else {
+            body.style.display = "initial";
+            loader.style.display = "none";
+        }
+      }
+    </script>
+
+
+        <div class="iframe_toggle" >
+            <ul id="nav" style="/*width: 1280px; margin: 0 auto; overflow: auto;*/">
+              {{#if user}} <!-- Separate nav options for logged in and unregistered users -->
+             <li role="presentation" >
+
+             <table style="position: absolute; top: 9px; left: 180px;">
+                <tr><td>
+                <input type="text" id="search" placeholder="Search" style="height:  10px;width: 150px;"></input>
+                <input type="hidden" id="hidden_search"></td><td>
+                <input onclick="do_search(document.getElementById('search').value)" type="button" id="send_notif" style="height: 36px; margin-top: 1px;" value="&#8669;"></input>
+               </td></tr>
+              </table>
+             </li>
+
+              <li role="presentation" ><a id="scalability_toggle" onclick="toggle_scalability()" href="#" title="Toggle UI scalability" >Scalability: OFF</a></li>
+              <li role="presentation" ><a id="dashboard_title" title="Your dashboard" href="/">Dashboard</a></li>
+
+              <li role="presentation"><a title="Log out" id="logout" href="/users/logout"><img class="nav_image" src="/images/logout.png"/>Logout</a></li>
+
+              <script>
+                logout = document.getElementById("logout");
+                str = "/users/logout:" + localStorage.getItem("tc").slice(1) + "@" + String( localStorage.getItem("tc_diff") );
+                logout.setAttribute("href", str);
+                logout.addEventListener("click", function(){
+                  localStorage.setItem("logged_out", true);
+                })
+                  console.log(localStorage);
+              </script>
+
+              {{else}}
+              <li role="presentation" ><a id="scalability_toggle" onclick="toggle_scalability()" href="#" title="Toggle UI scalability" >Scalability: OFF</a></li>
+              <li role="presentation"><a title="Log in" href="/users/login"><img class="nav_image" src="/images/login.png"/>Login</a></li>
+              <li role="presentation"><a title="Make an account!" href="/users/register"><img class="nav_image" src="/images/dashboard.png"/>Register</a></li>
+              {{/if}}
+            </ul>
+
+
+
+
+            <style>
+              *[title]:hover::before {
+                all: initial;
+                content: attr(title);
+                position: fixed;
+                left: 25px;
+                bottom: 34px;
+                font-size: 20px !important;
+                letter-spacing: 2px;
+                background-color: white;
+                padding: 5px 10px;
+                border: 3px solid var(--tc_1);
+                border-radius: 10px;
+                font-family: thin_font;
+                box-shadow: -2px 2px 2px var(--tc_1);
+                z-index: 10000;
+              }
+              .title {
+                position: fixed;
+                left: 25px;
+                bottom: 34px;
+                font-size: 20px !important;
+                background-color: white;
+                padding: 5px 10px;
+                border: 3px solid var(--tc_1);
+                border-radius: 10px;
+                box-shadow: -2px 2px 2px var(--tc_1);
+                z-index: 10000;
+              }
+
+              button, input[type="button"]
+              {
+                cursor: pointer !important;
+              }
+
+              #title img
+              {
+                width: 41px;
+/*              background-image: linear-gradient( var(--otc_3), var(--otc_5), rgba(254, 254, 254, 0.6));*/              
+                padding: 7px;
+                border-radius: 29%;
+                position: fixed;
+                top: 12px;
+                left: 34px;
+              }
+  
+              #nav {top: -10px; }
+
+            </style>
+
+          <a id="title" style="cursor: pointer !important; padding-left: 41px;" title="Go to the homepage" href="/"><img src="/images/signal.png">App</a>
+        </div>
+
+        <div>
+          <div>
+            <!-- Here is where the pages go in -->
+
+            {{{body}}}
+          </div>
+        </div>
+
+      </div>
+
+
+      {{#if user}}
+      <br class="iframe_toggle"/> 
+      <br class="iframe_toggle"/>
+      <!-- The footer of the application (only shown to signed in users) -->
+      <footer id="footer" class="center_container iframe_toggle">
+        
+        <table class="center text_border" style="width: 100%; 
+          table-layout: fixed; height: 60px; border-top: 2px solid var(--otc_1); padding: 5px;">
+          <tr> <td colspan=4> <hr style="margin: 6px 0px 4px 0px;"/> </td> </tr>
+
+          <tr> <td> <a title="Find out what this application is about" href="/about"><img src="/images/info.png">About</a> </td> <td> <a title="Find out how to use the application" href="/help"><img src="/images/help.png">Help</a> </td> <td> <a title="Contact the application maintainers" href="/contact"><img src="/images/phone.png"class="img_border">Contact</a> </td> <td> <a title="Your dashboard" href="/"><img src="/images/dashboard.png"class="img_border">Dashboard</a> </td> </tr>
+
+          <tr> <td> <a title="View the application licence" href="/licence"><img src="/images/justice.png"class="img_border">Licence</a> </td> <td> <a title="View the application privacy policy that you accepted" href="/privacypolicy"><img src="/images/checkmark.png">Privacy Policy</a> </td> <td> <a title="View the application privacy policy that you accepted" href="/conditions"><img src="/images/checkmark.png">Terms and conditions</a> </td> </td> <td> <a onclick="logout.click()" href="#"><img src="/images/footer_logout.png" style="width: 23px; height: 15px">Logout</a></td> </tr>
+
+          <tr> <td colspan=4> <hr style="margin: 6px 0px 4px 0px; border-top: 1px dotted var(--tc_1);"/> </td> </tr>
+
+          <tr> <td colspan=4> © 2023 All rights reserved </td> </tr>
+
+        </table>
+
+      </footer>
+      <br class="iframe_toggle"/>
+      <br class="iframe_toggle"/>
+      <br class="iframe_toggle"/>
+
+      {{/if}}
+      
+
+
+      <script>
+
+// code for handling scalability toggling
+scalability_on = 0;
+if ( localStorage.getItem("scalability_on") === null )
+  localStorage.setItem("scalability_on", 0);
+else
+  scalability_on = localStorage.getItem("scalability_on");
+
+
+toggle_scalability_style = document.getElementById("toggle_scalability_style");
+scalability_toggle = document.getElementById("scalability_toggle")
+// nav = document.getElementById("nav") // the nav was made to always be scalable, so that the user always sees the scalability toggle on it
+
+// handle scalabiliyt before the function - the function toggles the scalability so it cannot just be called
+if ( scalability_on == 1 )
+{
+  toggle_scalability_style.removeAttribute("media");
+  // scalability_toggle.innerText = ": ON";
+  document.body.removeAttribute("style");
+  // nav.removeAttribute("style");
+  scalability_toggle.innerHTML = "<img class='nav_image toggle_img' src='/images/scalability.png'>: ON";
+}
+if ( scalability_on == 0 )
+{
+  toggle_scalability_style.setAttribute("media", "max-width: 1px");
+  document.body.setAttribute("style", "width: 1310px; margin: 0 auto; overflow: auto;");
+  // nav.setAttribute("style", "width: " + String(window.innerWidth - 70) + "px; margin: 0 auto; overflow: auto;");
+  scalability_toggle.innerHTML = "<img class='nav_image toggle_img' src='/images/scalability.png'>: OFF";
+}
+function toggle_scalability ()
+{
+  // within the function ... (roughly the same code to toggle the scalability)
+  scalability_on = localStorage.getItem("scalability_on");
+
+  if ( scalability_on == 1 )
+    scalability_on = 0;
+  else
+    scalability_on = 1;
+
+  if ( scalability_on == 1 )
+  {
+    toggle_scalability_style.removeAttribute("media");
+    scalability_toggle.innerHTML = "<img class='nav_image toggle_img' src='/images/scalability.png'>: ON";
+    document.body.removeAttribute("style");
+    // nav.removeAttribute("style");
+  }
+
+  if ( scalability_on == 0 )
+  {
+    toggle_scalability_style.setAttribute("media", "max-width: 1px");
+    scalability_toggle.innerHTML = "<img class='nav_image toggle_img' src='/images/scalability.png'>: OFF";
+    document.body.setAttribute("style", "width: 1310px; margin: 0 auto; overflow: auto;");
+    // nav.setAttribute("style", "width: 1280px; margin: 0 auto; overflow: auto;");
+  }
+
+  localStorage.setItem("scalability_on", scalability_on);
+}
+
+
+// hide all with the "iframe_toggle" class if the page is in an iframe
+iframe_toggle = document.getElementsByClassName("iframe_toggle");
+
+for ( i = 0; i < iframe_toggle.length; i = i + 1 )
+  if (inIframe())
+    iframe_toggle[i].style.display = "none";
+
+if (inIframe())
+  document.body.style.padding = "10px";
+
+// Get the button
+let mybutton = document.getElementById("backtotop");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+  // functions to handle theming on all pages
+
+  // no field withing the rgb() CSS function should be negative
+  function substract_until_null (a, b)
+  {
+    if (a <= b)
+      return 0;
+    return a - b;
+  }
+
+  // conversion function
+  function hex2rgb( colour ) {
+    var r, g, b;
+    if ( colour.charAt(0) == '#' )
+      colour = colour.substr(1);
+
+    r = colour.charAt(0) + '' + colour.charAt(1);
+    g = colour.charAt(2) + '' + colour.charAt(3);
+    b = colour.charAt(4) + '' + colour.charAt(5);
+
+    r = parseInt( r, 16 );
+    g = parseInt( g, 16 );
+    b = parseInt( b, 16);
+
+    return [r, g, b];
+  }
+
+  function generate_colors () // generate all shades of the user-chosen color
+  {
+  var colors = [];
+  var col;
+  var diff;
+
+
+    if (localStorage.getItem("tc") != null)
+    {
+      col = localStorage.getItem("tc");
+      diff = localStorage.getItem("tc_diff");
+      col = hex2rgb( col );
+      if (typeof color_picker !== 'undefined')
+      {
+        color_picker.value = localStorage.getItem("tc");
+        color_diff.value = localStorage.getItem("tc_diff");
+        // if (color_picker.getAttribute("value") = "#")
+        // {
+        //   color_picker.value = "#000";
+        //   color_picker.setAttribute("value", "#000")
+        // }
+      }
+    }
+    else
+    {
+      localStorage.setItem("tc", color_picker.value);
+      localStorage.setItem("tc_diff", color_diff.value);
+      generate_colors();
+    }
+  
+
+  for (var i = 0; i <= 4; i = i + 1)
+    colors[i] = [ substract_until_null( col[0], i * diff ), substract_until_null( col[1], i * diff ), substract_until_null( col[2], i * diff ),  ]
+
+  return colors;
+}
+
+  function generate_opposite_colors ( col ) // generate all opposite colours of the shades generated previously
+  {
+  opposite_col = [];
+
+  for (var i = 0; i <= 4; i = i + 1)
+    opposite_col.push( [ 255 - col[i][0], 255 - col[i][1], 255 - col[i][2] ] );
+
+  return opposite_col;  
+  }
+
+
+  // conversion function
+  function valueToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+  }
+
+  // conversion function
+  function rgbToHex(col) {
+  return "#" + valueToHex(col[0]) + valueToHex(col[1]) + valueToHex(col[2]);
+  }
+
+  // conversion function
+  function colors_to_string ( col )
+  {
+  col_string = []
+  for (var i = 0; i <= 4; i = i + 1)
+    col_string.push( rgbToHex(col[i]));
+  return col_string; 
+  }
+
+  // function that colours everything in the UI, following the user chosen theme
+  function see_colors ()
+  {
+  colors = generate_colors( 35 );
+  opposite_colors = generate_opposite_colors( colors );
+
+  colors = colors_to_string(colors);
+  opposite_colors = colors_to_string(opposite_colors);
+
+
+  const root_theme = document.querySelector(':root');
+
+  root_theme.style.setProperty('--tc_1', colors[0] );
+  root_theme.style.setProperty('--tc_2', colors[1] );
+  root_theme.style.setProperty('--tc_3', colors[2] );
+  root_theme.style.setProperty('--tc_4', colors[3] );
+  root_theme.style.setProperty('--tc_5', colors[4] );
+
+  root_theme.style.setProperty('--otc_1', opposite_colors[0] );
+  root_theme.style.setProperty('--otc_2', opposite_colors[1] );
+  root_theme.style.setProperty('--otc_3', opposite_colors[2] );
+  root_theme.style.setProperty('--otc_4', opposite_colors[3] );
+  root_theme.style.setProperty('--otc_5', opposite_colors[4] );
+
+
+  table = document.getElementById("generated_colors");
+
+  if (table == null)
+    return;
+
+  table_content = "<tr>";
+
+  for (var i = 0; i <= 4; i = i + 1)
+    table_content = table_content + "<td> <div class='generated_color' style='background-color: " + colors[i] + "; color: " + opposite_colors[i] + ";'></div></td>";
+
+  table_content = table_content + "</tr><tr>";
+
+  for (var i = 0; i <= 4; i = i + 1)
+    table_content = table_content + "<td> <div class='generated_color' style='background-color: " + opposite_colors[i] +"; color: " + colors[i] + ";'></div></td>";
+
+  table_content = table_content + "</tr>";
+
+  table.innerHTML = table_content;
+
+  }
+
+  see_colors();
+  if ( document.getElementById("color_picker") != null && typeof val !== 'undefined')
+  document.getElementById("color_picker").setAttribute("value", val[0]);
+
+
+  // more code for the JS custom tooltip
+  const js_title = document.getElementById("js_title");
+  js_title.style.display="inline";
+  js_title.style.display="none";
+  
+  // convert title attributes to custom JS tooltips
+  var inputs = document.getElementsByTagName("input");
+  for (i = 0; i < inputs.length; i = i + 1 )
+  {
+    if (inputs[i].getAttribute("title") == null)
+      continue;
+    console.log(inputs[i]);
+    inputs[i].setAttribute("onmouseover", "show_js_title('" + inputs[i].getAttribute("title") + "')");
+    inputs[i].setAttribute("onmouseleave", "hide_js_title()");
+  }
+  console.log("done");
+
+
+  username = "{{user.username}}";
+  // keep the username of the user in localStorage, since it has to be displayed on the nav on every page
+  if ( username == "" )
+    // if (localStorage.getItem("logged_out") == false)
+      username = localStorage.getItem("username");
+  else
+    localStorage.setItem("username", username);
+
+  dashboard_title = document.getElementById("dashboard_title");
+
+  if ( dashboard_title != null )
+    dashboard_title.innerHTML = "Dashboard - <img id=\"nav_profile_image\" onerror=\"this.style.display = 'none'\" src=\"http://0.0.0.0:8081/images/" + username + "_profile_image\"/>" + username;
+
+      </script>
+
+<script>
+
+  // setting page title
+  page_title = document.getElementById("page_title");
+  page_title.innerHTML = pg_title;
+
+</script>
+
+
+
+
+
+</div>
+</body>
+</html>
