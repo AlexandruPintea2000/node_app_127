@@ -252,7 +252,7 @@ function do_search(text,color="yellow") {
 </style>
 
 <!-- the loader the application displays while it is loading -->
-<!-- <div id="loader" style="font-size: 150px; width: 100%; text-align: center; border: 10px solid black; padding: 10px; border-radius: 20px; background-color: rgba(254, 254, 254, 0.7);">Loading</div> -->
+<div id="loader" style="font-size: 150px; width: 100%; text-align: center; border: 10px solid black; padding: 10px; border-radius: 20px; background-color: rgba(254, 254, 254, 0.7);">Loading</div>
 
 <div id="body">
 <button class="iframe_toggle" onclick="topFunction()" id="backtotop" title="Back to top">&#8679;</button>
@@ -264,20 +264,20 @@ function do_search(text,color="yellow") {
     <script>
 
       // code for toggling the visibility of the body and of the loader, depending on whether the page was loaded or not
-      // body = document.querySelector("#body");
-      // loader = document.querySelector("#loader");
-      // body.style.display = "none";
-      // loader.style.display = "inline";
+      body = document.querySelector("#body");
+      loader = document.querySelector("#loader");
+      body.style.display = "none";
+      loader.style.display = "inline";
 
-      // document.onreadystatechange = function() {
-      //   if (document.readyState !== "complete") {
-      //       body.style.display = "none";
-      //       loader.style.display = "initial";
-      //   } else {
-      //       body.style.display = "initial";
-      //       loader.style.display = "none";
-      //   }
-      // }
+      document.onreadystatechange = function() {
+        if (document.readyState !== "complete") {
+            body.style.display = "none";
+            loader.style.display = "initial";
+        } else {
+            body.style.display = "initial";
+            loader.style.display = "none";
+        }
+      }
     </script>
 
 
