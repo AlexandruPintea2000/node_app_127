@@ -32,9 +32,9 @@ router.get('/login', function(req,res){
   catch (err) { is_file = false; }
 
   if ( is_file == true )
-    res.render('login', {maintenance: true}).end();
+    res.render('login', {maintenance: true});
   else
-    res.render('login').end();
+    res.render('login', function () { res.end() });
 
 });
 
