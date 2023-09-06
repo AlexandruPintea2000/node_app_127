@@ -110,13 +110,12 @@ console.log("done");
 // delete the user
 module.exports.deleteUser = function(user_id, callback){
   (async () => {
+  id = user_id;
   await User.findByIdAndRemove(user_id);
 
   // users should normally just hide users/messages/topics/assignments/discussions, for example by adding a "hidden": true attribute to the db - that functionality has not yet been implemented, so, fow now, users are deleted eprmanently along with all their data 
 
   // an alternative to "hiding" a user to terminate their account in a way is banning them, which has the same functionality - however, that has to be performed by an admin
-
-  id = user_id;
 
   // remove the user id from all discussions
   d = await Discussion.find();
@@ -126,16 +125,9 @@ module.exports.deleteUser = function(user_id, callback){
   {
     if ( d[i].members.includes(id) )
     {
-      m = d[i].members.split(',');
-      new_m = "";
-      for ( j = 0; j < m.length; j = j + 1 )
-      {
-        if ( m[j] != id )
-          new_m = new_m + m[j];
+      console.log("DELETE GETS HERE")
 
-        if ( j != m.length - 1 )
-          new_m = new_m + ',';
-      }
+      new_m = d[i].members.replaceAll(id, "");
 
       if ( new_m[0] == ',' )
         new_m = new_m.slice(1);
@@ -144,20 +136,15 @@ module.exports.deleteUser = function(user_id, callback){
 
       update = { members: new_m }
 
-      await Discussion.findOneAndUpdate({_id: d[i].id}, update);
+      console.log(new_m)
+
+      Discussion.updateDiscussion(update, d[i].id);
     }
     if ( d[i].banned_users.includes(id) )
     {
-      bu = d[i].banned_users.split(',');
-      new_bu = "";
-      for ( j = 0; j < bu.length; j = j + 1 )
-      {
-        if ( bu[j] != id )
-          new_bu = new_bu + bu[j];
+      console.log("DELETE GETS HERE")
 
-        if ( j != bu.length - 1 )
-          new_bu = new_bu + ',';
-      }
+      new_bu = d[i].banned_users,replaceAll(id, "");
 
       if ( new_bu[0] == ',' )
         new_bu = new_bu.slice(1);
@@ -166,7 +153,9 @@ module.exports.deleteUser = function(user_id, callback){
 
       update = { banned_users: new_bu }
 
-      await Discussion.findOneAndUpdate({_id: d[i].id}, update);
+      console.log(new_bu)
+
+      Discussion.updateDiscussion(update, d[i].id);
     }
   }
 
@@ -176,7 +165,7 @@ module.exports.deleteUser = function(user_id, callback){
 
   for ( i = 0; i < m.length; i = i + 1 )
     if ( m[i].sender_id == id )
-      await Message.findOneAndRemove(m[i].id);
+      Message.deleteMessage(m[i].id);
 
 
   // remove the user from assignments
@@ -186,28 +175,20 @@ module.exports.deleteUser = function(user_id, callback){
   for ( i = 0; i < a.length; i = i + 1 )
     if ( a[i].users_assigned.includes(id) )
     {
-      u = a[i].users_assigned.split(',');
-      new_u = "";
-      for ( j = 0; j < u.length; j = j + 1 )
-      {
-        if ( u[j] != id )
-          new_u = new_u + u[j];
+      new_u = a[i].users_assigned.replaceAll(id, "");
 
-        if ( j != u.length - 1 )
-          new_u = new_u + ',';
-      }
-
+      if ( new_u[0] == ',' )
+        new_u = new_u.slice(1);
       if ( new_u[new_u.length - 1] == ',' )
         new_u = new_u.slice(0, -1);
 
       update = { users_assigned: new_u }
 
-      await Assignment.findOneAndUpdate({_id: a[i].id}, update);
+      Assignment.updateAssignment(update, a[i].id);
     }
 
   })()
 }
-
 // get a user by their username (which is unique)
 module.exports.getUserByUsername = async function(username, callback){
   var query = {username:username};
