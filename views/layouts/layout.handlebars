@@ -93,30 +93,6 @@ function inIframe () { // check if the current page is viewed within an iframe -
     }
 }
 
-// script for counting the css classes (REMOVE IN FINAL VERSION)
-function count_css()
-{
-
-  styleSheets = document.styleSheets,
-  totalStyleSheets = styleSheets.length;
-
-  for ( j = 0; j < totalStyleSheets; j++){
-    styleSheet = styleSheets[j],
-    rules = styleSheet.cssRules,
-    totalRulesInStylesheet = rules.length,
-    totalSelectorsInStylesheet = 0;
-
-    for ( i = 0; i < totalRulesInStylesheet; i++) {
-      if (rules[i].selectorText){
-        totalSelectorsInStylesheet += rules[i].selectorText.split(',').length;
-      }
-    }
-    console.log("Stylesheet: "+styleSheet.href);
-    console.log("Total rules: "+totalRulesInStylesheet);
-    console.log("Total selectors: "+totalSelectorsInStylesheet);
-  }
-}
-count_css();
 
 
 // this code was adapted from an online source that can only be identified and classified as a question-and-answer website (stackoverflow for example). I did not ask anyone for this code.
