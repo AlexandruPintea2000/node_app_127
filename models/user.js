@@ -161,13 +161,15 @@ module.exports.deleteUser = function(user_id, callback){
 
 
   // remove the user id from all messages (meaning all the messages the user sent need be deleted)
-  m = await Message.find();
+  Message.deleteMany({ sender_id: id });
+  // m = await Message.find();
 
-  for ( i = 0; i < m.length; i = i + 1 )
-    if ( m[i].sender_id == id )
-      Message.deleteMessage(m[i].id);
+  // for ( i = 0; i < m.length; i = i + 1 )
+  //   if ( m[i].sender_id == id )
+  //     Message.deleteMessage(m[i].id);
 
 
+    
   // remove the user from assignments
   a = await Assignment.findAssignments();
 
