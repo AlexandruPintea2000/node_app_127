@@ -829,7 +829,7 @@ router.post('/file_upload', User.ensureAuthenticated, function(req,res){
       console.log("HERE IS user_filename_name");
       console.log(user_filename_name);
 
-      newpath = path.join(__dirname, '../uploads') + '\\' + user_filename_name // determining the path of the file
+      newpath = path.join(__dirname, '../uploads') + '/' + user_filename_name // determining the path of the file
 
 
       is_filename = true; // assume the filename is already taken
@@ -875,7 +875,7 @@ router.post('/file_upload', User.ensureAuthenticated, function(req,res){
 
             filename_iter = filename_iter + 1;
 
-            newpath = path.join(__dirname, '../uploads') + '\\' + user_filename_name;
+            newpath = path.join(__dirname, '../uploads') + '/' + user_filename_name;
         
         }
         catch(err) {
@@ -952,9 +952,9 @@ router.get('/download:a', User.ensureAuthenticated, function(req, res){
 
   // to change the filename to the original filename that the user uploaded, the file has to be first renamed and moved to the "download" folder on the server, before the user can download them
 
-  const server_file = path.join(__dirname, '../uploads') + '\\' + server_filename; // encoded filename
+  const server_file = path.join(__dirname, '../uploads') + '/' + server_filename; // encoded filename
 
-  const download_file = path.join(__dirname, '../downloads') + '\\' + download_filename; // initial user-chosen filename
+  const download_file = path.join(__dirname, '../downloads') + '/' + download_filename; // initial user-chosen filename
 
   fs.copyFile(server_file, download_file, function (err) { // copying the file and downloading it
     if (err) throw err;
