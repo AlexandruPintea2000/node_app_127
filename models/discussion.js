@@ -104,6 +104,7 @@ module.exports.updateDiscussion = function(update, discussion_id, callback){
 module.exports.deleteDiscussion = function(id){
   (async () => {
   await Discussion.findOneAndRemove(id);
+  await Message.deleteMany({ discussion_id: id });  
   })()
 }
 
