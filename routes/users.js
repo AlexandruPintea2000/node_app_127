@@ -251,8 +251,8 @@ User.createUser(newUser, function(err,user){ // add user to db
   console.log(user);
 });
 
-oldpath = path.join(__dirname, '../public/images') + '\\' + "default_profile_image"
-newpath = path.join(__dirname, '../public/images') + '\\' + username + "_profile_image"
+oldpath = path.join(__dirname, '../public/images') + '/' + "default_profile_image"
+newpath = path.join(__dirname, '../public/images') + '/' + username + "_profile_image"
 
 fs.rename(oldpath, newpath, function (err) {
   if (err) throw err;
@@ -1303,7 +1303,7 @@ router.post('/upload_profile_image', User.ensureAuthenticated, function(req,res)
 
     var oldpath = files.image[0].filepath;
 
-    newpath = path.join(__dirname, '../public/images') + '\\' + req.session.user.username + "_profile_image"
+    newpath = path.join(__dirname, '../public/images') + '/' + req.session.user.username + "_profile_image"
 
     ext = ""
     ext = filename.split('.')[1];
@@ -1339,7 +1339,7 @@ router.get('/delete_profile_image:a', User.ensureAuthenticated, function(req,res
     (async () => {
     username = req.params.a.slice(1);
 
-    filepath = path.join(__dirname, '../public/images') + '\\' + username + "_profile_image"; // generate the filename of the profile image for the given username
+    filepath = path.join(__dirname, '../public/images') + '/' + username + "_profile_image"; // generate the filename of the profile image for the given username
 
     fs.unlink(filepath, (err) => { // delete the profile image
       if (err) throw err;
