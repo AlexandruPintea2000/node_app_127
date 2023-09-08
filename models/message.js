@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-var Discussion = require('./discussion');
 
 // message schema
 var MessageSchema = mongoose.Schema({
@@ -19,6 +18,9 @@ MessageSchema.set('timestamps', true); // adds createdAt and updatedAt fields to
 
 // connect the scheme to the db model
 var Message = module.exports = mongoose.model('Message', MessageSchema);
+
+var Discussion = require('./discussion');
+
 
 // creates a message
 module.exports.createMessage = function(msg, callback){
