@@ -133,7 +133,7 @@ router.post('/delete_discussion', User.ensureModerator, function(req,res){
   (async () => {
     id = req.body.id
 
-    Discussion.deleteDiscussion(id);
+    await Discussion.deleteDiscussion(id);
 
     // remove the discussion id from all messages (meaning those messages are deleted)
     // m = await Message.find();
