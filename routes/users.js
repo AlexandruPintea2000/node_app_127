@@ -250,6 +250,16 @@ User.createUser(newUser, function(err,user){ // add user to db
   if(err) throw err;
   console.log(user);
 });
+
+oldpath = path.join(__dirname, '../public/images') + '\\' + "default_profile_image"
+newpath = path.join(__dirname, '../public/images') + '\\' + username + "_profile_image"
+
+fs.rename(oldpath, newpath, function (err) {
+  if (err) throw err;
+  console.log('File moved!');
+  res.end();
+});
+  
 req.flash('success_msg','You are registered and can now log in.');
 return res.render('login', { msg: email }); // tell them to check their email
 //}
