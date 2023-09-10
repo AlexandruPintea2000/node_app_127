@@ -22,8 +22,7 @@ router.get('*', function(req,res,next){
     res.render('maintenance');
   else
   {
-    url = req.originalUrl;
-    url = "https://nodejs-production-08a6.up.railway.app" + url;
+    url = req.protocol + '://' + req.get('host') + req.originalUrl;
     console.log("gets to the * function");
     axios.get(url).catch((error) => {
 	console.log("error");
