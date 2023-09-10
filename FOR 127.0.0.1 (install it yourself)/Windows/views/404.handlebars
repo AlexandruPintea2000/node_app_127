@@ -1,0 +1,40 @@
+<script> pg_title = "404 Page not found"; localStorage.setItem("refresh", true); </script>
+
+<div class="center_container">
+ <!-- the url the user attempted to get to is also mentioned and linked, in case it is actually correct and the user wants to click it - shouldn't be the case -->
+<h3 class="centered center">404 Page not found</h3>
+<div class="text_border center" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px; top: 250px; display: inline-block;">
+  
+
+  <div id="image_404">
+    <img src="/images/edit.png" />
+  <span><span>404</span>We are sorry, the page you are looking for (<a style="word-break: break-all; font-family: thin_font;" href="{{previous_url}}">{{previous_url}}</a>) <b>was not found</b>. <br/><br/>
+  <br/> It might have been <b>deleted</b> or <b>renamed</b>. <br/><br/>Please return to <div id="prev" onclick="history.back()">the previous page</div>.
+
+  </span>
+
+  </div>
+</div>
+</div>
+
+<div style="height: 350px"></div>
+
+<style>
+
+  h3 
+  {
+    z-index: 10000;
+    width: 45% !important;
+    text-align: center;
+    padding: 10px 5% !important;
+  }
+
+  #prev
+  {
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+
+</style>

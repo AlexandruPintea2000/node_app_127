@@ -1,0 +1,58 @@
+<h1>View topics</h1>
+<script> pg_title = "View topics"; localStorage.setItem("refresh", true); </script>
+
+
+
+<div class="text_border" style="background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+  <div style="font-size: 27px; margin-left: 7px"> Beware! Topic deletions happen immediatly after you press the <img src='/images/delete.png' style='width: 25px; margin-bottom: -5px'> delete button! </div>
+  <br/>
+
+ <table class="admin_table" id="topics_table">
+  </table>
+</div>
+
+{{#if t}}
+<script>
+var t = `{{t}}`;
+
+t = t.replace(/&quot;/g,'"').replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&#x3D;/g, "=");
+
+t = JSON.parse(t)
+
+console.log(t)
+
+topics_table = document.getElementById("topics_table");
+
+// fill in the topic table with the discussion data
+
+inner = "<tr><th>Name</th><th><img src='/images/edit.png' ></th><th><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></th></tr><tr><td colspan=11 style='background-color: var(--tc_1); border-width: 0px;'></tr>";
+for ( i = 0; i < t.length; i = i + 1 )
+{
+  console.log(t[i]);
+  inner = inner + "<tr>"
+
+  inner = inner + "<td><a href='/assignments/view_topic:" + t[i]._id + "'>" + t[i].name + "</a></td>";
+  
+  inner = inner + "<td><a href='http://127.0.0.1:8081/assignments/create_assignment:!" + t[i]._id + "'><img src='/images/edit.png'></td>"
+  inner = inner + "<td><a href='/assignments/delete_topic:" + t[i]._id + "'><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></td>"
+
+
+  inner = inner + "</tr>"
+}
+
+topics_table.innerHTML = inner;
+
+
+
+</script>
+{{/if}}
+
+<style>
+
+  #topics_table tr td a
+  {
+    text-decoration: underline;
+  }
+
+</style>
+

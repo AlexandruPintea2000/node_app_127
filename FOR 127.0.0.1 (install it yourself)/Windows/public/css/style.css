@@ -1,0 +1,1369 @@
+
+    /* Default css defined in the body of the document */
+
+    body
+    {
+      font-family: Arial;
+      letter-spacing: 3px;
+      font-weight: 100;
+      padding: 10px;
+      padding-left: 15px;
+      padding-top: 67px;
+      font-family: thin_font;
+
+      border-left: 6px dashed var(--tc_1);
+
+      background-color: rgba(255, 255, 255, 0.7);
+      background-repeat: no-repeat, repeat;
+      background-image: url("../images/background.jpg"), linear-gradient(var(--tc_5), var(--otc_1));
+      height: 100%;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-blend-mode: lighten;
+      background-attachment: fixed;
+      }
+
+    /*Set the font for everything containted in the page body*/
+
+    body *
+    {
+      font-family: thin_font;
+    }
+
+ /*   #user_color_diff
+    {
+      width: 60% !important;
+    }
+*/
+
+  	/* Custom Fonts */
+    @font-face {
+      font-family: title_font;
+      src: url("../fonts/title.ttf");
+    }
+
+    @font-face {
+      font-family: thin_font;
+      src: url("../fonts/regular.ttf");
+    }
+
+   @font-face {
+      font-family: bold_font;
+      src: url("../fonts/bold.ttf");
+    }
+
+    b { font-family: bold_font; }
+
+
+    /*Help page styling*/
+    .qa { font-size: 19px; }
+
+    html
+    {
+      padding: 0px;
+      scroll-behavior: smooth;
+    }
+    
+
+    /*Css color variables*/
+    :root {
+      --tc_1: #ffb900;
+      --tc_2: #ffb900;
+      --tc_3: #ffb900;
+      --tc_4: #ffb900;
+      --tc_5: #ffb900;
+
+      --otc_1: #ffb900;
+      --otc_2: #ffb900;
+      --otc_3: #ffb900;
+      --otc_4: #ffb900;
+      --otc_5: #ffb900;
+    }
+
+
+    /* Common header styling */
+    h1, h2, h3, h4, h5, h6
+    {
+      font-weight: 100;
+      /*background: -webkit-linear-gradient( var(--tc_4  ), var(--tc_5), black);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;**/
+/*      opacity: 0.7;*/
+      color: var(--tc_1);
+      background-repeat: no-repeat, repeat;
+      background-image: url("../images/shadow.png"), linear-gradient(var(--otc_5), var(--otc_3));
+
+      /* Center and scale the image */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-blend-mode: screen;
+
+      width: fit-content;
+      padding: 10px 100px 10px 21px;
+      border-radius: 10px 10px 100px 10px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      font-family: title_font;
+      box-shadow: -5px 5px 0px var(--tc_1);
+      margin-left: 7px;
+    }
+
+
+    /*Large headers*/
+    h1, h2
+    {
+      text-shadow: -3px -1px 0 #000, 2px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    
+    /*Small headers*/
+    h3, h4, h5, h6
+    {
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      border-radius: 10px;
+      padding: 10px 24px;
+    }
+
+    /*Container for text blocks (textbox)*/
+    .text_border
+    {
+      background-color: rgba(255, 255, 255, 0.75);
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: -2px 5px 0px var(--tc_1);
+
+      background-repeat: no-repeat, repeat;
+      background-image: url("../images/circles.png"), linear-gradient(rgba(214, 214, 214, 0.6), rgba(243, 243, 243, 0.6));
+
+      /* Center and scale the image */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-blend-mode: screen;
+
+      border-right: 1px solid var(--tc_1);
+    }
+    
+
+    /*Link styling*/
+    a
+    {
+      text-decoration-style: double;
+      font-weight: bold;
+      color: var( --tc_4 );
+      text-decoration-color: var( --tc_4 );
+      transition: 0.15s;
+    }
+    
+    a:hover
+    {
+      color: var( --tc_1 );
+      text-decoration-color: var( --tc_4 );
+    }
+    
+
+    /*Input styling*/
+    textarea
+    {
+      border: 5px solid var(--tc_5);
+      border-radius: 10px;
+      outline: none;
+      transition: 0.15s;
+      padding: 5px;
+      font-size: 17px;
+      background-color: rgba(255, 255, 255, 0.75);
+      overflow:hidden;
+    }
+    
+    textarea:hover
+    {
+      border: 5px solid var(--tc_2);
+      border-radius: 12px;
+    }
+
+    /********** Color Input Styles **********/
+
+    input[type=color]
+    {
+      /**all: unset;**/
+
+    }
+
+    input[type=color] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 48px !important;
+      height: 50px !important;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      border-width: 0px;
+      outline: none;
+    }
+    input[type=color]::-webkit-color-swatch {
+      border-radius: 25%;
+      border: 3px solid black;
+    }
+    input[type=color]::-moz-color-swatch {
+      border-radius: 25%;
+      border: 3px solid black;
+    }
+    input[type=color]::-webkit-color-swatch:hover {
+      border-radius: 30%; 
+      transition: 1s;
+    }
+    input[type=color]::-moz-color-swatch:hover {
+      border-radius: 30%; 
+    }
+
+
+    /********** Range Input Styles **********/
+
+    /*Range Reset*/
+    input[type="range"] {
+       -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+      width: 15rem;
+     }
+
+    /* Removes default focus */
+    input[type="range"]:focus {
+      outline: none;
+    }
+
+    /***** Chrome, Safari, Opera and Edge Chromium styles *****/
+    /* slider track */
+    input[type="range"]::-webkit-slider-runnable-track {
+       background-color: var(--tc_1);
+       border-radius: 0.5rem;
+       height: 0.7rem;  
+       border: 2px solid black;
+    }
+
+    /* slider thumb */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+       appearance: none;
+       margin-top: -12px; /* Centers thumb on the track */
+
+       /*custom styles*/
+       background-color: var(--otc_2);
+       height: 2rem;
+       width: 1rem;
+       border-radius: 10px;
+       border: 2px solid black;
+    }
+
+    /******** Firefox styles ********/
+    /* slider track */
+    input[type="range"]::-moz-range-track {
+       background-color: #053a5f;
+       border-radius: 0.5rem;
+       height: 0.5rem;
+    }
+
+    /* slider thumb */
+    input[type="range"]::-moz-range-thumb {
+       border: none; /*Removes extra border that FF applies*/
+       border-radius: 0; /*Removes default border-radius that FF applies*/
+
+       /*custom styles*/
+       background-color: #5cd5eb;
+       height: 2rem;
+       width: 1rem;
+    }
+
+    input[type="range"]:focus::-moz-range-thumb {
+      border: 1px solid #053a5f;
+      outline: 3px solid #053a5f;
+      outline-offset: 0.125rem; 
+    }
+    
+    input[type="text"], input[type="password"], input[type="email"], input[type="date"]
+    {
+      border: 3px solid var(--tc_3);
+      border-radius: 10px;
+      font-size: 17px;
+      outline: none;
+      padding: 10px;
+      transition: 0.15s;
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hover, input[type="date"]:hover
+    {
+      border: 3px solid var(--tc_1);
+      border-radius: 12px;
+    }
+
+    input[type="button"], input[type="submit"]
+    {
+      background-color: white;
+      color: var(--tc_5);
+      letter-spacing: 2px;
+      border: none; 
+      outline: none;
+      font-weight: bold;
+      font-size: 17px;
+      border-radius:10px; 
+      padding: 5px 10px;
+      border: 5px solid var(--tc_5);
+      transition: 0.15s;
+      padding-top: 7px;
+      margin-top: 4px;
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+    
+    input[type="button"]:hover, input[type="submit"]:hover
+    {
+      color: var(--tc_1);
+      border: 5px solid var(--tc_1);
+      border-radius: 12px;
+    }
+
+
+    /** could style:
+    li
+    input: radio, checkbox, password, email, submit, tel
+    **/
+    input[type=checkbox] {
+         position: relative;
+         cursor: pointer;
+         display:  inline-block;
+    }
+    input[type=checkbox]:before {
+         content: "";
+         display: block;
+         position: absolute;
+         width: 18px;
+         height: 18px;
+         top: -4px;
+         left: 0;
+         border: 3px solid var(--tc_2);
+         border-radius: 5px;
+         background-color: white;
+         margin-right: 10px;
+    }
+
+    input[type=checkbox]:checked:after {
+         content: "";
+         display: block;
+         width: 5px;
+         height: 10px;
+         border: solid var(--otc_1);
+         border-width: 0 3px 3px 0;
+         -webkit-transform: rotate(45deg);
+         -ms-transform: rotate(45deg);
+         transform: rotate(45deg);
+         position: absolute;
+         top: 0px;
+         left: 8px;
+    }
+
+
+    /*Backtotop styling*/
+    #backtotop {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      font-size: 42px;
+      font-family: bold_font;
+      line-height: 35px;
+      border: 3px solid var(--tc_5);
+      outline: none;
+      background-color: var(--tc_1);
+      color: var(--otc_5);
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 45%;
+      height: 64px;
+      width: 64px;
+      box-shadow: 0px 0px 10px var(--otc_1);
+    }
+
+    /*Containers for the options */
+    .edit_delete_container button, .update_cencel_container button
+    {
+      all: none;
+      appearance:  none;
+      outline: none !important;
+      border:  none;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0);
+      width: 23px;
+      height: 23px;
+      /* Center and scale the image */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      cursor: pointer;
+      margin-right: 3px;
+    }
+
+    /*Align the option buttons to the right for the logged user's messages*/
+    .my button
+    {
+      margin-right: 0px;
+      margin-left: 3px;
+      float: right;    
+    }
+
+    /*Containers for the options */
+    .edit_delete_container, .update_cencel_container
+    {
+      border-top: 2px dashed var(--tc_3);
+      margin-top: 2px;
+      padding-top: 4px;
+    }
+
+    .update_cencel_container
+    {
+      margin-bottom: 4px;
+    }
+
+
+    /*Options for the messages */
+    .edit, .update
+    {
+      background-image: url("../images/edit.png");
+      margin-top: -2px;
+    }
+
+    .update, .hide, .show
+    {
+      background-image: url("../images/send.png");
+      height: 20px !important;
+      width: 20px !important;
+      border: 2px solid black !important;
+      border-radius: 5px;
+      background-origin: content-box;
+      padding: 2px;
+      position: relative;
+      top: -2px;
+    }
+
+    .hide
+    {
+      background-image: url("../images/hide.png");
+    }
+
+    .show
+    {
+      background-image: url("../images/show.png");
+      top: 0px;
+    }
+
+    .my_message .hide
+    {
+      top: 1px;
+    }
+
+    .delete, .cancel
+    {
+      background-image: url("../images/delete.png");
+      margin-top: 1px;
+      height: 20px !important;
+      width: 20px !important;
+      border: 1px solid black !important;
+      border-radius: 5px;
+    }
+
+    .cancel
+    {
+      background-image: url("../images/delete.png");
+    }
+
+
+
+    /*Discussion creation button*/
+    #create_discussion
+    {
+      font-size: 17px !important;
+      padding: 5px !important;
+      text-align: center !important;
+      border: 3px solid rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      display:block;
+      margin: none;
+      margin-top: -4px;
+      text-decoration: none;
+      font-family: bold_font;
+      background-color: rgb(255, 255, 255);
+    }
+
+    /*Container for all the shades of the user-chosen color*/
+    #generated_colors
+    {
+      border: 3px solid black;
+      border-radius: 10px;
+      padding: 5px 7px;
+      width: auto; 
+      background-color: rgba(255, 255, 255, 0);
+      margin: 0px !important;
+    }
+
+    /*Generated color styling (placed in the above container)*/
+    .generated_color
+    {
+      font-size: 21px;
+      height: 10px;
+      width: 7px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 10px;
+      margin: 6px;
+      border: 2px solid black;
+    }
+    
+
+
+
+    div { padding: default; }
+
+    hr { border-top: 4px dashed var(--tc_1); }
+    
+    /*Styling for the top nav*/
+    #nav
+    {
+      background-repeat: no-repeat, repeat;
+      background-image: url("../images/pattern.png"), linear-gradient( var(--otc_4), rgba(255, 255, 255, 0.9) );
+
+      /* Center and scale the image */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-blend-mode: darken;
+
+      position: fixed;
+      display: inline-block;
+      text-align: right;
+      height:  35px;
+      padding: 10px;
+      border-radius: 10px;
+      top: 5px;
+      left: 23px;
+      right: 12px;
+      border: 4px solid var(--tc_1);
+      padding-top: 17px;
+      z-index: 100000;
+    }
+
+    #nav li
+    {
+      display: inline;
+    }
+
+    #nav li a
+    {
+      border:  3px solid var(--tc_1);
+      padding: 5px 10px;
+      text-decoration: none;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.45);
+    }
+
+     #nav li a:hover
+    {
+      border-color: var(--tc_2);
+      border-radius: 12px;
+    }
+
+    /*The title of the app (part of the nav)*/
+    #title
+    {
+      font-family: title_font;
+      all: initial;
+      position: fixed;
+      top: 13px;
+      font-size: 38px;
+      left: 50px;
+      font-family: title_font;
+      letter-spacing: 5px;
+      font-weight:  bold;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      color: var(--tc_1);
+      z-index: 100000;
+    }
+
+
+    /*Container that centers every .center inside it*/
+    .center_container {
+      height: 60px;
+      position: relative;
+    }
+
+    /*Centering class*/
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+
+    /*Footer styling*/
+    footer { width:  100%; }
+
+    footer table
+    {
+      width:  75%;
+      top: 50px !important;
+    }
+
+    footer table tr td
+    {
+      text-align: center;
+    }
+
+    footer table tr td a img
+    {
+      width: 15px;
+      position: relative;
+      top: 3px;
+      margin-right: 5px;
+    }
+
+    /* Image with border styling */
+    .img_border
+    {
+      width: 11px;
+      border: 1px solid black;
+      padding: 2px;
+      border-radius: 4px;
+    }
+
+
+    /*Container for all the discussions (makes the messages scrollable)*/
+    #discussion_container
+    {
+      border: 4px solid var(--otc_1);
+      padding: 0px;
+      border-radius: 15px;
+      max-height: 450px !important;
+      height: 450px !important;
+      overflow-y: scroll !important;
+    }
+
+/*    #discussion_container::-webkit-scrollbar
+    {
+      top: 10;
+    }*/
+
+    /*Title of a discussion*/
+    .discussion_title
+    {
+      font-size: 29px;
+      color: var(--tc_3);
+      background-color: rgb(255, 255, 255);
+      padding: 10px;
+      border-radius: 10px;
+      position: absolute;
+      max-width: calc(89% - 15px);
+      margin-top: -34px;
+      position: absolute;
+      left: 50%;
+      -ms-transform: translate(-50%);
+      transform: translate(-50%);
+      border: 4px solid var(--otc_1);
+      font-family: title_font;
+    }
+
+    /*Container for the actual messages (direct parent of the messages)*/
+    .discussion_messages
+    {
+      border: 3px solid var(--tc_1);
+      margin: 10px;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: ;
+      width: calc(100% - 21px);
+      table-layout: fixed;
+      background-image: url("../images/circles.png"), linear-gradient(var(--tc_1), var(--tc_2) );
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-blend-mode: soft-light;
+      background-attachment: fixed;
+    }
+
+    /*Scrolls in the above #discussion_container (direct child of it)*/
+    .discussion
+    {
+      border-radius: 10px;
+      background-color: var(--tc_5);      
+      background-color: rgba(234, 234, 234, 0.4);
+      background-image: linear-gradient(var(--otc_5), var(--otc_5), rgba(255, 255, 255, 0.7));
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /*Message class*/
+    .message
+    {
+      width: fit-content;
+      padding: 10px 15px;
+      border-radius: 15px;
+      background-color: rgba(255, 255, 255, 0.7);
+      max-width: 95%;
+      word-break: break-all;
+   }
+
+    /*Message that belongs to the logged user (the logged user sent it)*/
+    .my_message
+    {
+      border: 3px solid var(--tc_1);
+      float: right;
+    }
+
+    /*Mention the sender of the message that the logged in user received*/
+    .their_message .sender
+    {
+      border: 3px solid var(--tc_5);
+      background-color: rgba(0, 0, 0, 0.1);
+      padding:  2px 7px;
+      color:  var(--tc_5);
+      border-radius:  7px;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+
+    /*The table that contains all the messaging options*/
+    #message_options_table
+    {
+      border: 2px solid var(--tc_5);
+      padding: 7px;
+      border-radius:  10px;
+      margin-top:  10px;
+      background-color: rgba(234, 234, 234, 0.6);
+    }
+
+    #message_options_table tr td
+    {
+      padding: 4px;
+    }
+
+    /*Textarea that contains the message that contains the message that needs to be sent*/
+    #text
+    {
+      height: 24px; 
+      width: 210px; 
+      max-height: 24px; 
+      max-width: 210px; 
+      min-height: 24px; 
+      min-width: 210px; 
+      padding-top: 12px;
+      padding-left: 14px;
+      border: 3px solid var(--tc_5) !important;
+      resize: none;
+      border-radius: 25px 10px 10px 25px;
+      background-color: var(--otc_5);
+      color: var(--tc_5);
+    }
+
+    #details
+    {
+      height: 124px;
+      width: calc(100% - 26px) !important;
+      min-height: 15px;
+      max-height: 250px;
+      padding: 10px;
+      border: 3px solid var(--tc_3) !important;
+    }
+
+    /*Select input with options*/ 
+    select
+    {
+      -webkit-appearance: button;
+      -moz-appearance: button;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -webkit-padding-end: 20px;
+      -moz-padding-end: 20px;
+      -webkit-padding-start: 2px;
+      -moz-padding-start: 2px;
+      background-position: center right;
+      background-repeat: no-repeat;
+      border: 1px solid #AAA;
+      border-radius: 2px;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      color: #555;
+      font-size: inherit;
+      margin: 0;
+      overflow: hidden;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 3px solid var(--tc_3);
+      border-radius: 6px;
+      transition: 0.15s;
+      color: var(--tc_5);
+      padding: 7px 7px 8px 7px;
+      margin-top: 10px;
+    }
+
+    option
+    {
+      appearance:  none;
+      all: none;
+      border: 3px solid black;
+      padding:  10px;
+      line-height: 10px;
+    }
+
+    select::-ms-expand {
+      display: none;
+    }
+
+    select:hover
+    {
+      border-color: var(--tc_1);
+    }
+
+    option:hover, option:checked
+    {
+      background-color: rgb(215, 215, 215);
+    }
+    
+    option:not(:checked) {
+      background-color: rgb(245, 245, 245);
+    }
+
+
+
+
+  /*Error styling (used mostly for errors on the user edit and register page)*/
+  .error
+  {
+    padding: 5px 10px;
+    background-color: white;
+    width: fit-content;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 3px solid var(--tc_1);
+    font-size: 17px;
+  }
+
+  .error::before
+  {
+    content: "!";
+    font-size: 47px;
+    color: var(--tc_1);
+    font-family: bold_font;
+    line-height: 5px;
+  }
+
+  /*Centered div*/
+  .centered
+  {
+    border-radius: 10px;
+    padding: 10px 15%;
+    font-size: 43px;
+    position: absolute;
+    top: 65px;
+  }
+
+  /*?*/
+  .image_border
+  {
+    border: 0.2em dashed var(--tc_1);
+    border-radius: 14px;
+    box-shadow: -5px 5px 0px var(--tc_2);
+  }
+
+
+  /*Scrollbar styling*/
+  /* width */
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border: 3px solid var(--otc_1);
+    background: var(--otc_4); 
+    border-radius: 10px;
+    margin: 3px !important;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--otc_1);
+    border: 3px solid var(--tc_3);
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--tc_2); 
+  }
+
+
+  /*Assignment styling*/
+
+  .assignment
+  {
+    border:  3px dashed var(--tc_1);
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 15px 5px 15px 5px;
+  }
+
+  .assignment *
+  {
+    display: inline-block;
+    margin: 5px;
+    font-size: 17px;
+  }
+
+  .assignment_text
+  {
+    margin: 7px 0px 0px 10px;
+  }
+
+  .assignment_title, .assignment_end_date
+  {
+    border:  3px solid var(--tc_1);
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  .assignment_title a
+  {
+    text-decoration: none;
+    font-family: bold_font;
+    border-bottom: 2px dashed var(--tc_5);
+  }
+  .assignment_title a:hover
+  {
+    border-color: var(--tc_1);
+  }
+
+  .assignment_end_date
+  {
+      display: block;
+      width: fit-content;
+      border-top:  2px dashed var(--tc_1);
+      border-bottom:  2px solid var(--tc_1);
+  }
+
+  .time_remaining
+  {
+    margin: 0px;
+    text-decoration: underline;
+  }
+
+  .remaining_container
+  {
+    border: 1px solid var(--tc_1);
+    margin: 0px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-left: 10px;
+  }
+
+  .overdue, .remaining { font-family: bold_font; }
+  .overdue
+  {
+    font-size: 21px;
+    color: rgb(254, 34, 70);
+  }
+
+  .assignment_status
+  {
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: bold_font;
+  }
+
+  .assigned_user_container, .topic_container, .discussion_container
+  {
+    display: block !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 3px solid var(--otc_1);
+  }
+
+  .assigned_user, .topic /*should have a link to the user profile / topic view page*/
+  {
+    text-decoration: underline;
+  }
+
+  .assignment_description
+  {
+    width: calc( 100% - 25px );
+    resize: none;
+    scroll-behavior: auto;
+    overflow-y: scroll;
+    height: 70px;
+    border: 2px solid var(--tc_5);
+  }
+
+  .assignment_description:hover
+  {
+    border: 2px solid var(--tc_5);
+    border-radius: 10px;
+  }
+
+  .notAttempted { background-color: orange; }
+  .inProgress { background-color: yellow; }
+  .done { background-color: lightgreen; }
+
+  .change_status_activated { background-color: rgba(234, 234, 234, 0.6); border:  2px solid var(--tc_1); }
+
+  .change_status_activated a 
+  {
+    border:  2px solid var(--tc_1);
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    color: black;
+    font-family: bold_font;
+  }
+
+  /*Styling for a small delete button near topics and users in assignments*/
+  .small_delete
+  {
+    text-decoration: none;
+    border: 2px solid black;
+    font-size: 24px !important;
+    line-height: 10px;
+    border-radius: 5px;
+    padding: 6px 0px 2px 3px;
+  }
+
+
+  /* banned user styling */
+  .banned_discussion_user
+  {
+    background-color: rgb(123, 123, 123);
+    color: rgb(243, 243, 243);
+    border: 2px solid rgb(34, 34, 34);
+  }
+
+  .banned_discussion_user .sender
+  {
+    color: rgb(243, 243, 243);
+  }
+
+   .banned_discussion_user .edit_delete_container, .update_cencel_container
+  {
+    background-color: rgb(243, 243, 243);
+    padding: 5px;
+    border-radius: 0px 0px 10px 10px;
+    border-color: rgb(34, 34, 34);
+  }
+
+   .my_message.banned_discussion_user .edit_delete_container
+   {
+    height: 25px;
+   }
+
+  .banned_discussion_user textarea { border-color: rgb(34, 34, 34); }
+
+  .banned_discussion_user textarea:hover { border-color: rgb(154, 154, 154); }
+
+
+  /* Styling for input type="file" and its placeholder */
+
+  input[type="file"] {
+      display: none;
+  }
+
+  .custom-file-upload {
+    border: 3px solid var(--tc_5);
+    display: inline-block;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
+    background-color: rgb(254, 254, 254);
+    font-size: 17px;
+  }
+
+
+  /* send notif message styling */
+  #send_notif
+  {
+    height: 25px;
+    margin-top: -5px;
+    padding: 3px 6px 2px 7px;
+    margin-top: -4px;
+    font-size: 27px;
+    line-height: 25px;
+    font-family: bold_font;
+    border: 3px solid var(--tc_5);
+    border-radius: 10px 25px 25px 10px;
+    background-color: var(--otc_5);
+    color: var(--tc_5);
+    width: 100%;
+    height: 33px;
+    display:  block;
+  }
+
+  /* Search button stylling */
+  #search_btn
+  {
+    height: 44px;
+    margin-top: -2px;
+    padding: 3px 6px 2px 7px;
+    font-size: 27px;
+    line-height: 25px;
+    font-family: bold_font;
+    border: 3px solid var(--tc_5);
+    border-radius: 10px 25px 25px 10px;
+    background-color: var(--otc_5);
+    color: var(--tc_5);
+    width: 100%;
+    display:  block;
+  }
+
+
+  /* styling for messages containing files */
+  .message:has(.file_table):hover .file_table { margin-bottom: 10px; }
+
+  .file_table tr td a
+  {
+    text-decoration: none;
+    font-family: bold_font;
+    border: 2px solid var(--tc_3);
+    border-radius: 10px;
+    padding: 5px 10px;
+    display: block;
+    text-align: center;
+    margin: 2px;
+    max-width: 100px;
+    word-break: break-all;
+  }
+
+  .file_table tr td a:hover
+  {
+    border-color: var(--tc_1);
+    border-radius: 12px;
+  }
+
+ .file_table tr td
+  {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .file_table tr td a div
+  {
+    background-image: url("/images/edit.png");
+    height: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+
+  /* styling of various images */
+  #display_profile_image, #image_404
+  {
+    border: 5px solid var(--tc_1);
+    padding: 10px;  
+    max-height: 1000px;
+    border-radius: 15px;
+    background-color: rgba(143, 144, 143, 0.1);
+    margin-bottom: 25px;
+  }
+
+  #display_profile_image img, #image_404 img
+  {
+    width:  200px;
+    max-height: 1000px;
+    border-radius: 10px;
+    border: 3px dashed rgba(143, 144, 143, 0.7);
+    padding: 10px;
+    background-color: rgb(254, 254, 254);
+    content-fit: ;
+/*      width: 200px;*/
+    object-fit: contain;
+  }
+
+  .profile_image
+  {
+    width: 35px;
+    height: 35px;
+    border: 2px solid var(--tc_1);
+    padding: 4px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: -10px;
+    background-image: linear-gradient(rgb(243, 243, 243), rgb(230, 230, 230));
+  }
+
+  #nav_profile_image
+  {
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--tc_3);
+    padding: 2px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: -7px;
+    background-image: linear-gradient(rgb(243, 243, 243), rgb(230, 230, 230));
+    margin-right: 5px;
+  }
+
+  .nav_image
+  {
+    width: 21px;
+    height: 21px;
+    margin-bottom: -6px;
+    margin-right: 5px;
+  }
+
+  .sender .nav_image.profile_image
+  {
+    margin-bottom: -12px;
+  }
+
+  .sender:has(.nav_image.profile_image)
+  {
+    padding-bottom: 10px;
+  }
+
+  .toggle_img
+  {
+    width: 17px;
+    height: 17px;
+    border-radius: 2px;
+    margin-bottom: -4px;
+  }
+
+
+  #image_404 { display: flex; margin: 25px 5px 5px 5px; }
+
+  #image_404 span 
+  {
+    display: block;
+    margin-left: 10px;
+  }
+
+  #image_404 span span
+  {
+    font-size: 100px;
+    font-family: bold_font;
+  }
+
+  #image_info
+  {
+    border: 2px solid var(--tc_1);
+    padding: 5px 10px;
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  /* discussion editing styling */
+  div .edit_discussion
+  {
+    margin-bottom: -8px;
+    width: 25px;
+    margin-top: 0px;
+  }
+
+  div:has(.edit_discussion)
+  {
+    padding-bottom: 10px;
+  }
+
+  a:has(.edit_discussion)
+  {
+    border: none !important;
+  }
+
+  a.custom-file-upload
+  {
+    text-decoration: none;
+    color: black;
+  }
+
+  /* admin table styling */
+  .admin_table th, .admin_table td 
+  {
+    border: 1px dashed black;
+    border-width: 0px 1px 1px 0px;
+    margin: 0px;
+    padding:  2px;
+    font-size: 15px;
+  }
+
+  .admin_table img
+  {
+    width: 17px;
+  }
+
+   .admin_table tr:last-child td 
+  {
+    border-width: 0px 1px 0px 0px;
+  }
+
+   .admin_table tr th 
+  {
+    font-family: bold_font;
+    border-width: 0px 1px 0px 0px;
+  }
+
+   .admin_table tr td:last-child
+  {
+    border-width: 0px 0px 1px 0px;
+  }
+
+  .admin_table tr th:last-child
+  {
+        border-width: 0px;
+  }
+
+  .admin_table tr:last-child td:last-child
+  {
+    border-width: 0px;
+  }
+
+  .admin_table
+  {
+    border: 3px solid var(--tc_1);
+    border-radius: 10px;
+    padding: 2px;
+    max-width: 10%;
+  }
+
+  .login_error
+  {
+    margin-top: 50px;
+  }
+
+  /* user type styling for the admin table */
+  .user_type a
+  {
+    display:  block;
+    text-decoration: none;
+    border: 2px solid var(--tc_3);
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin: 2px;
+    text-align: center;
+  }
+
+  #discussion_dropdown
+  {
+    max-width: 400px !important;
+  }

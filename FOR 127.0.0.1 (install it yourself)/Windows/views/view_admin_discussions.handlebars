@@ -1,0 +1,104 @@
+<h1>View discussions</h1>
+<script> pg_title = "View discussions"; localStorage.setItem("refresh", true); </script>
+
+
+
+<div class="text_border" style="background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+  <div style="font-size: 27px; margin-left: 7px"> Beware! Discussion deletions happen immediatly after you press the <img src='/images/delete.png' style='width: 25px; margin-bottom: -5px'> delete button! </div>
+  <br/>
+
+ <table class="admin_table" id="discussions_table">
+  </table>
+</div>
+
+{{#if d}}
+<script>
+var d = `{{d}}`;
+
+d = d.replace(/&quot;/g,'"').replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&#x3D;/g, "=");
+
+d = JSON.parse(d)
+
+console.log(d)
+
+// fill in the discussion table with the discussion data
+
+discussions_table = document.getElementById("discussions_table");
+
+inner = "<tr><th>Name</th><th>Members</th><th>Banned Users</th><th><img src='/images/edit.png' ></th><th><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></th></tr><tr><td colspan=11 style='background-color: var(--tc_1); border-width: 0px;'></tr>";
+for ( i = 0; i < d.length; i = i + 1 )
+{
+  console.log(d[i]);
+
+  inner = inner + "<tr>"
+
+  inner = inner + "<td><a href='/messages/create_message:" + d[i].id + "'>" + d[i].name + "</a></td>"
+  inner = inner + "<td class='td_resize'>" 
+
+  m = d[i].members;
+  m_ids = d[i].member_ids.split(',')
+
+  for ( j = 0; j < m.length; j = j + 1 )
+  {
+    if ( m_ids[j] == 'undefined' )
+      continue;
+
+    inner = inner + "<a href='/users/view_user:" + m_ids[j] + "'>" + m[j] + "</a>";
+
+    if ( j != m.length - 1 )
+      inner = inner + '<br/><br/>'
+  }
+
+  inner = inner + "</td>" 
+
+  inner = inner + "<td class='td_resize'>" 
+
+  bu = d[i].banned_users;
+  bu_ids = d[i].banned_user_ids.split(',')
+
+  for ( j = 0; j < bu.length; j = j + 1 )
+  {
+    if ( bu_ids[j] == 'undefined' )
+      continue;
+
+    inner = inner + "<a href='/users/view_user:" + bu_ids[j] + "'>" + bu[j] + "</a>";
+
+    if ( j != bu.length - 1 )
+      inner = inner + '<br/><br/>'
+  }
+
+  inner = inner + "</td>" 
+  inner = inner + "<td><a href='/discussions/create_discussion:" + d[i].id + "'><img src='/images/edit.png'></td>"
+  inner = inner + "<td><a href='/discussions/create_discussion:" + d[i].id + "'><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></td>"
+
+
+  inner = inner + "</tr>"
+}
+
+discussions_table.innerHTML = inner;
+
+
+
+</script>
+{{/if}}
+
+<style>
+
+  #discussions_table tr td a
+  {
+    text-decoration: underline;
+    display:  block;
+    word-break: keep-all;
+  }
+
+
+</style>
+
+<script>
+  
+  // had to resize the table like this, not other method functioned
+  td = document.getElementsByClassName("td_resize")
+  for ( i = 0; i < td.length; i = i + 1 )
+    td[i].style.minWidth = String( td[i].innerText.length * 2.5 ) + "px";
+
+</script>

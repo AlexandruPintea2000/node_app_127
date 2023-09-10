@@ -1,0 +1,370 @@
+<script> pg_title = "{{topic.name}}"; </script>
+
+<!-- check if the string values arrived to the front-end and convert them into front-end Js variables -->
+{{#if user_id}}
+<script>
+var a = `{{assignments}}`;
+var user_id = `{{user_id}}`;
+var topic = `{{topic}}`;
+var user_type = `{{user.type}}`;
+</script>
+{{/if}}
+
+
+<h2>{{topic.name}}</h2>
+<div class="text_border" style="width: fit-content;">
+
+  <div id="regular_info" style="display: none;" class="error">You can only change the status of assignments on your own assignments page!</div>
+
+  <div id="assignment_container">
+    
+  </div>
+
+</div>
+
+<script>
+
+  if ( user_type == "regular" )
+  {
+    regular_info = document.getElementById("regular_info");
+    regular_info.style.margin = "7px 5px 10px 5px";
+    regular_info.style.display = "block";
+  }
+
+  var assignment_container = document.getElementById("assignment_container");
+
+  a = a.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  console.log(a);
+  a = JSON.parse(a);
+
+  console.log(a);
+
+  pg_address = "view_topic:{{topic.id}}";
+
+  // reorder the assignments based on the priority of their status
+  a_inProgress = []
+  for ( i = 0; i < a.length; i = i + 1 )
+     if ( a[i].status == "inProgress")
+      a_inProgress.push(a[i]);
+
+  a_notAttempted = []
+  for ( i = 0; i < a.length; i = i + 1 )
+     if ( a[i].status == "notAttempted")
+      a_notAttempted.push(a[i]);
+
+  a_done = []
+  for ( i = 0; i < a.length; i = i + 1 )
+     if ( a[i].status == "done")
+      a_done.push(a[i]);
+
+  a = [];
+  for ( i = 0; i < a_inProgress.length; i = i + 1 )
+    a.push(a_inProgress[i]);
+  for ( i = 0; i < a_notAttempted.length; i = i + 1 )
+    a.push(a_notAttempted[i]);
+  for ( i = 0; i < a_done.length; i = i + 1 )
+    a.push(a_done[i]);
+
+  // fill in assignment data
+
+  inner = "";
+  for ( i = 0; i < a.length; i = i + 1 )
+  {
+    inner = inner + "<div class=\"assignment\" db_id=\"" + a[i].id + "\" >";
+
+    if ( user_type != "regular" )
+    inner = inner + "<div class=\"assignment_title\" ><a href=\"/assignments/view_assignment:" + a[i].id + "\">" + a[i].name + "</a><a href='/assignments/create_assignment:" + a[i].id + "'><img src='/images/edit.png' class='edit_discussion'/></a></div>";
+    else
+    inner = inner + "<div class=\"assignment_title\" ><a href=\"/assignments/view_assignment:" + a[i].id + "\">" + a[i].name + "</a></div>";
+
+    inner = inner + "<div class=\"assignment_status " + a[i].status + "\" db_id=\"" + a[i].id + "\" >" + a[i].status + "</div>";
+    inner = inner + "<div class=\"assignment_end_date\" >End date: <b class=\"end_date\">" + a[i].end_date + "</b></div>";
+
+    inner = inner + "<br/><span class=\"assignment_text\">Users assigned:</span><div class=\"assigned_user_container\" >";
+
+    u = a[i].users_assigned;
+
+    if ( u.includes(',') )
+      u = u.split(',');
+    else
+      u = [u];
+
+    u_id = a[i].user_ids;
+
+    if ( u_id.includes(',') )
+      u_id = u_id.split(',');
+    else
+      u_id = [u_id];
+
+    for ( j = 0; j < u.length; j = j + 1 )
+      if ( u_id[j] != 'undefined' && u[j] !="undefined ( undefined undefined )" )
+      inner = inner + "<div class=\"assigned_user\" db_id=\"" + u_id[j] + "\"><a href=\"/users/view_user:" + u_id[j] + "\">" + u[j] + "</a></div>";
+
+    inner = inner + "</div>";
+
+
+
+    inner = inner + "<span class=\"assignment_text\">Topics:</span><div class=\"topic_container\" >";
+
+    t = a[i].topics;
+
+    if ( t.includes(',') )
+      t = t.split(',');
+    else
+      t = [t];
+
+    t_id = a[i].topic_ids;
+
+    console.log("a[i].topic_ids");
+    console.log(a[i].topic_ids);
+
+    if ( t_id.includes(',') )
+      t_id = t_id.split(',');
+    else
+      t_id = [t_id];
+
+    console.log(t_id);
+    console.log(t);
+
+    // not ok here - topics go to the same page no pmatter wat
+
+    for ( j = 0; j < t.length; j = j + 1 )
+      if ( t_id[j] != 'undefined' && t[j] !="undefined" )
+      inner = inner + "<div class=\"topic\" db_id=\"" + t_id[j] + "\"><a href=\"/assignments/view_topic:" + t_id[j] + "\">" + t[j] + "</a></div>";
+
+    inner = inner + "</div>";
+
+
+
+    inner = inner + "<span class=\"assignment_text\">Discussions:</span><div class=\"discussion_container\" >";
+
+    d = a[i].discussions;
+
+    if ( d.includes(',') )
+      d = d.split(',');
+    else
+      d = [d];
+
+    d_id = a[i].discussion_ids;
+
+    if ( d_id.includes(',') )
+      d_id = d_id.split(',');
+    else
+      d_id = [d_id];
+
+    for ( j = 0; j < d.length; j = j + 1 )
+      if ( d_id[j] != 'undefined' && d[j] !="undefined" )
+      inner = inner + "<div class=\"discussion_div\" db_id=\"" + d_id[j] + "\" ><a href=\"/messages/create_message:" + d_id[j] + "\">" + d[j] + "</a></div>";
+
+    inner = inner + "</div>";
+
+
+
+    description = a[i].description.replace(/&lt;br\/&gt;/g, "\r\n");
+
+    inner = inner + "<span class=\"assignment_text\">Description:</span><textarea class=\"assignment_description\" readonly>" + description + "</textarea>";
+
+
+    inner = inner + "</div>";
+
+
+    if ( i != a.length - 1 )
+      inner = inner + "<br/><hr/><br/>";
+  }
+
+  assignment_container.innerHTML = inner;
+
+
+
+
+  topic_divs = document.getElementsByClassName("topic");
+  assigned_user_divs = document.getElementsByClassName("assigned_user");
+  discussion_divs = document.getElementsByClassName("discussion_div");
+
+  if ( user_type != "regular" ) // frontend privilege check, deciding if the user should be permitted to remove a topic from an assignment
+  for ( i = 0; i < topic_divs.length; i = i + 1 )
+  {
+    topic_divs[i].addEventListener("mouseover", function(){
+      if ( this.getAttribute("inner") == null )
+      {
+        topic_id = this.getAttribute("db_id");
+        assignment_id = this.parentElement.parentElement.getAttribute("db_id");
+        add = "<a class='small_delete' href='/assignments/remove_from_assignment:" + topic_id + '!' + assignment_id + "!topic!" + pg_address + "'> × </a>";
+
+        this.setAttribute("inner", this.innerHTML);
+        this.innerHTML = add + this.innerHTML;
+      }
+    });
+   topic_divs[i].addEventListener("mouseleave", function(){
+      if ( this.getAttribute("inner") != null )
+      {
+        this.innerHTML = this.getAttribute("inner");
+        this.removeAttribute("inner");
+      }
+    });
+  }
+
+  if ( user_type != "regular" ) // frontend privilege check, deciding if the user should be permitted to remove a user from an assignment
+  for ( i = 0; i < assigned_user_divs.length; i = i + 1 )
+  {
+    assigned_user_divs[i].addEventListener("mouseover", function(){
+      if ( this.getAttribute("inner") == null )
+      {
+        assigned_user_id = this.getAttribute("db_id");
+        assignment_id = this.parentElement.parentElement.getAttribute("db_id");
+        add = "<a class='small_delete' href='/assignments/remove_from_assignment:" + assigned_user_id + '!' + assignment_id + "!user!" + pg_address + "'> × </a>";
+
+        this.setAttribute("inner", this.innerHTML);
+        this.innerHTML = add + this.innerHTML;
+      }
+    });
+   assigned_user_divs[i].addEventListener("mouseleave", function(){
+      if ( this.getAttribute("inner") != null )
+      {
+        this.innerHTML = this.getAttribute("inner");
+        this.removeAttribute("inner");
+      }
+    });
+  }
+
+
+if ( user_type != 'regular' )  // frontend privilege check, deciding if the user should be permitted to remove a discussion from an assignment
+  for ( i = 0; i < discussion_divs.length; i = i + 1 )
+  {
+    discussion_divs[i].addEventListener("mouseover", function(){
+      if ( this.getAttribute("inner") == null )
+      {
+        discussion_id = this.getAttribute("db_id");
+        assignment_id = this.parentElement.parentElement.getAttribute("db_id");
+        add = "<a class='small_delete' href='/assignments/remove_from_assignment:" + discussion_id + '!' + assignment_id + "!discussion!" + pg_address + "'> × </a>";
+
+        this.setAttribute("inner", this.innerHTML);
+        this.innerHTML = add + this.innerHTML;
+      }
+    });
+   discussion_divs[i].addEventListener("mouseleave", function(){
+      if ( this.getAttribute("inner") != null )
+      {
+        this.innerHTML = this.getAttribute("inner");
+        this.removeAttribute("inner");
+      }
+    });
+  }
+
+
+  assignment_status_divs = document.getElementsByClassName("assignment_status");
+
+  if ( user_type != "regular" ) // frontend privilege check, deciding if the user should be permitted to edit the status of an assignment
+  for ( i = 0; i < assignment_status_divs.length; i = i + 1 )
+  {
+    assignment_status_divs[i].addEventListener("mouseover", function(){
+      if ( this.getAttribute("inner") == null )
+      {
+        assignment_id = this.getAttribute("db_id");
+        add = "<a id='notAttempted' class='change_status notAttempted' href='/assignments/change_status:"+ assignment_id + "!notAttempted!" + pg_address + "'>notAttempted</a><a  id='inProgress' class='change_status inProgress' href='/assignments/change_status:"+ assignment_id + "!inProgress!" + pg_address + "'>inProgress</a><a id='done' class='change_status done' href='/assignments/change_status:"+ assignment_id + "!done!" + pg_address + "'>done</a>";
+
+        this.classList.remove(String(this.innerHTML));
+        this.classList.add("change_status_activated");
+        this.setAttribute("inner", this.innerHTML);
+        this.innerHTML = add;
+
+       if (this.getAttribute("inner") == "notAttempted")
+          document.getElementById("notAttempted").style.display = "none";
+       if (this.getAttribute("inner") == "inProgress")
+          document.getElementById("inProgress").style.display = "none";
+       if (this.getAttribute("inner") == "done")
+          document.getElementById("done").style.display = "none";
+      }
+    });
+   assignment_status_divs[i].addEventListener("mouseleave", function(){
+      if ( this.getAttribute("inner") != null )
+      {
+        this.innerHTML = this.getAttribute("inner");
+        this.classList.add(this.getAttribute("inner"));
+        this.classList.remove("change_status_activated");
+        this.removeAttribute("inner");
+      }
+    });
+  }
+
+  if ( a.length == 0 )
+  {
+    assignment_container.innerHTML = "<b>Look at that!</b><br/><br/>You have no assignments<br/><br/>Go to <a href='/assignments/create_assignment:' > this page</a> to create an assignment"
+  }
+
+  // function to reformat a date
+  function reformat_date(number_of_days) {
+      var years = Math.floor(number_of_days / 365);
+      var months = Math.floor(number_of_days % 365 / 30);
+      var days = Math.floor(number_of_days % 365 % 30);
+
+      years_text = "";
+      if ( years > 0 )
+      {
+        if ( years == 1 )
+          years_text = String( years ) + " year, ";
+        else
+          years_text = String( years ) + " years, ";
+      }
+
+      months_text = "";
+      if ( months > 0 )
+      {
+        if ( months == 1 )
+          months_text = String( months ) + " month, ";
+        else
+          months_text = String( months ) + " months, ";
+      }
+
+      days_text = "";
+      if ( days > 0 )
+      {
+        if ( days == 1 )
+          days_text = String( days ) + " day";
+        else
+          days_text = String( days ) + " days";
+      }
+
+      if ( years == 0 && months == 0 && days == 0 )
+        return "Now is the end date!"
+
+      return years_text + months_text + days_text; 
+  }
+
+  end_dates = document.getElementsByClassName("end_date");
+  date_now = new Date(); // date now
+  for ( i = 0; i < end_dates.length; i = i + 1)
+  {
+    date = end_dates[i].innerText;
+
+    var year = date.substring(0,4);
+    var month = date.substring(5,7);
+    var day = date.substring(8,10);
+
+    var date = new Date(year, month-1, day);
+
+    const offset = date.getTimezoneOffset()
+    date = new Date(date.getTime() - (offset * 60 * 1000));
+
+
+    dif = date_now - date;
+    dif_days = Math.floor( dif / (1000 * 3600 * 24) );
+
+    str = reformat_date(dif_days);
+
+    overdue = false;
+    if (date_now > date)
+      overdue = true;
+
+    div = end_dates[i].parentElement;
+
+    inner = div.innerHTML + "<div class='remaining_container'>"
+    if (overdue)
+      inner = inner + "<div class='overdue'>Overdue:</div>";
+    else
+      inner = inner + "<div class='remaining'>Time Remaining:</div>";
+
+    str = "<span class='time_remaining'>" + str + "</span>"
+    div.innerHTML = inner + str + "</div>";
+  }
+</script>

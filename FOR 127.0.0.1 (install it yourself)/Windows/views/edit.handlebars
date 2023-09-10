@@ -1,0 +1,360 @@
+<script> pg_title = "Edit Profile"; localStorage.setItem("refresh", true); </script>
+<h1>Edit Profile</h1>
+
+
+<!-- tell the user that their username is already in use by another user and that they have to chose another one -->
+{{#if error}}
+    <div class="error"><b>{{error}}</b></div>
+    <script>
+      console.log("{{error}}");
+    </script>
+{{/if}}
+<div class="text_border" style="width: fit-content;">
+
+
+
+<form method="post" action="/users/edit">
+<div class="error" style="width: 390px;"><b>Alphanumerical</b> characters are recomanded for all fields. Use anything else (besides the @ in the email) to risk the application crashing.<br/><br/>This applies to <b>all data</b>, not just user data.</div>
+  <table>
+  <tr>
+    <td style="width:189px;">Firstname</td>
+    <td><input type="text" placeholder="{{user.firstname}}" value="{{user.firstname}}" name="firstname" required></input></td>
+  </tr>
+  <tr>
+    <td>Lastname</td>
+    <td><input type="text" placeholder="{{user.lastname}}" value="{{user.lastname}}" name="lastname" required></input></td>
+  </tr>
+  <tr>
+    <td>Username</td>
+    <td><input type="text" placeholder="{{user.username}}" value="{{user.username}}" name="username" required></input></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><input type="email" placeholder="{{user.email}}" value="{{user.email}}" name="email" required></input></td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td><input id="pwd1" type="password" class="password" placeholder="Hidden for your security!" name="password" required></input></td>
+  </tr>
+  <tr>
+    <td><div id="pwd_restrictions"></div></td>
+    <td><div id="pwd_length"></div></td>
+  </tr>
+  <tr>
+    <td>Confirm Password</td>
+    <td><input id="pwd2" type="password" class="password" placeholder="Confirm new password" name="password2" required></input></td>
+  </tr>
+  <tr>
+    <td><div id="pwd_compare"></div></td>
+  </tr>
+  <tr>
+    <td>Gender</td>
+    <td><input type="text" placeholder="Gender" name="gender" placeholder="{{user.gender}}" value="{{user.gender}}" required></td>
+  </tr>
+  <tr>
+    <td>Date of birth</td>
+    <td><input type="date" placeholder="Date of birth" name="date_of_birth" style="width: calc(100% - 26px); height: 17px;" id="date_of_birth" required></td>
+  </tr>
+  <tr>
+    <td>Details</td>
+    <td><textarea id="details" name="details" placeholder="{{user.details}}" required>{{user.details}}</textarea></td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td><input type="text" placeholder="Phone" name="phone" placeholder="{{user.phone}}" value="{{user.phone}}" required></td>
+  </tr>
+  <tr>
+    <td>Alias</td>
+    <td><input type="text" placeholder="Alias" name="alias" placeholder="{{user.alias}}" value="{{user.alias}}" required></td>
+  </tr>
+  </table>
+  <input id="password_visibility_toggle" type="checkbox"></input>
+  <span style="margin-left: 10px;">Make password visible  </span>
+  <br/>
+  <br/>
+
+  <input type="submit" id="submit_form" value="Change user details"></input>
+</form>
+</div>
+
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px; position: absolute; {{#unless error}} top: 182px; {{/unless}}{{#if error}} top: 241px; {{/if}} left: 36%; text-align: center;">
+
+  <div id="display_profile_image">
+    <img onerror="display_image_info(this)" onload="display_image_deletion(this)"  src="/images/{{user.username}}_profile_image"/>
+  </div>
+
+  Upload profile image
+  <br/>
+  <br/>
+
+  <div style="width: 230px; margin-left: 20px; font-size: 12px; text-align: left;">*Square images having important content centered are best for your profile.</div>
+  <br/>
+  <form id="upload_profile_image_form" action="/users/upload_profile_image" method="post" enctype="multipart/form-data" >
+  <label class="custom-file-upload">
+    Select profile image
+
+    <input id="image" type="file" name="image"></input>
+<!--     <input id="image" type="file" name="image" accept="image/*"></input>
+ -->
+  </label>
+  </form>
+
+
+</div>
+
+<script>
+
+
+  image = document.getElementById("image");
+
+  image.addEventListener("change", function(){
+    document.getElementById("upload_profile_image_form").submit();
+  });
+
+  function display_image_info (e)
+  {
+    e.parentElement.style.display = "none";
+    e.removeAttribute("src");
+
+    div = e.parentElement.parentElement;
+    var tmp = document.createElement("div");
+    tmp.innerHTML = "<span id='image_info'>Only <b>.png</b>/<b>.jpg</b> accepted</span>"; 
+    div.appendChild(tmp );
+  }
+
+  function display_image_deletion (e)
+  {
+    div = e.parentElement.parentElement;
+    var tmp = document.createElement("div");
+    tmp.innerHTML = "<div style='height: 10px;'></div><a class=\"custom-file-upload\" href='/users/delete_profile_image:{{user.username}}'>Delete profile image</a>"; 
+    div.appendChild(tmp);
+  }
+
+
+
+  // toggle password visibility
+  var pvt = document.getElementById("password_visibility_toggle");
+  var p = document.getElementsByClassName("password");
+
+  pvt.addEventListener( "click", function(){
+    if (pvt.checked)
+    {
+      p[0].setAttribute("type", "text");
+      p[1].setAttribute("type", "text");
+    }
+    else
+    {
+      p[0].setAttribute("type", "password");
+      p[1].setAttribute("type", "password");
+    }
+  });
+
+
+  submit = document.getElementById('submit_form');
+  console.log(submit);
+  // make sure that the chosen password meets all the required security standards
+  function verif_password()
+  {
+    var pwd1 = document.getElementById("pwd1");
+    var pwd2 = document.getElementById("pwd2");
+
+    r_value = false;
+
+    var pwd = pwd1.value;
+
+    var have_upper = 0;
+    var have_digit = 0;
+
+    for (i = 65; i <= 90; i++) // check if the password has an uppercase letter
+      if (pwd.includes( String.fromCharCode(i) ))
+      {
+        have_upper = 1;
+        break;
+      }
+    
+    for (i = 0; i <= 9; i = i + 1) // check if the password has a digit
+      if (pwd.includes( String(i) ))
+      {
+        have_digit = 1;
+        break;
+      }
+
+    var pwd_restrictions = document.getElementById("pwd_restrictions");
+
+  // based on what the user has or does not have in their password, tell them what they have to add
+
+    console.log(have_digit)
+    console.log(have_upper)
+
+    if ( !have_digit && have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add digit to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+    if ( have_digit && !have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add uppercase letter <br> to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+
+    if ( !have_digit && !have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add uppercase letter <br> and digit to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+
+    if ( have_digit && have_upper )
+    {
+      pwd_restrictions.style.display = "none";
+    }
+
+
+    var pwd_length = document.getElementById("pwd_length");
+
+    if ( pwd.length < 8 ) // check chosen password to have the required length
+    {
+      pwd_length.innerHTML = "<div>Length: " + String( pwd.length ) + " Add: " + String(8 - pwd.length) + "</div>";
+      pwd_length.style.display = "initial";
+      submit.setAttribute("disabled", true);
+    }
+    else
+    {
+      pwd_length.style.display = "none";
+    }
+
+    if ( pwd1.value == pwd2.value && String( submit.getAttribute( 'disabled' ) ) != "" && have_upper && have_digit && pwd.length >= 8 )
+    {
+      submit.removeAttribute('disabled');
+      r_value = true;
+    }
+
+    return r_value;
+  }
+
+  verif_password();
+
+  // makes sure that the password was confirmed correctly, when typed in the 2nd time
+  function compare_passwords()
+  {
+    var pwd1 = document.getElementById("pwd1");
+    var pwd2 = document.getElementById("pwd2");
+
+    var pwd_compare = document.getElementById("pwd_compare");
+
+    if (pwd1.value != pwd2.value)
+    {
+      pwd_compare.innerHTML = "<div>Different passwords!</div>"
+      pwd_compare.style.display = "initial";
+      submit.setAttribute("disabled", true);
+    }
+    else
+    {
+      pwd_compare.style.display = "none";
+      if ( pwd1.value != "" && String( submit.getAttribute( 'disabled' ) ) != "" && verif_password() == true )
+        submit.removeAttribute('disabled');
+    }
+
+  }
+
+  compare_passwords();
+
+  // make the previous functions execute every time the user inputs something in the password fields
+  document.getElementById("pwd1").oninput = function(){ verif_password(); compare_passwords()};
+
+  document.getElementById("pwd2").oninput = function(){ compare_passwords()};
+
+  var date_of_birth = "{{user.date_of_birth}}";
+
+  var dob = document.getElementById("date_of_birth");
+  date_of_birth = date_of_birth.substr(0, 10);
+  dob.value = date_of_birth;
+</script>
+
+{{#if registering_user}}
+    <script>
+
+      // if the user's chosen username was already in use, the application is able to save all their data and send it back to the front-end so the user does not have to re-enter it
+      var user = "{{registering_user}}";
+
+      user = JSON.parse(user.replace(/&quot;/g,'"'));
+
+      console.log(user);
+
+      var date_of_birth = "{{registering_user.date_of_birth}}";
+
+      // date_of_birth = JSON.parse(date_of_birth.replace(/&quot;/g,'"'));
+
+      var dob = document.getElementById("date_of_birth");
+      date_of_birth = date_of_birth.substr(0, 10);
+
+      // dob.setAttribute("value", date_of_birth)
+      dob.value = date_of_birth;
+
+      console.log("date_of_birth")
+      console.log(date_of_birth)
+
+      var inputs = document.getElementsByTagName("input")
+
+      var inputs = Array.prototype.slice.call( inputs )
+      for (var i = 0; i < 3 ; i = i + 1)
+        inputs.shift();
+
+      j = 0;
+      for (var i = 0; i < inputs.length - 2; i = i + 1) {
+        {{#unless noskip}}
+        if ( !user[2].includes('@') && i == 3)
+        {
+            inputs[i].setAttribute( "placeholder", "Choose another email!" );
+            inputs[i].value = "";
+           continue;
+        }
+        if ( user[2].includes('@') && i == 2)
+        {
+          inputs[i].setAttribute( "placeholder", "Choose another username!" );
+          inputs[i].value = "";
+          continue;
+        }
+        {{/unless}}
+        if (i == 8)
+          j = j + 1;
+        inputs[i].value = user[j];
+        j = j + 1;
+      }
+
+      textarea = document.getElementById("details");
+      textarea.innerHTML = user[8].replace(/&lt;br\/&gt;/g, "\r\n");
+
+      verif_password();
+      compare_passwords();
+
+    </script>
+{{/if}}
+
+<style>
+  #pwd_restrictions, #pwd_length, #pwd_compare
+  {
+    padding: 0px !important;
+  }
+
+  #pwd_restrictions div, #pwd_length div, #pwd_compare div
+  {
+    font-size: 11px;
+    border: 3px solid var(--tc_1);
+    margin: 0px;
+    position: relative;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    vertical-align: middle;
+  }
+
+</style>

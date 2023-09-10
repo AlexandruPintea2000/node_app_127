@@ -1,0 +1,633 @@
+<script> pg_title = "Dashboard"; localStorage.setItem("logged_out", false);
+// localStorage.setItem("refresh", true);</script>
+<div class="center_container">
+	<h1 id="dashboard" class="center">Dashboard</h1>
+</div>
+
+<style>
+
+	#dashboard
+	{
+		border-radius: 10px;
+		padding: 10px 5%;
+		font-size: 43px;
+		position: absolute;
+		top: 57px;
+	}
+
+	#dashboard_table
+	{
+		border: 3px solid var(--tc_1);
+		padding: 10px 15px;
+		border-radius: 10px 10px 25px 10px;
+		box-shadow: -2px 5px 0px var(--tc_1);
+		width: 100%;
+		height: 320px;
+	}
+
+	#dashboard_table tr td
+	{
+/*		display: block; turns table into just 1 column*/
+		border-bottom: 3px solid var(--tc_1);
+		padding: 5px;
+		border-radius: 10px 0px;
+	}
+
+	.btn_div
+	{
+		display: block;
+/*		padding-left: 10%;
+*/	}
+
+	.btn_div input
+	{
+		display: block;
+		margin-top:  10px;
+		width: 100%;
+	}
+
+	#dashboard_text_border
+	{
+		padding: 29px;
+		border-radius: 34px 34px 10px 10px;
+		border: 6px dashed var(--tc_1);
+		box-shadow: none;
+		font-size: 18px;
+		background-color: rgba(255, 255, 255, 0.64);
+	}
+
+	#dashboard_text_border input
+	{
+		background-color: rgba(255, 255, 255, 0.7);
+	}
+
+	.delete_user_theme_btn
+	{
+		font-size: 27px !important;
+		padding: 3px 0px 0px 4px !important;
+		text-align: center !important;
+		height: 26px !important;
+		width: 26px !important;
+		margin:  0px !important;
+		border: 4px solid rgba(0, 0, 0, 0.6);
+		border-radius: 10px;
+		margin: none !important;
+		text-decoration: none;
+		display:block;
+	}
+
+	#color_diff
+	{
+		width:  100%;
+	}
+
+	#color_href
+	{
+		font-size: 15px !important;
+		padding: 10px 10px 5px 10px !important;
+		text-align: center !important;
+		margin:  0px !important;
+		border: 4px solid black;
+		border-radius: 10px;
+		height: 17px !important;
+		margin: none !important;
+		text-decoration: none;
+		display:block;
+		font-family: bold_font;
+	}
+
+	#apply_theme
+	{
+		font-size: 15px !important;
+		padding: 1px 10px 12px 10px !important;
+		text-align: center !important;
+		margin-left: 5px;
+		border: 3px solid black;
+		border-radius: 10px;
+		display:block;
+		height: 100% !important;
+		width: 65px;
+		margin: none !important;
+		text-decoration: none;
+		font-family: bold_font;
+	}
+
+	#apply_theme:hover, #color_href:hover
+	{
+		border-color: rgba(0, 0, 0, 0.6);
+	}
+
+</style>
+	<br/>
+
+<!-- fill in all the user data -->
+<div id="dashboard_text_border" class="text_border" style="">
+<p style="font-size: 27px; margin: 0px; text-align: center;">
+Welcome to your dashboard, <img class="profile_image" onerror="this.style.display = 'none'" src="/images/{{user.username}}_profile_image"/> {{user.alias}} ( {{user.firstname}} {{user.lastname}} )!  </p>
+	{{#if only_admin}} <!-- tell the admin that their account cannot be deleted until the choose another admin for the platform -->
+		<br/>
+		<div class="error" style="width: calc(100% - 24px);">You are the only admin! Your account cannot be deleted until you give another user admin privileges!</div>
+	{{/if}}
+	{{#if maintenance}} <!-- tell the logged in admin that only admins are able to log in for now, until they disable "maintenance mode" -->
+		<br/>
+		<div class="error" style="width: calc(100% - 24px);">The website is under maintanance! Only administrators can log in!</div>
+	{{/if}}
+	{{#if access_denied}} <!-- tell a regular user or a moderator that they do not have the privileges to complete a certain action -->
+		<br/>
+		<div class="error" style="width: calc(100% - 24px);">You do not have the privileges to use that system feature!</div>
+	{{/if}}
+
+	<hr/>
+	<table style="width: 100%;">
+	<tr> <td style="width: 33%; padding-right: 7px;">
+
+		<style>
+			.div_border{
+				border-radius: 10px; background-color: rgba(255, 255, 255, 0.9); padding: 7px 10px; border: 1px dashed var(--tc_1); width: 120px; margin: 0px;
+			}
+
+			.td_border
+			{
+				background-color: rgba(123, 123, 123, 0.2);
+			}
+
+
+			.btn_table {table-layout: fixed !important;}
+			.btn_table tr td input {margin: 0px;}
+			.btn_table tr:first-child td a {margin-top: 8px;}
+
+
+			.btn_table tr td a
+			{
+				text-decoration: none !important;
+				text-align: center;
+				border: 4px solid var(--tc_3);
+				padding: 7px 5px;
+				display: block;
+				border-radius: 10px;
+				transition: 0.15s;
+				background-color: rgb(254, 254, 254);
+				font-family: bold_font;
+				color: var(--tc_3);
+				font-size: 18px;
+			}
+
+			.btn_table tr td a:hover
+			{
+				border-color: var(--tc_1);
+				color:  var(--tc_1);
+				border-radius: 12px;
+			}
+
+
+			
+
+		</style>
+
+	<table id="dashboard_table">
+		<tr> <td style="width: 120px; border-radius: 10px 10px 0px 15px; border-bottom-style: dashed; padding: 2px 5px;" class="td_border"> <b> <div class="div_border"> Username: </div> </b> </td> <td style="padding: 2px 5px; border-radius: 10px 10px 10px 0px; background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(234, 234, 234, 0.7) ); word-break: break-all; max-width: 15%;"> {{user.username}} </td> </tr>
+		<tr> <td style="width: 120px; border-radius: 10px 10px 0px 15px; border-bottom-style: dashed; padding: 2px 5px;" class="td_border"> <b> <div class="div_border">Firstname: </div> </b> </td> <td style="padding: 2px 5px; border-radius: 10px 10px 10px 0px; background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(234, 234, 234, 0.7) ); word-break: break-all; max-width: 15%;"> {{user.firstname}} </td> </tr>
+		<tr> <td style="width: 120px; border-radius: 10px 10px 0px 15px; border-bottom-style: dashed; padding: 2px 5px;" class="td_border"> <b> <div class="div_border"> Lastname: </div> </b> </td> <td style="padding: 2px 5px; border-radius: 10px 10px 10px 0px; background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(234, 234, 234, 0.7) ); word-break: break-all; max-width: 15%;"> {{user.lastname}} </td> </tr>
+		<tr> <td style="width: 120px; border-radius: 10px 10px 0px 15px; border-bottom-style: dashed; padding: 2px 5px;" class="td_border"> <b> <div class="div_border"> Type: </div> </b> </td> <td style="padding: 2px 5px; border-radius: 10px 10px 10px 0px; background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(234, 234, 234, 0.7) ); word-break: break-all; max-width: 15%;"> 
+
+		{{user.type}} 
+
+		</td> </tr>
+		<tr> <td style="width: 120px; border-radius: 10px 10px 0px 15px; border-bottom-style: dashed; padding: 2px 5px;" class="td_border"> <b> <div class="div_border"> Email: </div> </b> </td> <td style="padding: 2px 5px; border-radius: 10px 10px 10px 0px; background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(234, 234, 234, 0.7) ); word-break: break-all; max-width: 15%;"> {{user.email}} </td> </tr>
+	</table>
+
+
+	<div class="btn_div" style="margin-top: 5px;">
+
+	<table class="btn_table" style="width: 100%;">
+
+ 	<tr>
+
+	<td><a href="/users/edit" title="Edit your personal user data">Edit User</a></input></td>
+	<td><a href="/users/delete" title="Deletes your user permanently">Delete User</a></input></td>
+
+ 	</tr>
+
+ 	</table>
+
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	</td>  
+
+
+
+
+ 	<td class="btn_div">
+
+	<table id="admin_btn_table" class="btn_table" style="width: 100%;">
+
+ 	<tr>
+
+	<td><a href="/messages/create_message:" title="View all your discussions">Discussions</a></td>
+	<td><a href="/assignments/create_assignment:" title="Add an assignment">Add Assignment</a></input></td>
+
+ 	</tr>
+
+ 	<tr>
+
+	<td><a href="/discussions/create_discussion:" title="Edit discussions">Edit Discussions</a></td>
+	<td><a href="/assignments/view_assignments:" title="View all your assignments">Assignments</a></input></td>
+
+
+ 	</tr>
+
+ 	<tr>
+
+	<td><a href="/users/edit_users:" title="Edit users">Edit Users</a></input></td>
+	<td><a href="/users/view_censored_words" title="View all your censored words">Censored Words</a></td>
+
+
+ 	</tr>
+ 	<tr>
+
+	<td><a href="/users/view_admin_users" title="View all users">Admin: View users</a></td>
+	<td><a href="/discussions/view_admin_discussions" title="View all discussions">Admin: View discussions</a></td>
+
+
+ 	</tr>
+	<tr>
+
+	<td><a href="/assignments/view_assignments:all" title="View all assignments">Admin: View assignments</a></td>
+	<td><a href="/assignments/view_admin_topics" title="View all topics">Admin: View topics</a></td>
+
+ 	</tr>
+
+	<tr>
+
+	<td><a href="/admin_email" title="Send emails to any users">Admin: Send emails</a></td>
+	<td><a href="/toggle_maintenance" title="Put website under maintenance !Only administrators are going to be able to log in!">Admin: Toggle Maintenance</a></td>
+
+ 	</tr>
+
+
+ 	</table>
+
+
+
+
+
+
+
+
+
+	<table id="moderator_btn_table" class="btn_table" style="width: 100%;">
+
+ 	<tr>
+
+	<td><a href="/messages/create_message:" title="View all your discussions">Discussions</a></td>
+	<td><a href="/assignments/create_assignment:" title="Add an assignment">Add Assignment</a></input></td>
+
+ 	</tr>
+
+ 	<tr>
+
+	<td><a href="/discussions/create_discussion:" title="Edit discussions">Edit Discussions</a></td>
+	<td><a href="/assignments/view_assignments:" title="View all your assignments">Assignments</a></input></td>
+
+
+ 	</tr>
+
+ 	<tr>
+
+	<td><a href="/users/view_censored_words" title="View all your censored words">Censored Words</a></td>
+
+
+ 	</tr>
+
+ 	</table>
+
+
+
+
+
+
+
+
+	<table id="regular_btn_table" class="btn_table" style="width: 100%;">
+
+ 	<tr>
+
+	<td><a href="/messages/create_message:" title="View all your discussions">Discussions</a></td>
+	<td><a href="/assignments/view_assignments:" title="View all your assignments">Assignments</a></input></td>
+ 	</tr>
+
+ 	<tr>
+
+	<td><a href="/users/view_censored_words" title="View all your censored words">Censored Words</a></td>
+
+
+ 	</tr>
+
+ 	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+ 	
+
+
+ 	</td> 
+
+	<script>
+
+	// based on the type of user that is signed in, determine which table of options they should be shown
+	user_type = `{{user.type}}`;
+	admin_btn_table = document.getElementById("admin_btn_table")
+	moderator_btn_table = document.getElementById("moderator_btn_table")
+	regular_btn_table = document.getElementById("regular_btn_table")
+
+	if ( user_type == "admin" )
+	{
+		moderator_btn_table.style.display = "none";
+		regular_btn_table.style.display = "none";
+	}
+
+	if ( user_type == "moderator" )
+	{
+		admin_btn_table.style.display = "none";
+		regular_btn_table.style.display = "none";
+	}
+
+	if ( user_type == "regular" )
+	{
+		admin_btn_table.style.display = "none";
+		moderator_btn_table.style.display = "none";
+	}
+
+	const dashboard = document.getElementById("dashboard");
+	const dashboard_style = window.getComputedStyle(dashboard, null);
+
+	// let dashboard_width = dashboard_style.getPropertyValue("width");
+
+	// dashboard.style.marginLeft = "calc(50% - " + dashboard_width + " )";
+
+	// console.log(dashboard_width);
+
+	</script>
+
+	<!-- theming panel -->
+
+	<td style="width: 33%; padding-top:10px">
+	<h3 style="margin: 0px 0px 10px 10px;"> Select a color </h3>
+
+		<table style="table-layout: fixed; width: 100%;">
+		<tr> <td style="width:47px !important;"> <input type="color" id="color_picker" style="margin: none;"></input> </td>
+		<td style="width: 135px !important;"> <a id="color_href" title="Make the current theme available for use every time you log in" href="">Save theme</a> </td>
+		<td>
+
+
+ 		<table>
+ 			<tr>
+ 			<td><input class="user_theme theme_btn" tc="#D1D1D1" df=15 type="button"></input></td>
+ 			<td><input class="user_theme theme_btn" tc="#D1D1D1" df=15 type="button"></input></td>
+ 			<td><input class="user_theme theme_btn" tc="#D1D1D1" df=15 type="button"></input></td>
+ 			<td><input class="user_theme theme_btn" tc="#D1D1D1" df=15 type="button"></input></td>
+ 			</tr>
+
+ 			</table>
+ 			</td>
+			<tr> <td name="color_diff" colspan="2"><input type="range" form="color" id="color_diff" value="35"> </input></td>
+			
+			<td>
+			<table>
+ 			<tr>
+			<td><a title="Deletes the saved user theme above it" class="delete_user_theme_btn" href="/virtual:@0">×</a></td>
+			<td><a title="Deletes the saved user theme above it" class="delete_user_theme_btn" href="/virtual:@1">×</a></td>
+			<td><a title="Deletes the saved user theme above it" class="delete_user_theme_btn" href="/virtual:@2">×</a></td>
+			<td><a title="Deletes the saved user theme above it" class="delete_user_theme_btn" href="/virtual:@3">×</a></td>
+ 			</tr>
+			</table>
+
+			</td>
+			</tr>
+ 			
+ 			</table>
+
+
+
+	<div style="width: 80%; border: 3px solid black; padding: 5px 10px 5px 20px !important; border-radius: 10px; margin-top: 10px; margin-left: 3px;">
+	<input class="theme_btn" tc="#ffb900" df=35 type="button"></input>
+	<input class="theme_btn" tc="#FF7300" df=15 type="button"></input>
+	<input class="theme_btn" tc="#FF057E" df=21 type="button"></input>
+	<input class="theme_btn" tc="#fc5b5b" df=17 type="button"></input>
+	<input class="theme_btn" tc="#880EB4" df=21 type="button"></input>
+	<input class="theme_btn" tc="#3CBEAF" df=21 type="button"></input>
+	<input class="theme_btn" tc="#1023B7" df=4 type="button"></input>
+	<input class="theme_btn" tc="#77CB4D" df=23 type="button"></input>
+	<input class="theme_btn" tc="#32CE68" df=23 type="button"></input>
+	<input class="theme_btn" tc="#A80B0B" df=17 type="button"></input>
+	<input class="theme_btn" tc="#A87171" df=21 type="button"></input>
+	<input class="theme_btn" tc="#EBEBEB" df=51 type="button"></input>
+	<input class="theme_btn" tc="#878787" df=25 type="button"></input>
+	<input class="theme_btn" tc="#5E5E5E" df=33 type="button"></input>
+	</div>
+
+<script>
+
+</script>
+
+	<script>
+
+	// bind theme buttons to their functions
+
+	const theme_btns = document.getElementsByClassName( "theme_btn" ); // the theme is stored within "tc" and "df" attributes in each element with the theme_btn class. Their data will be used within the following Js code.
+
+	// attach a function to the onclick event of each theme_btn entry
+	for (let item of theme_btns)
+	{
+		item.addEventListener( "click", function(){
+		change_colors_btn( item.getAttribute("tc"), item.getAttribute("df") );
+	});
+	}
+
+	// custom tooltps using js, since the default CSS ones did not function
+	for (let item of theme_btns)
+	{
+		item.style.backgroundColor = item.getAttribute("tc");
+		item.setAttribute("title", "Color: " + item.getAttribute("tc") + ", Slider: " + String(item.getAttribute("df")));
+		item.setAttribute("onmouseover", "show_js_title(\"Color: " + item.getAttribute("tc") + ", Slider: " + String(item.getAttribute("df"))  + "\")");
+		item.setAttribute("onmouseleave", "hide_js_title()");
+	}
+
+	</script>
+
+	<style>
+
+	.theme_btn
+	{
+		width: 38px !important;
+		height: 38px !important;
+		border-color: rgba(0, 0, 0, 0.6) !important;
+		border-width: 4px !important;
+		margin: none !important;
+	}
+
+	.theme_btn:hover
+	{
+		border-color: rgba(0, 0, 0, 0.2) !important;
+	}
+
+	</style>
+
+
+	<table style="margin-top: 5px;"><tr>
+	<td><table id="generated_colors"></table></td>
+	<td>
+		
+		<a id="apply_theme" title="Apply the current theme thoughout all webpages" href="/#"> <br/><br/> Apply theme <br/><br/> </a>
+
+	</td>
+
+	</tr></table>
+
+	</td> </tr>
+	</table>
+
+
+</div>
+
+
+
+<script>
+
+	// code for theming
+
+	var color_picker = document.getElementById("color_picker");
+
+	var color_diff = document.getElementById("color_diff");
+
+	var color_href = document.getElementById("color_href");
+
+	// set the color of the color picker and the value of the slider to the values stored in localStorage (on the front-end)
+	col = "#" + localStorage.getItem("tc");
+	diff = Number( localStorage.getItem("tc_diff") );
+
+	color_picker.setAttribute("value", col);
+	color_diff.value = diff;	
+	
+	// change what is in the GET request, to match the localStorage values
+	color_href.setAttribute("href", "/virtual:" + localStorage.getItem("tc") + "&" + String(localStorage.getItem("tc_diff")));
+
+	// connect the color picker and slider to the functions that change the colors of the whole ui
+	color_picker.addEventListener("change", change_colors, false);
+	color_diff.addEventListener("change", change_colors, false);
+
+
+
+	// changes the colors of the ui using the see_colors() function, after changing the localStorage values and the GET urls that are activated onclick
+	function change_colors(col, diff) {
+		if ( typeof col == 'object' )
+		{
+			// alert("gets")
+			col = color_picker.value;
+			diff = Number( color_diff.value );
+			color_picker.setAttribute("value", String(col))
+			color_diff.setAttribute("value", String(diff))
+			window.localStorage.setItem("tc", color_picker.value);
+			window.localStorage.setItem("tc_diff", color_diff.value);
+		}
+		// console.log( color_diff.value );
+
+		console.log( "col" )
+		console.log( col )
+		console.log( typeof col )
+		console.log( "diff" )
+		console.log( diff )
+
+		color_href.setAttribute("href", "/virtual:" + String(col).slice(1) + "&" + String(diff));
+
+		logout = document.getElementById("logout");
+		apply = document.getElementById("apply_theme");
+			str = "/users/logout:" + String(col).slice(1) + "@" + String( diff );
+		logout.setAttribute("href", str);
+		apply.setAttribute("href", str + "@");
+		console.log(str);
+
+		see_colors( color_picker.value );
+	}
+
+	// function that uses the previous function after also setting the values of the color picker and of the slider to match the data store within the previousely mentioned theme_btn entries
+	function change_colors_btn(col, diff) {
+		localStorage.setItem("tc", col);
+		localStorage.setItem("tc_diff", diff);
+		color_picker.value = col;
+		color_diff.value = diff;	
+
+		color_picker.setAttribute("value", String(col))
+		color_diff.setAttribute("value", String(diff))
+
+		// see_colors(col);
+		change_colors( col, diff );
+	}
+
+
+
+    // turn the custom db-stored user themes into a frontend-usable Js variable
+	themes = "{{user.themes}}";
+
+	if (themes.includes(','))
+	{
+
+    themes = themes.replace(/&quot;/g,'"').split("&amp;");
+
+    console.log(themes);
+
+	custom = document.getElementsByClassName("user_theme");
+
+	// fill the custom user theme buttons with the theme the user saed to the db (change the color of the button that applies that theme)
+	for (i = 0; i < themes.length; i = i + 1)
+	{
+		e = themes[i].split(",");
+		custom[i].style.backgroundColor = "#" + e[0];
+		custom[i].setAttribute("tc", "#" + e[0]);
+		custom[i].setAttribute("tc_diff", Number(e[1]));
+		custom[i].disabled = false;
+	}
+
+	// disable all the custom user theme buttons that the user has not chosen a theme for yet (each user can choose up to 4 themes, but may wish to have less, case in which some buttons have to be disabled)
+	if (themes.length != 4)
+		for (k = 3; k >= themes.length; k = k - 1)
+		{
+			console.log(custom[k])
+			custom[k].disabled = true;
+			custom[k].setAttribute("disabled", "true");
+		}
+	}
+
+	thme = `{{user.theme}}`
+	if ( thme != "" )
+	{
+		thme = thme.split(',');
+		color_href.setAttribute("href", "/virtual:" + thme[0] + "&" + thme[1]);
+	}
+
+</script>

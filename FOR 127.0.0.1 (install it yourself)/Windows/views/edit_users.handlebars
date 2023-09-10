@@ -1,0 +1,539 @@
+<script> pg_title = "Edit users"; localStorage.setItem("refresh", true); </script>
+<h1>Edit users</h1>
+
+
+<!-- tell the user that their username is already in use by another user and that they have to chose another one -->
+{{#if users}}
+<script>
+    var users = `{{users}}`;
+    var user = `{{user}}`;
+    var edit_user_id = `{{edit_user_id}}`;
+    var user_id = `{{user_id}}`;
+</script>
+{{/if}}
+
+
+
+{{#if error}}
+    <div class="error"><b>{{error}}</b></div>
+    <script>
+      console.log("{{error}}");
+    </script>
+{{/if}}
+<div class="text_border" style="width: fit-content;">
+
+<form id="form" method="post" action="/users/edit_users">
+<!-- <div class="error" style="width: 390px;">Changing users here allows you to <b>bypass system restrictions</b> (e.g. password requirements). As such, be careful with the data you enter.</div>
+<hr/> -->
+<div style="height: 7px"></div>
+<div class="error" style="width: 390px;"><b>Alphanumerical</b> characters are recomanded for all fields. Use anything else (besides the @ in the email) to risk the application crashing.<br/><br/>This applies to <b>all data</b>, not just user data.</div>
+  <table>
+  <tr>
+    <td style="width:189px;">Firstname</td>
+    <td><input type="text" placeholder="{{user.firstname}}" value="{{user.firstname}}" name="firstname"></input></td>
+  </tr>
+  <tr>
+    <td>Lastname</td>
+    <td><input type="text" placeholder="{{user.lastname}}" value="{{user.lastname}}" name="lastname"></input></td>
+  </tr>
+  <tr>
+    <td>Username</td>
+    <td><input type="text" placeholder="{{user.username}}" value="{{user.username}}" name="username"></input></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><input type="text" placeholder="{{user.email}}" value="{{user.email}}" name="email"></input></td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td><input id="pwd1" type="password" class="password" placeholder="Hidden for your security!" name="password"></input></td>
+  </tr>
+  <tr>
+    <td><div id="pwd_restrictions"></div></td>
+    <td><div id="pwd_length"></div></td>
+  </tr>
+  <tr>
+    <td>Confirm Password</td>
+    <td><input id="pwd2" type="password" class="password" placeholder="Confirm new password" name="password2"></input></td>
+  </tr>
+  <tr>
+    <td><div id="pwd_compare"></div></td>
+  </tr>
+  <tr>
+    <td>Gender</td>
+    <td><input type="text" placeholder="Gender" name="gender" placeholder="{{user.gender}}" value="{{user.gender}}"></td>
+  </tr>
+  <tr>
+    <td>Date of birth</td>
+    <td><input type="date" placeholder="Date of birth" name="date_of_birth" style="width: calc(100% - 26px); height: 17px;" id="date_of_birth"></td>
+  </tr>
+  <tr>
+    <td>Details</td>
+    <td><textarea id="details" name="details" placeholder="{{user.details}}">{{user.details}}</textarea></td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td><input type="text" placeholder="Phone" name="phone" placeholder="{{user.phone}}" value="{{user.phone}}"></td>
+  </tr>
+  <tr>
+    <td>Alias</td>
+    <td><input type="text" placeholder="Alias" name="alias" placeholder="{{user.alias}}" value="{{user.alias}}">
+    <input type="text" name="id" style="display: none;"></td>
+  </tr>
+  </table>
+  <input id="password_visibility_toggle" type="checkbox"></input>
+  <span style="margin-left: 10px;">Make password visible  </span>
+  <br/>
+  <br/>
+
+  <script>
+
+
+
+  restrictions_on = true;
+
+
+  // make sure that the chosen password meets all the required security standards
+  function verif_password()
+  {
+    submit = document.getElementById('e_submit');
+
+    if ( restrictions_on == false )
+      return;
+
+    var pwd1 = document.getElementById("pwd1");
+    var pwd2 = document.getElementById("pwd2");
+
+    r_value = false;
+
+    var pwd = pwd1.value;
+
+    var have_upper = 0;
+    var have_digit = 0;
+
+    for (i = 65; i <= 90; i++) // check if the password has an uppercase letter
+      if (pwd.includes( String.fromCharCode(i) ))
+      {
+        have_upper = 1;
+        break;
+      }
+    
+    for (i = 0; i <= 9; i = i + 1) // check if the password has a digit
+      if (pwd.includes( String(i) ))
+      {
+        have_digit = 1;
+        break;
+      }
+
+    var pwd_restrictions = document.getElementById("pwd_restrictions");
+
+  // based on what the user has or does not have in their password, tell them what they have to add
+
+    console.log(have_digit)
+    console.log(have_upper)
+
+    if ( !have_digit && have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add digit to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+    if ( have_digit && !have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add uppercase letter <br> to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+
+    if ( !have_digit && !have_upper )
+    {
+      pwd_restrictions.style.display = "initial";
+      pwd_restrictions.innerHTML = "<div>Add uppercase letter <br> and digit to password</div>";
+      submit.setAttribute("disabled", true);
+    }
+
+    if ( have_digit && have_upper )
+    {
+      pwd_restrictions.style.display = "none";
+    }
+
+
+    var pwd_length = document.getElementById("pwd_length");
+
+    if ( pwd.length < 8 ) // check chosen password to have the required length
+    {
+      pwd_length.innerHTML = "<div>Length: " + String( pwd.length ) + " Add: " + String(8 - pwd.length) + "</div>";
+      pwd_length.style.display = "initial";
+      submit.setAttribute("disabled", true);
+    }
+    else
+    {
+      pwd_length.style.display = "none";
+    }
+
+    if ( pwd1.value == pwd2.value && String( submit.getAttribute( 'disabled' ) ) != "" && have_upper && have_digit && pwd.length >= 8 )
+    {
+      submit.removeAttribute('disabled');
+      r_value = true;
+    }
+
+    return r_value;
+  }
+
+    // verif_password();
+
+    gone_past = false;
+
+    restrictions_on = false; // theyll get toggled onload
+    var pwd_restrictions = document.getElementById("pwd_restrictions");
+    var pwd_length = document.getElementById("pwd_length");
+    function toggle_restrictions()
+    {
+      inp = document.getElementsByTagName("input");
+
+      if ( restrictions_on == false )
+        restrictions_on = true;
+      else
+        restrictions_on = false;
+
+      if ( restrictions_on == true )
+      {
+        for ( i = 3; i < 13; i = i + 1 ) // excludes hidden id input
+          inp[i].setAttribute("required", "");
+
+        pwd_restrictions.style.display = "block";
+        pwd_length.style.display = "block";
+        if ( gone_past == true )
+        verif_password();
+      }
+
+      if ( restrictions_on == false )
+      {
+        for ( i = 3; i < 13; i = i + 1 ) // excludes hidden id input
+          inp[i].removeAttribute("required");
+
+        pwd_restrictions.style.display = "none";
+        pwd_length.style.display = "none";
+        if ( String( submit.getAttribute("disabled") ) != "" )
+          submit.removeAttribute("disabled");
+      }
+
+
+
+    }
+    toggle_restrictions();
+
+
+
+    gone_past = true
+  </script>
+
+  <input id="e_restrictions" onchange="toggle_restrictions()" name="restrictions" type="checkbox" checked></input>
+  <span style="margin-left: 10px;">Enable restrictions </span>
+  <br/>
+  <br/>
+  <input id="e_submit" type="submit" value="Change user details"></input>
+</form>
+</div>
+
+<div class="text_border" style="width: fit-content; position: absolute; {{#unless error}} top: 180px; {{/unless}}{{#if error}} top: 239px; {{/if}} left: 36%;">
+
+  Edit user
+
+  <select onchange="fill_form(this)" id="edit_user_select"></select>
+
+  <div style="height: 7px"></div>
+  <hr/>
+  <div style="height: 7px"></div>
+
+  <form action="/users/delete_user" method="post">
+  Delete user
+
+    <select id="delete_user_select" name="delete_user_select"></select>
+
+    <div style="height: 7px"></div>
+
+    <input type="submit" value="Delete user"></input>
+
+  </form>
+
+  <div style="height: 7px"></div>
+  <hr/>
+  <div style="height: 7px"></div>
+
+
+  <form action="/users/ban_user" method="post">
+  Ban user
+
+    <select onchange="toggle_ban_btn(this)" id="ban_user_select" name="ban_user_select"></select>
+
+    <div style="height: 7px"></div>
+
+    <input type="submit" id="ban_btn" value="Ban user"></input>
+
+  </form>
+
+
+</div>
+
+
+<script>
+
+
+  ban_btn = document.getElementById("ban_btn");
+  function toggle_ban_btn(e)
+  {
+    u = users[e.selectedIndex];
+    if ( typeof u.banned != 'undefined' )
+    {
+      if ( u.banned )
+        ban_btn.value = "Unban user";
+      else
+        ban_btn.value = "Ban user";
+    }
+    else
+      ban_btn.value = "Ban user";
+  }
+
+  users = users.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  users = JSON.parse(users);
+
+  console.log(users);
+
+  edit_user_select = document.getElementById("edit_user_select");
+
+  inner = "";
+  for ( i = 0; i < users.length; i = i + 1 )
+  {
+    inner = inner + "<option value=\"" + users[i]._id + "\" >" + users[i].username + " ( " + users[i].firstname + ' ' + users[i].lastname + " )</option>";
+  }
+
+  edit_user_select.innerHTML = "<option style=\"display:none\" disabled selected value> -- select a user -- </option>" + inner;
+
+
+
+  delete_user_select = document.getElementById("delete_user_select");
+  delete_user_select.innerHTML = inner;
+
+
+
+  inner = "";
+  for ( i = 0; i < users.length; i = i + 1 )
+  {
+    if ( typeof users[i].banned == 'undefined' )
+    inner = inner + "<option value=\"" + users[i]._id + "\" >" + users[i].username + " ( " + users[i].firstname + ' ' + users[i].lastname + " )</option>";
+    else
+    {
+      if ( users[i].banned == true )
+        inner = inner + "<option value=\"" + users[i]._id + "!banned\">" + users[i].username + " ( " + users[i].firstname + ' ' + users[i].lastname + " )</option>";
+      else
+        inner = inner + "<option value=\"" + users[i]._id + "\">" + users[i].username + " ( " + users[i].firstname + ' ' + users[i].lastname + " )</option>";
+    }
+  }
+
+  ban_user_select = document.getElementById("ban_user_select");
+  ban_user_select.innerHTML = inner;
+
+  ban_user_select.selectedIndex = 0;
+  toggle_ban_btn(ban_user_select);
+
+
+  options = document.getElementsByTagName("option");
+  for ( i = 0; i < options.length; i = i + 1 )
+    if ( options[i].value == edit_user_id )
+      options[i].setAttribute("selected", "");
+
+  function fill_form(e)
+  {
+    user = users[e.selectedIndex-1];
+
+    inp = document.getElementsByTagName("input");
+
+    inp[3].value = user.firstname;
+    inp[4].value = user.lastname;
+    inp[5].value = user.username;
+    inp[6].value = user.email;
+    // inp[7].value = user.password;
+    // inp[8].value = user.password2;
+    inp[9].value = user.gender;
+    inp[10].value = user.date_of_birth;
+    inp[11].value = user.phone;
+    inp[12].value = user.alias;
+    inp[13].value = user._id;
+ 
+
+    document.getElementById("details").value = user.details.replace(/&lt;br\/&gt;/g, "\r\n");
+
+  }
+
+
+
+  for ( i = 0; i < users.length; i = i + 1 )
+    if ( users[i]._id == edit_user_id )
+    {
+      user = users[i];
+
+      inp = document.getElementsByTagName("input");
+
+      inp[3].value = user.firstname;
+      inp[4].value = user.lastname;
+      inp[5].value = user.username;
+      inp[6].value = user.email;
+      // inp[7].value = user.password;
+      // inp[8].value = user.password2;
+      inp[9].value = user.gender;
+      inp[10].value = user.date_of_birth;
+      inp[11].value = user.phone;
+      inp[12].value = user.alias;
+      inp[13].value = user._id;
+   
+
+      document.getElementById("details").value = user.details.replace(/&lt;br\/&gt;/g, "\r\n");
+
+      break;
+    }
+  
+
+
+  // toggle password visibility
+  var pvt = document.getElementById("password_visibility_toggle");
+  var p = document.getElementsByClassName("password");
+
+  pvt.addEventListener( "click", function(){
+    if (pvt.checked)
+    {
+      p[0].setAttribute("type", "text");
+      p[1].setAttribute("type", "text");
+    }
+    else
+    {
+      p[0].setAttribute("type", "password");
+      p[1].setAttribute("type", "password");
+    }
+  });
+
+
+
+  // makes sure that the password was confirmed correctly, when typed in the 2nd time
+  function compare_passwords()
+  {
+    var pwd1 = document.getElementById("pwd1");
+    var pwd2 = document.getElementById("pwd2");
+    submit = document.getElementById('e_submit');
+
+    var pwd_compare = document.getElementById("pwd_compare");
+
+    if (pwd1.value != pwd2.value)
+    {
+      pwd_compare.innerHTML = "<div>Different passwords!</div>"
+      pwd_compare.style.display = "initial";
+      submit.setAttribute("disabled", true);
+    }
+    else
+    {
+      pwd_compare.style.display = "none";
+      if ( pwd1.value != "" && String( submit.getAttribute( 'disabled' ) ) != "" && verif_password() == true )
+        submit.removeAttribute('disabled');
+    }
+
+  }
+
+  compare_passwords();
+  // make the previous functions execute every time the user inputs something in the password fields
+  document.getElementById("pwd1").oninput = function(){ verif_password(); compare_passwords()};
+
+  document.getElementById("pwd2").oninput = function(){ compare_passwords()};
+
+  var date_of_birth = "{{user.date_of_birth}}";
+
+  var dob = document.getElementById("date_of_birth");
+  date_of_birth = date_of_birth.substr(0, 10);
+  dob.value = date_of_birth;
+</script>
+
+{{#if registering_user}}
+    <script>
+
+      // if the user's chosen username was already in use, the application is able to save all their data and send it back to the front-end so the user does not have to re-enter it
+      var user = "{{registering_user}}";
+
+      user = JSON.parse(user.replace(/&quot;/g,'"'));
+
+      console.log(user);
+
+      var date_of_birth = "{{registering_user.date_of_birth}}";
+
+      // date_of_birth = JSON.parse(date_of_birth.replace(/&quot;/g,'"'));
+
+      var dob = document.getElementById("date_of_birth");
+      date_of_birth = date_of_birth.substr(0, 10);
+
+      // dob.setAttribute("value", date_of_birth)
+      dob.value = date_of_birth;
+
+      var inputs = document.getElementsByTagName("input")
+
+      var inputs = Array.prototype.slice.call( inputs )
+      for (var i = 0; i < 3 ; i = i + 1)
+        inputs.shift();
+
+
+      j = 0;
+      console.log(user[2]);
+      for (var i = 0; i < inputs.length - 2; i = i + 1) {
+        {{#unless noskip}}
+        if ( !user[2].includes('@') && i == 3)
+        {
+            inputs[i].setAttribute( "placeholder", "Choose another email!" );
+            inputs[i].value = "";
+           continue;
+        }
+        if ( user[2].includes('@') && i == 2)
+        {
+          inputs[i].setAttribute( "placeholder", "Choose another username!" );
+          inputs[i].value = "";
+          continue;
+        }
+        {{/unless}}
+        if (i == 8)
+          j = j + 1;
+        inputs[i].value = user[j];
+        j = j + 1;
+      }
+
+      textarea = document.getElementById("details");
+      textarea.innerHTML = user[8].replace(/&lt;br\/&gt;/g, "\r\n");
+
+      e_submit = document.getElementById("e_submit");
+      e_submit.value = "Change user details";
+
+      e_restrictions= document.getElementById("e_restrictions");
+      e_restrictions.value = '1';
+
+    </script>
+{{/if}}
+
+<style>
+  #pwd_restrictions, #pwd_length, #pwd_compare
+  {
+    padding: 0px !important;
+  }
+
+  #pwd_restrictions div, #pwd_length div, #pwd_compare div
+  {
+    font-size: 11px;
+    border: 3px solid var(--tc_1);
+    margin: 0px;
+    position: relative;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    vertical-align: middle;
+  }
+
+</style>

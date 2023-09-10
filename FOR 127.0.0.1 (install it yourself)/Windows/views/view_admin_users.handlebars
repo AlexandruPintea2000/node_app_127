@@ -1,0 +1,120 @@
+<h1>View users</h1>
+<script> pg_title = "View users"; localStorage.setItem("refresh", true); </script>
+
+{{#if only_admin}}
+  <br/>
+  <div class="error">Your changes would leave no administrators! There must be at least one administrator user at all times!</div>
+{{/if}}
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+  <div style="font-size: 27px; margin-left: 7px"> Beware! User deletions happen immediatly after you press the <img src='/images/delete.png' style='width: 25px; margin-bottom: -5px'> delete button! </div>
+  <br/>
+
+ <table class="admin_table" id="users_table">
+  </table>
+</div>
+
+{{#if u}}
+<script>
+function convert(str) { // function for converting a date
+  var date = new Date(str),
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+  return [date.getFullYear(), mnth, day].join("-");
+}
+
+
+var u = `{{u}}`;
+
+u = u.replace(/&quot;/g,'"').replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&#x3D;/g, "=");
+
+u = JSON.parse(u)
+
+users_table = document.getElementById("users_table");
+
+// fill in the users table with the discussion data
+
+inner = "<tr><th>Username</th><th>Firstname</th><th>lastname</th><th>email</th><th>gender</th><th>date_of_birth</th><th>alias</th><th>type</th><th>banned</th><th><img src='/images/edit.png'></th><th><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></th></tr><tr><td colspan=11 style='background-color: var(--tc_1); border-width: 0px;'></tr>";
+for ( i = 0; i < u.length; i = i + 1 )
+{
+  console.log(u[i]);
+  inner = inner + "<tr>"
+
+  inner = inner + "<td><a href='/users/view_user:" + u[i].id + "'>" + u[i].username + "</a></td>"
+  inner = inner + "<td>" + u[i].firstname + "</td>"
+  inner = inner + "<td>" + u[i].lastname + "</td>"
+  inner = inner + "<td>" + u[i].email + "</td>"
+  if ( u[i].gender == "male" || u[i].gender == "female" )
+  {
+    if ( u[i].gender == "male" )
+      inner = inner + "<td style='color: rgb(65, 0, 234);'>" + u[i].gender + "</td>"
+    else
+      inner = inner + "<td style='color: rgb(234, 0, 65);'>" + u[i].gender + "</td>"
+  }
+  else
+    inner = inner + "<td>" + u[i].gender + "</td>"
+  inner = inner + "<td>" + convert(u[i].date_of_birth) + "</td>"
+  inner = inner + "<td>" + u[i].alias + "</td>"
+  if ( typeof u[i].type != 'undefined' )
+  {
+    if ( u[i].type == "admin" )
+      inner = inner + "<td style='color: rgb(234, 0, 65);' class='user_type' db_id='" + u[i].id + "'>" + u[i].type + "</td>"
+    if ( u[i].type == "moderator" )
+      inner = inner + "<td style='color: rgb(134, 34, 134);' class='user_type' db_id='" + u[i].id + "'>" + u[i].type + "</td>"
+    if ( u[i].type == "regular" )
+      inner = inner + "<td style='color: rgb(34, 175, 34);' class='user_type' db_id='" + u[i].id + "'>" + u[i].type + "</td>"
+  }
+  else
+    inner = inner + "<td style='color: rgb(0, 144, 65);'>regular</td>"
+  if ( typeof u[i].banned != 'undefined' )
+  {
+    if ( u[i].banned == true )
+      inner = inner + "<td><a style='color: rgb(234, 0, 65); text-decoration: none;' href='/users/edit_users:" + u[i].id + "'>" + u[i].banned + "</a></td>"
+    else
+      inner = inner + "<td><a style='color: rgb(0, 174, 65); text-decoration: none;' href='/users/edit_users:" + u[i].id + "'>" + u[i].banned + "</a></td>"
+  }
+  else
+    inner = inner + "<td><a style='color: rgb(0, 234, 65); text-decoration: none;' href='/users/edit_users:" + u[i].id + "'>never</a></td>"
+
+  inner = inner + "<td><a href='/users/edit_users:" + u[i].id + "'><img src='/images/edit.png'></td>"
+  inner = inner + "<td><a href='/users/delete_user:" + u[i].id + "'><img src='/images/delete.png' style='width: 15px; margin-top: 2px'></td>"
+
+
+  inner = inner + "</tr>"
+}
+
+users_table.innerHTML = inner;
+
+user_type = document.getElementsByClassName("user_type");
+console.log("user_type")
+console.log(user_type)
+for ( i = 0; i < user_type.length; i = i + 1 )
+{
+  user_type[i].addEventListener("mouseover", function(){
+    if ( this.hasAttribute("inner") )
+      return;
+
+    initial_type = this.innerText;
+    id = this.getAttribute("db_id");
+    this.setAttribute("inner", initial_type);
+    inner = "";
+    if ( initial_type != "regular" )
+      inner = inner + "<a href='/users/change_type:" + id + "!regular' class='user_type'>regular</a>";
+    if ( initial_type != "admin" )
+      inner = inner + "<a href='/users/change_type:" + id + "!admin' class='user_type'>admin</a>";
+    if ( initial_type != "moderator" )
+      inner = inner + "<a href='/users/change_type:" + id + "!moderator' class='user_type'>moderator</a>";
+    this.innerHTML = inner;
+  });
+
+  user_type[i].addEventListener("mouseleave", function(){
+    if ( !this.hasAttribute("inner") )
+      return;
+
+    this.innerHTML = this.getAttribute("inner");
+    this.removeAttribute("inner");
+  });
+}
+
+</script>
+{{/if}}

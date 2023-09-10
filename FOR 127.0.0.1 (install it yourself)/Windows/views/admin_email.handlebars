@@ -1,0 +1,215 @@
+<h1>Email users</h1>
+{{#if users}}
+<script>
+var users = `{{users}}`;
+</script>
+{{/if}}
+
+{{#if sent}} <!-- tell the admin their message was sent, if it was -->
+    <div class="error">The email was sent sucessfully!</div>
+    <script>
+      console.log("{{msg}}");
+    </script>
+{{/if}}
+
+<script> pg_title = "Email users"; </script>
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px;">
+
+
+  <form method="post" action="/admin_email"> <!-- send an email though a POST request -->
+  <span style="margin: 0px; margin-left: 8px; font-size: 21px; color: var(--tc_3)"><b> Email the following users: </b></span>
+
+  <div id="dropdown_container">
+      <input style="display:none;" type="text" name="ids" id="ids"> </input>
+      <div id="selected_usernames"> </div>
+      <select style="width:calc(100% - 2px)" id="discussion_maker">
+      </select>
+    </div>
+    <table><tr>
+    <td><div class="small_btn" id="add_user_btn"> + </div></td>
+    <td><div class="small_btn" id="remove_user_btn"> - </div></td>
+  </tr></table>
+  <input placeholder="Subject" type="text" name="subject" style="width: calc(100% - 25px );" title="Enter the topic of your inquiry">
+  <br/>
+  <br/>
+
+  <textarea style="border: 3px solid var(--tc_3);" placeholder="Enter your message here!" cols=45 rows=15 name="text"></textarea>
+  <br/>
+  <br/>
+
+  <input style="border: 3px solid var(--tc_3);" type="submit" value="send"></input>
+
+  </form>
+
+</div>
+<script>
+  
+  // fill the users dropdown with users
+  users = users.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  users = JSON.parse(users);
+
+  console.log(users);
+
+  dropdown = document.getElementById("discussion_maker"); 
+  selected_usernames = document.getElementById("selected_usernames");
+  container = document.getElementById("dropdown_container");
+  ids = document.getElementById("ids");
+  banned_ids = document.getElementById("banned_ids");
+
+  ids_arr = [];
+  usernames_arr = [];
+  
+  // add the users to the dropdown, so that the user can make them members of the created discussion
+  function fill_dropdown () 
+  {
+    inner = "";
+    gets = 0;
+    for (i = 0; i < users.length; i = i + 1)
+    {
+      if (ids_arr.includes( users[i].id )) // do not include already chosen users in the dropdown
+        continue;
+      inner = inner + "<option value=\"" + users[i].id + "\" >" + users[i].username + " ( " + users[i].name + " )</option>";
+      gets = 1;
+    }
+
+    if (gets == 0) // hide the dropdown, if all the users were chosen as members of the discussion
+      dropdown.style.display = "none";
+    else
+      dropdown.style.display = "initial";
+
+    dropdown.innerHTML = inner;
+  }
+
+  // show the chosen users above the dropdown
+  function fill_usernames_and_ids ()
+  {
+    inner = "";
+    for (i = 0; i < usernames_arr.length; i = i + 1)
+    {
+      inner = inner + "<div db_id=\"" + ids_arr[i] + "\" onclick=\"remove_selected_user(this)\" class=\"chosen_user\">" + usernames_arr[i];
+      inner = inner + "</div>";
+    }
+    selected_usernames.innerHTML = inner;
+
+    v = "";
+    for (i = 0; i < ids_arr.length; i = i + 1)
+    {
+      v = v + ids_arr[i];
+      if (i != ids_arr.length - 1)
+        v = v + ",";
+    }
+    ids.setAttribute("value", v); // all the id-s of the users that need to be added as member of the discussiona are stored in an <input type="text">, waiting to be sent to the backend though POST
+  }
+
+  add_user_btn = document.getElementById("add_user_btn");
+  add_user_btn.addEventListener("click", function(){ // each time a new user is added as a member for the discussion, the dropdown has to be refilled (to exclude that user) and their id needs be added to the <iput type="text"> that contains all chosen user ids
+    ids_arr.push(dropdown.options[dropdown.selectedIndex].value);
+    usernames_arr.push(dropdown.options[dropdown.selectedIndex].text);
+
+    fill_usernames_and_ids();
+    fill_dropdown();
+    console.log(ids_arr);
+  });
+
+  remove_user_btn = document.getElementById("remove_user_btn");
+  remove_user_btn.addEventListener("click", function(){ // just like adding users, but the last user is removed from the -d and username arrays, leading to the dropdown being refilled and the chosen user elemnts being remade
+    ids_arr.splice(-1);
+    usernames_arr.splice(-1);
+
+    fill_usernames_and_ids();
+    fill_dropdown();
+    console.log(ids_arr);
+  });
+
+  // fill the dropdown initially
+  fill_dropdown();
+  fill_usernames_and_ids(); // does this even have to be here?
+  
+  // remove a selected user if the admin clicks on it
+  function remove_selected_user(e)
+  {
+    id = e.getAttribute("db_id");
+
+    user_ids = ids_arr;
+    u_arr = usernames_arr;
+
+
+    ids_arr = [];
+
+    iter = 0;
+    for ( i = 0; i < user_ids.length; i = i + 1 )
+    {
+      if ( user_ids[i] != id )
+        ids_arr.push(user_ids[i]);
+      else
+        iter = i;
+    }
+
+    usernames_arr = []
+
+    for ( i = 0; i < u_arr.length; i = i + 1 )
+      if ( i != iter )
+        usernames_arr.push(u_arr[i]);
+
+    fill_usernames_and_ids();
+    fill_dropdown();
+  }
+</script>
+
+<style>
+
+  .small_btn
+  {
+    border: 3px solid var(--tc_3);
+    width: 15px;
+    height: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 23px;
+    padding: 4px 4px 5px 7px;
+    color: var(--tc_3);
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: 0.15s;
+    display: block;
+    margin: 7px 0px 7px 0px;
+  }
+
+  .small_btn:hover
+  {
+    color: var(--tc_1);
+    border-color: var(--tc_1);
+  }
+
+  #dropdown_container
+  {
+    display: block;
+  }
+
+  .chosen_user, .banned_user
+  {
+    border: 3px solid var(--tc_2);
+    border-radius: 7px;
+    padding: 5px 7px;
+    background-color: rgba(255, 255, 255, 0.65);
+    width: fit-content;
+    margin-top: 10px;
+    transition: 0.15s;
+    cursor: not-allowed;
+  }
+
+  .chosen_user:hover, .banned_user:hover { background-color: rgb(234, 123, 145);  }
+
+  #add_user_btn, #ban_user_btn
+  {
+    padding: 3px 5px 8px 7px;
+  }
+
+  #remove_user_btn, #unban_user_btn
+  {
+    padding: 4px 4px 7px 7px;
+    font-size: 27px;
+    line-height:  23px;
+  }
+
+</style>
