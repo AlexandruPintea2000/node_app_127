@@ -23,7 +23,9 @@ function send_socket_msg ()
   // alert(text.value.replace(/\n/g, "_system_enter_"));
 
   socket.emit("msg", { discussion_id: discussion_dropdown.value, text: text.value.replace(/\n/g, "_system_enter_"), r: r, user: user });
+  text.value = "";
 }
+
 
 function notif_users ()
 {
