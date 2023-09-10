@@ -6,6 +6,7 @@ const path = require('path')
 
 var User = require('../models/user');
 
+
 function check_maintenance ()
 {
   is_file = true;
@@ -22,6 +23,17 @@ router.get('*', function(req,res,next){
     next()
 });
 
+router.get('*', function(req,res,next()){
+url = req.originalUrl;
+console.log("gets to the * function");
+axios.get(url).catch((error) => {
+        if (error.errno == -4078) {
+            res.render('404', { previous_url: url });
+      }
+      else
+	next()
+    });
+});
 
 
 // get the user dashboard
