@@ -21,20 +21,29 @@ router.get('*', function(req,res,next){
   if ( check_maintenance() == true && !req.originalUrl.includes("/users/login") && typeof req.session.user == 'undefined' )
     res.render('maintenance');
   else
-    next()
+  {
+    url = req.originalUrl;
+    console.log("gets to the * function");
+    axios.get(url).catch((error) => {
+        if (error.errno == -4078)
+            res.render('404', { previous_url: url });
+        else
+            next()
+    });
+  }
 });
 
-router.get('*', function(req,res,next){
-url = req.originalUrl;
-console.log("gets to the * function");
-axios.get(url).catch((error) => {
-        if (error.errno == -4078) {
-            res.render('404', { previous_url: url });
-      }
-      else
-	next()
-    });
-});
+// router.get('*', function(req,res,next){
+// url = req.originalUrl;
+// console.log("gets to the * function");
+// axios.get(url).catch((error) => {
+//         if (error.errno == -4078) {
+//             res.render('404', { previous_url: url });
+//       }
+//       else
+// 	next()
+//     });
+// });
 
 
 // get the user dashboard
