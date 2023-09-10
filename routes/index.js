@@ -23,7 +23,7 @@ router.get('*', function(req,res,next){
   else
   {
     url = req.originalUrl;
-    url = "https://0.0.0.0:8081" + url;
+    url = "https://nodejs-production-08a6.up.railway.app" + url;
     console.log("gets to the * function");
     axios.get(url).catch((error) => {
 	console.log("error");
