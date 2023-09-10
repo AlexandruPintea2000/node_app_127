@@ -25,6 +25,10 @@ router.get('*', function(req,res,next){
     url = req.originalUrl;
     console.log("gets to the * function");
     axios.get(url).catch((error) => {
+	console.log("error");
+	console.log(error);
+	console.log("error.errno");
+	console.log(error.errno);
         if (error)
             res.render('404', { previous_url: url });
         else
