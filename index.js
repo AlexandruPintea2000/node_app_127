@@ -303,15 +303,15 @@ app.use(favicon(__dirname + '/public/images/logo.png'));
 app.set('port', (process.env.PORT || 8081));
 
 // funciton to handle 404 errors
-app.get('*', function(req,res){
-url = req.originalUrl;
-console.log("gets to the * function");
-axios.get(url).catch((error) => {
-        if (error.errno == -4078) {
-            res.render('404', { previous_url: url });
-      } 
-    });
-});
+// app.get('*', function(req,res){
+// url = req.originalUrl;
+// console.log("gets to the * function");
+// axios.get(url).catch((error) => {
+//         if (error.errno == -4078) {
+//             res.render('404', { previous_url: url });
+//       } 
+//     });
+// });
 
 // app.listen(app.get('port'), function(){
 //   console.log('Server restarted on port   '+ app.get('port'));
