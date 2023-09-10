@@ -503,7 +503,7 @@
     send_msg = document.getElementById("send_msg")
     nav = document.getElementById("nav")
     li = document.createElement("li");
-    li.innerHTML = ("<input type=\"checkbox\" id="realtime_toggle" checked/> Real-time");
+    li.innerHTML = ("<input type=\"checkbox\" id=\"realtime_toggle\" checked/> Real-time");
     document.getElementById("nav").appendChild(li);
 
 	function send_not_realtime ()
@@ -535,9 +535,9 @@
 		    realtime = true;
 
 	    if ( realtime == true )
-		    send_msg.setAttribute( "onclick", localStorage.setItem('refresh', true); send_socket_msg(); )
+		    send_msg.setAttribute( "onclick", "localStorage.setItem('refresh', true); send_socket_msg();" )
 	    else
-		    send_msg.setAttribute( "onclick", localStorage.setItem('refresh', true); send_not_realtime(); )
+		    send_msg.setAttribute( "onclick", "localStorage.setItem('refresh', true); send_not_realtime();" )
     })
 	
 </script>
