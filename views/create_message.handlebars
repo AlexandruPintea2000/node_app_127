@@ -567,8 +567,13 @@
 
     realtime_toggle = document.getElementById("realtime_toggle")
     if ( realtime == true )
+    {
+	    send_msg.setAttribute( "onclick", "localStorage.setItem('refresh', true); send_socket_msg();" )
 	    realtime_toggle.setAttribute("checked", "");
-   
+    }
+    else
+	    send_msg.setAttribute( "onclick", "localStorage.setItem('refresh', true); send_not_realtime();" )
+
     realtime_toggle.addEventListener("click", function () {
 	    if ( realtime == true )
 	    {
