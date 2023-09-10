@@ -111,9 +111,17 @@ console.log("done");
 module.exports.deleteUser = function(user_id, callback){
   (async () => {
   id = user_id;
+  deleted_username = await User.findById(id).username;
+    
+  filepath = path.join(__dirname, '../public/images') + '/' + deleted_username + "_profile_image"; // generate the filename of the profile image for the given username
+  fs.unlink(filepath, (err) => { // delete the profile image
+    if (err) console.log( err );
+    console.log('path/file.txt was deleted');
+  }); 
+
   await User.findByIdAndRemove(user_id);
 
-  // users should normally just hide users/messages/topics/assignments/discussions, for example by adding a "hidden": true attribute to the db - that functionality has not yet been implemented, so, fow now, users are deleted eprmanently along with all their data 
+    // users should normally just hide users/messages/topics/assignments/discussions, for example by adding a "hidden": true attribute to the db - that functionality has not yet been implemented, so, fow now, users are deleted eprmanently along with all their data 
 
   // an alternative to "hiding" a user to terminate their account in a way is banning them, which has the same functionality - however, that has to be performed by an admin
 
