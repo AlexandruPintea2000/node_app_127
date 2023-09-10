@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "64f1b973350ce0e25c05885b"
+  },
+  "name": "development",
+  "members": "64f1b4081d8e0970a44123f7,64f1b70a1d8e0970a44123f8,64f0c0751816250db23f6c31,64f387a23ac3e8620e81dc7b",
+  "banned_users": "64f0efd61d8e0970a44123f6",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d131611fd4b3c4ee8a9c"
+  },
+  "name": "moderators and admins",
+  "members": "64f0c0751816250db23f6c31,64f1b70a1d8e0970a44123f8",
+  "banned_users": "64f1b4081d8e0970a44123f7,64f0a2c1b04c8b7e740601f2,64f0be0b1816250db23f6c26,64f0efd61d8e0970a44123f6",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d8e62c4eb6b53ff19ca2"
+  },
+  "name": "general discussion",
+  "members": "64f0be0b1816250db23f6c26,64f0c0751816250db23f6c31,64f0efd61d8e0970a44123f6,64f1b4081d8e0970a44123f7,64f1b70a1d8e0970a44123f8,64f387a23ac3e8620e81dc7b",
+  "banned_users": "",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d9072c4eb6b53ff19ca9"
+  },
+  "name": "design",
+  "members": "64f0be0b1816250db23f6c26,64f0efd61d8e0970a44123f6,64f1b70a1d8e0970a44123f8,64f0c0751816250db23f6c31",
+  "banned_users": "64f1b7e31816250db23f6c54",
+  "__v": 0
+}]

@@ -1,0 +1,465 @@
+[{
+  "_id": {
+    "$oid": "64f1bc7142719555c13ad7f0"
+  },
+  "sender_id": "64f1b4081d8e0970a44123f7",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "I am very eager to get coding!",
+  "createdAt": {
+    "$date": "2023-09-01T10:26:57.346Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T10:26:57.346Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1c40e5ff012241d3420bc"
+  },
+  "sender_id": "64f0efd61d8e0970a44123f6",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "No you're not, you are all lazy.",
+  "createdAt": {
+    "$date": "2023-09-01T10:59:26.319Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T10:59:26.319Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1c4375ff012241d3420c4"
+  },
+  "sender_id": "64f1b4081d8e0970a44123f7",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "We should ban him from this discussion!",
+  "createdAt": {
+    "$date": "2023-09-01T11:00:07.014Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T11:00:07.014Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1c4765ff012241d3420e5"
+  },
+  "sender_id": "64f1b70a1d8e0970a44123f8",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Cannot say i disagree with that ... I'm doing that now ...",
+  "createdAt": {
+    "$date": "2023-09-01T11:01:10.556Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T11:01:10.556Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1c4ab5ff012241d342111"
+  },
+  "sender_id": "64f1b70a1d8e0970a44123f8",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "And ... Done! He's banned.",
+  "createdAt": {
+    "$date": "2023-09-01T11:02:03.246Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T11:02:03.246Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d6902c4eb6b53ff19bcc"
+  },
+  "sender_id": "64f1b70a1d8e0970a44123f8",
+  "discussion_id": "64f1d131611fd4b3c4ee8a9c",
+  "text": "Good morning. <a href='/users/view_user:64f0efd61d8e0970a44123f6'>username-3</a> has told everybody in the development team they are lazy, so I banned him from the discussion.",
+  "createdAt": {
+    "$date": "2023-09-01T12:18:24.027Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:18:24.027Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d8062c4eb6b53ff19c44"
+  },
+  "sender_id": "64f1b4081d8e0970a44123f7",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Ok, now let us get on with the development!",
+  "createdAt": {
+    "$date": "2023-09-01T12:24:38.583Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:24:38.583Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d8162c4eb6b53ff19c4b"
+  },
+  "sender_id": "64f1b70a1d8e0970a44123f8",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Yeah, sure",
+  "createdAt": {
+    "$date": "2023-09-01T12:24:54.882Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:24:54.882Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1d8582c4eb6b53ff19c67"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d131611fd4b3c4ee8a9c",
+  "text": "That is inacceptable. I'm going to ban him form the platform.",
+  "createdAt": {
+    "$date": "2023-09-01T12:26:00.150Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:26:00.150Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1dc3da58e03c45668b2f9"
+  },
+  "sender_id": "64f0be0b1816250db23f6c26",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "Good day to you!",
+  "createdAt": {
+    "$date": "2023-09-01T12:42:37.205Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:42:37.205Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1dc7aa58e03c45668b318"
+  },
+  "sender_id": "64f0efd61d8e0970a44123f6",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "Yeah, you too ...",
+  "createdAt": {
+    "$date": "2023-09-01T12:43:38.702Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:43:38.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1dc87a58e03c45668b31f"
+  },
+  "sender_id": "64f0be0b1816250db23f6c26",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "Is something bothering you?",
+  "createdAt": {
+    "$date": "2023-09-01T12:43:51.178Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:43:51.178Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1dca6a58e03c45668b326"
+  },
+  "sender_id": "64f0efd61d8e0970a44123f6",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "No, i'm fine ... Did you do anything about the application design?",
+  "createdAt": {
+    "$date": "2023-09-01T12:44:22.663Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:44:22.663Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1dcaea58e03c45668b32d"
+  },
+  "sender_id": "64f0be0b1816250db23f6c26",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "Yeah, here it is:",
+  "createdAt": {
+    "$date": "2023-09-01T12:44:30.204Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T12:44:30.204Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1f69e8bad77f009da6527"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Have you done anything yet?",
+  "createdAt": {
+    "$date": "2023-09-01T14:35:10.802Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T14:35:10.802Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1fc014f4db1bef430019b"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d131611fd4b3c4ee8a9c",
+  "text": "Well, he has apologised and I let him rejoin the application. Even so, keep him banned in that discussion, ok?",
+  "createdAt": {
+    "$date": "2023-09-01T14:58:09.642Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T14:58:09.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1feed4f4db1bef43001db"
+  },
+  "sender_id": "64f0be0b1816250db23f6c26",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "[[files:edit.png]]",
+  "createdAt": {
+    "$date": "2023-09-01T15:10:37.283Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T15:10:37.283Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f202c94f4db1bef4300387"
+  },
+  "sender_id": "64f0be0b1816250db23f6c26",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "Do you think it is ok?",
+  "createdAt": {
+    "$date": "2023-09-01T15:27:05.997Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-01T15:27:05.997Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f328f4b058481f971dc4d5"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "[[files:Assignment.pdf]]",
+  "createdAt": {
+    "$date": "2023-09-02T12:22:12.352Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-02T12:22:12.352Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5533fabdb56997ddcfb4"
+  },
+  "sender_id": "64f387a23ac3e8620e81dc7b",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Look, the assignment! Could not wait ...",
+  "createdAt": {
+    "$date": "2023-09-08T17:09:07.799Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:09:07.799Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb554ffabdb56997ddcfd4"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Stop it, username, do you want to get banned too?",
+  "createdAt": {
+    "$date": "2023-09-08T17:09:35.192Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:09:35.192Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5572fabdb56997ddcfdb"
+  },
+  "sender_id": "64f387a23ac3e8620e81dc7b",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "No. But i meant it, I was feeling like coding anyway.",
+  "createdAt": {
+    "$date": "2023-09-08T17:10:10.190Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:10:10.190Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb55f5fabdb56997ddcfe2"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d8e62c4eb6b53ff19ca2",
+  "text": "Here is the general discussion. Anything you have to communicate to everybody that is not related to any assignments, goes here.",
+  "createdAt": {
+    "$date": "2023-09-08T17:12:21.917Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:12:21.917Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5601fabdb56997ddcfe9"
+  },
+  "sender_id": "64f387a23ac3e8620e81dc7b",
+  "discussion_id": "64f1d8e62c4eb6b53ff19ca2",
+  "text": "Good day!",
+  "createdAt": {
+    "$date": "2023-09-08T17:12:33.990Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:15:27.397Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5637fabdb56997ddd033"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d8e62c4eb6b53ff19ca2",
+  "text": "Good day to you too!",
+  "createdAt": {
+    "$date": "2023-09-08T17:13:27.314Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:13:27.314Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5729fabdb56997ddd160"
+  },
+  "sender_id": "64f1b4081d8e0970a44123f7",
+  "discussion_id": "64f1d8e62c4eb6b53ff19ca2",
+  "text": "How are you doing?",
+  "createdAt": {
+    "$date": "2023-09-08T17:17:29.357Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:17:29.357Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5737fabdb56997ddd167"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d8e62c4eb6b53ff19ca2",
+  "text": "Just fine.",
+  "createdAt": {
+    "$date": "2023-09-08T17:17:43.501Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:17:43.501Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb598b3d200fef5e313aac"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "You have to have the UI done too, im going to go ask the design team",
+  "createdAt": {
+    "$date": "2023-09-08T17:27:39.341Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:27:39.341Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb59b93d200fef5e313ab3"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "How is the UI going? The UI is the last thing the development team has to have to start developing.",
+  "createdAt": {
+    "$date": "2023-09-08T17:28:25.511Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:28:25.511Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb59f43d200fef5e313ad8"
+  },
+  "sender_id": "64f0efd61d8e0970a44123f6",
+  "discussion_id": "64f1d9072c4eb6b53ff19ca9",
+  "text": "It is almost done",
+  "createdAt": {
+    "$date": "2023-09-08T17:29:24.784Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:29:24.784Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fb5a9f3d200fef5e313b28"
+  },
+  "sender_id": "64f0c0751816250db23f6c31",
+  "discussion_id": "64f1b973350ce0e25c05885b",
+  "text": "Meanwhile, check your assignment end dates at <a href='/assignments/view_assignment:64f1e80cc672e66f808e8c76'>code UI</a> and <a href='/assignments/view_assignment:64f1ecd4bc4d2a7efa982cfe'>code model</a>.",
+  "createdAt": {
+    "$date": "2023-09-08T17:32:15.662Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T17:32:15.662Z"
+  },
+  "__v": 0
+}]

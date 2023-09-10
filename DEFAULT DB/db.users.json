@@ -1,0 +1,128 @@
+[{
+  "_id": {
+    "$oid": "64f0be0b1816250db23f6c26"
+  },
+  "username": "username-2",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "username-2@mail.com",
+  "firstname": "Firstname2",
+  "lastname": "Lastname2",
+  "gender": "male",
+  "date_of_birth": "1984-08-04",
+  "details": "details of username 2",
+  "alias": "alias_2",
+  "phone": "0765456784",
+  "type": "regular",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880eb4,21",
+  "themes": "ffb900,35&880eb4,21"
+},
+{
+  "_id": {
+    "$oid": "64f0c0751816250db23f6c31"
+  },
+  "username": "admin",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "username-admin@mail.com",
+  "firstname": "Firstname-Admin",
+  "lastname": "Lastname-Admin",
+  "gender": "male",
+  "date_of_birth": "1978-12-04",
+  "details": "details of admin",
+  "alias": "alias_admin",
+  "phone": "0784758886",
+  "type": "admin",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880EB4,21",
+  "themes": "fc5b5b,17&880EB4,21&FF7300,15",
+  "hidden_messages": "64f1d8062c4eb6b53ff19c44",
+  "censored_words": "whatever<br/>bad<br/>worse<br/>"
+},
+{
+  "_id": {
+    "$oid": "64f0efd61d8e0970a44123f6"
+  },
+  "username": "username-3",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "username-3@mail.com",
+  "firstname": "Firstname3",
+  "lastname": "Lastname3",
+  "gender": "male",
+  "date_of_birth": "1976-07-06",
+  "details": "details of username 3",
+  "alias": "alias_3",
+  "phone": "075455484",
+  "type": "regular",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880eb4,21",
+  "banned": false
+},
+{
+  "_id": {
+    "$oid": "64f1b4081d8e0970a44123f7"
+  },
+  "username": "username-4",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "username-4@mail.com",
+  "firstname": "Firstname4",
+  "lastname": "Lastname4",
+  "gender": "male",
+  "date_of_birth": "1998-11-08",
+  "details": "details of username 4",
+  "alias": "alias_4",
+  "phone": "0747637884",
+  "type": "regular",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880eb4,21",
+  "hidden_messages": "64f1c40e5ff012241d3420bc"
+},
+{
+  "_id": {
+    "$oid": "64f1b70a1d8e0970a44123f8"
+  },
+  "username": "moderator",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "moderator@mail.com",
+  "firstname": "Firstname-Moderator",
+  "lastname": "Lastname-Moderator",
+  "gender": "male",
+  "date_of_birth": "1987-04-11",
+  "details": "details of moderator",
+  "alias": "alias_moderator",
+  "phone": "0739874665",
+  "type": "moderator",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880EB4,21",
+  "censored_words": "lazy"
+},
+{
+  "_id": {
+    "$oid": "64f387a23ac3e8620e81dc7b"
+  },
+  "username": "username",
+  "password": "$2a$10$X2D0XyNmQkqKHzqMHKCZk.0xNFin7JRJ/.9mHjqT84FPpC6miGGfm",
+  "email": "username@mail.com",
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "gender": "male",
+  "date_of_birth": "1978-06-05",
+  "details": "details of username",
+  "alias": "alias",
+  "phone": "0765456784",
+  "type": "regular",
+  "rand_verifier": "verified",
+  "__v": 0,
+  "accepted_privacypolicy": true,
+  "theme": "880eb4,21",
+  "themes": "ffb900,35&880eb4,21"
+}]

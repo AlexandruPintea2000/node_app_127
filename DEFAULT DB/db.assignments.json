@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "64f1e80cc672e66f808e8c76"
+  },
+  "name": "code UI",
+  "description": "You were assigned to code the UI of the applicaiton.",
+  "users_assigned": "64f1b4081d8e0970a44123f7,64f0a2c1b04c8b7e740601f2",
+  "status": "notAttempted",
+  "topics": "64f1e80bc672e66f808e8c71,64f1e80cc672e66f808e8c74",
+  "end_date": "2023-11-05",
+  "discussion_ids": "64f1b973350ce0e25c05885b,64f1d9072c4eb6b53ff19ca9",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f1ecd4bc4d2a7efa982cfe"
+  },
+  "name": "code model",
+  "description": "You were assigned to code the model part of the application.",
+  "users_assigned": "64f0a2c1b04c8b7e740601f2,64f1b4081d8e0970a44123f7,64f1b70a1d8e0970a44123f8",
+  "status": "notAttempted",
+  "topics": "64f1e80cc672e66f808e8c74,64f1ecd4bc4d2a7efa982cfc",
+  "end_date": "2023-06-11",
+  "discussion_ids": "64f1b973350ce0e25c05885b",
+  "__v": 0
+}]
