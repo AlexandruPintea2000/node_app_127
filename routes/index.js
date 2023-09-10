@@ -23,8 +23,7 @@ router.get('*', function(req,res,next){
   else
   {
     url = req.originalUrl;
-    console.log("url");
-    console.log(url);
+    url = "https://0.0.0.0:8081" + url;
     console.log("gets to the * function");
     axios.get(url).catch((error) => {
 	console.log("error");
