@@ -555,7 +555,7 @@
 	}
 	
     realtime = true;
-    if ( typeof localStorage.getItem( "realtime" ) != "undefined" )
+    if ( localStorage.getItem( "realtime" ) != "on" && localStorage.getItem( "realtime" ) != "off" )
 	    localStorage.setItem( "realtime", "on" ); 
     else
     {
