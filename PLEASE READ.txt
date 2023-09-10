@@ -1,0 +1,103 @@
+Please Read!
+
+
+
+
+Here there is information on:
+	Prerequisits
+	Main fixes
+	Signing in
+	Restoring the database
+	Details (more fixes)
+
+
+
+
+---- Prerequisits ----
+
+Ensure that your browser is precisely the last version. If not, the UI might be shown as intended. If the browser is severly outdated, frontend JS won't function as intended eighter. Also, installing MongoDB Compass might prove helpful if you want to change the db data yourself.
+
+If you want to use the application on your own 127.0.0.1, follow those steps:
+1. Install Nodejs and MongoDB
+2. Open the console and go to the directory that contains the index.js file (not the /routes folder, the one above it)
+3. Run the command: npm install (make sure you have an internet conenctrion)
+4. Now, most of the needed libraries should be installed
+5. If any errors occur regarding missing libraries, install them using: npm install <package name>
+6. Run node index.js
+
+
+
+
+---- Main fixes ----
+
+- If something on the UI does not click, please click it twice, or until it does. This issue only occurs on the Railway-hosted version of the application.
+- If the UI does in any way not appear as it should, try refreshing the page. If pressing "F5" does not function, try "Shift F5". If that does not help, try going to your Dashboard, then back to the page where you were. If that does not help eighter, try to log out and log back in. 
+- If the Railway error page appears (server down) while refreshing the page, stop refreshing the page, edit the webpage to be https://nodejs-production-08a6.up.railway.app/users/login and then go to that page. 
+
+
+
+
+---- Signing in ----
+
+Here are the default, pre-existent db users. Their usernames are:
+username
+username-2
+username-3
+username-4
+moderator
+admin
+
+The password for all of them is:
+100Pwd100
+
+Even so, any new user can make an account.
+
+
+
+
+---- Restoring the database ----
+
+If you want to restore the default db data, please:
+- Install MongoDB Compass
+- Connect to the Atlas Cloud using the following (copy it where it says URI on the large textarea): mongodb+srv://atlas_user:100Pwd100@cluster0.tj8nvpb.mongodb.net/
+( the above signifies the user atlas_user with the password 100Pwd100 connecting to the Atlas Cluter )
+- The name of the database is "db" (on the the left-size panel).
+- After clicking it, you should be able to see:
+	assignments
+	discussions
+	messages
+	topics
+	users
+
+- To restore any of the data, just click one of them, then click "Add data" > Click the button to import JSON > Select the file from the folder "DEFAULT DB" with the name identical to the one you selected previously ( db.discussions.json if you selected discussions ). Then, click import. If any errors appear, that is no concern, it was just writing over some of the existing data. 
+- IMPORTANT: If you want to restore just "db.discussions.json", for example, the WHOLE db should be restored. So, repeat the above steps for ALL of:
+	db.assignments.json
+	db.discussions.json
+	db.messages.json
+	db.topics.json
+	db.users.json
+	
+- If not all of them are restored, there might be errors due to id-s not being found, which leads to the server crashing. 
+
+
+
+
+---- Details (more fixes) ----
+
+In some browsers, the logo saying "App" is slightly too close to the top of the page. This varies from browser version to browser version, and from OS to OS. If that is the case, the arrow on the "back to top" buttom might be slightly off as well. This happened when another OS was used than the one used to develop the app, on a browser that is slightly outdated. If you experience this type of behaviour, the only explenation can be that your browser is slightly outdated.
+
+If (most likely due to a poor internet connection), you cannot see the images the website should display, leading to a plain HTML page, attempt to improve your internet signal and refresh the page.
+
+If within messages sometimes an empty circle that seems like it should hold a profile image is shown, please refresh the page. This is a limitatiion of the Railway free plan, as no other explenation nor a fix could be found.
+
+Also, adding a profile imge can significantly decrease the loading time you experience on the dashboard, and in general. As such, a profile image was added to each user that signs up.
+
+Problem regarding files that cannot be downloaded: After you upload a file my sending a message, you can download it. However, if the server crashes / rebuilds the application, chances are that file you uploaded is going to dissapear. Even so, the message that was used to send the file wont be deleted. As such, if you attempt to download such a file, you are going to most likely crash the server. It restarts on its own, but that wont solve the file download issue. The issue applies to profile images as well. 
+
+When somebody edits / deletes a message, everybody's page is going to refresh. If you cannot see the names of the senders, log out and log back in. Real-time chatting was only partially implemented, such issues are to be expected.
+
+If the server crashes, just wait for it to restart. It should not take more than 1 minute.
+
+If your page keeps crashing the server (while refreshing it), open the website on the default page ( https://nodejs-production-08a6.up.railway.app/users/login ) in another tab. The issue here is that you keep sending the same POST request after a previous server crash.
+
+
