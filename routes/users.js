@@ -695,7 +695,7 @@ router.post('/edit', User.ensureAuthenticated, function(req,res){
 
 
 // an admin is editin the data of other users
-router.post('/edit_users', User.ensureAuthenticated, function(req,res){
+router.post('/edit_users', User.ensureAdmin, function(req,res){
   if (req.session.user == undefined) // verify that the user is logged in
     res.redirect('/users/login');
   (async () => {
