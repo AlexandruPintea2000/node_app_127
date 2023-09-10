@@ -1,0 +1,157 @@
+<script> pg_title = "Assignments"; 
+
+
+function resizeIframe(obj) { // function used to resize the Iframe to the size of the screen
+  height = obj.contentWindow.document.documentElement.scrollHeight;
+  obj.style.height = height + 'px';
+  obj.parentElement.style.height = String( Number( height ) + 10 ) + 'px';
+  obj.parentElement.setAttribute("style", "display: block; height: " + height +" !important;")
+  console.log(obj.parentElement);
+}
+
+</script>
+
+<!-- check if the string values arrived to the front-end and convert them into front-end Js variables -->
+{{#if u}}
+<script>
+var u = `{{u}}`;
+</script>
+{{/if}}
+
+
+
+<br/>
+<h1 style="font-family: bold_font; text-shadow: none; font-size: 24px;">{{u.firstname}} {{u.lastname}} ( {{u.username}} )</h1>
+
+  <table><tr><td>
+  <div class="text_border" style="width: fit-content;">
+
+  <table id="user_details">
+    <!-- fill in user data -->
+    <tr>
+      <td> Firstname: </td>
+      <td> {{u.firstname}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Lastname: </td>
+      <td> {{u.lastname}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Username: </td>
+      <td> {{u.username}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Email: </td>
+      <td> {{u.email}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Gender: </td>
+      <td> {{u.gender}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Date of birth: </td>
+      <td> {{u.date_of_birth}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Details: </td>
+      <td> {{u.details}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Alias: </td>
+      <td> {{u.alias}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Phone: </td>
+      <td> {{u.phone}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Type: </td>
+      <td> 
+            {{u.type}}
+      </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+    <tr>
+      <td> Alias: </td>
+      <td> {{u.alias}} </td>
+    </tr>
+    <tr> <td colspan=2> <div class="hr"></div> </td> </tr>
+
+  </table>
+  </div>
+
+  </td><td>
+
+  <div id="display_profile_image" style="background-color: rgb(254, 254, 254); margin-top: -10px;">
+    <img onerror="this.style.display='none'; this.parentElement.style.display='none'; "  src="/images/{{user.username}}_profile_image"/>
+  </div>
+
+  </td></tr></table>
+  <br/>
+  <input id="view_assignments" type="button" onclick="" value="View assignments"></input>
+
+  <!-- an iframe that displays all the user's assignments -->
+  <div id="iframe_container" class="text_border">
+    <span>This page is readonly here. On the separate <a href="/assignments/view_assignments:{{u.id}}">assignments page</a> it is not.</span>
+    <iframe id="assignments_iframe" src="/assignments/view_assignments:{{u.id}}" style="pointer-events: none;" frameborder="0" scrolling="no">
+    </iframe>
+  </div>
+
+
+
+<style>
+
+  .hr {border-bottom: 1px dashed black;}
+
+  #user_details tr td:first-child
+  {
+    font-family: bold_font;
+  }
+
+  #iframe_container { display: none; margin-top: 10px; }
+  #iframe_container span { display: block; font-size: 17px; margin-bottom: 10px; }
+
+  #assignments_iframe
+  {
+    width: 100%;
+  }
+
+</style>
+
+<script>
+
+  iframe_container = document.getElementById("iframe_container");
+
+  view_assignments = document.getElementById("view_assignments");
+  assignments_iframe = document.getElementById("assignments_iframe");
+
+  // display / hide the iframe
+
+  toggle = true;
+  view_assignments.addEventListener("click", function(){
+    if (toggle)
+    {
+      iframe_container.style.display = "block";
+      resizeIframe(assignments_iframe);
+      toggle = false;
+      this.value = "Hide assignments";
+      return;
+    }
+    else
+    {
+      iframe_container.style.display = "none";
+      toggle = true;
+      this.value = "View assignments";
+    }
+  });
+
+</script>

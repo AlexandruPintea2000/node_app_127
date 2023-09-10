@@ -1,0 +1,719 @@
+<h1>Create Assignment</h1>
+
+<!-- <p>done</p>
+ -->
+<script> pg_title = "Create Assignment"; localStorage.setItem("refresh", true); </script>
+
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px; width: 30%;">
+
+<form id="create_edit_assignment_form" action="/assignments/create_assignment" method="post">
+  <!-- check if the string values arrived to the front-end and convert them into front-end Js variables -->
+  {{#if users}}
+  <script>
+  var users = `{{users}}`;
+  var user_id = `{{user_id}}`;
+  var topics = `{{topics}}`;
+  var assignments = `{{assignments}}`;
+  var discussions = `{{discussions}}`;
+  var id = `{{id}}`;
+
+  have_assignment = false;
+  have_topic = false;
+
+  if ( String(id) != "" )
+  {
+    if ( id[0] == '!' )
+    {
+      have_topic = true;
+      id = id.slice(1); 
+    }
+    else
+      have_assignment = true;
+  }
+
+  ids_arr = [];
+  usernames_arr = [];
+  topic_ids_arr = [];
+  topics_arr = [];
+  discussion_ids_arr = [];
+  discussions_arr = [];
+  </script>
+  {{/if}}
+  
+  <div id="create_edit_assignment_title" style="font-size: 21px; margin-left: 5px;"> Enter the title, topic and description of the assignment </div>
+  <hr/>
+
+  <div style="margin: 25px 0px 8px 5px;"> Enter the title of the assignment </div>
+
+  <input id="e_id" type="text" name="id" style="display:none;">  </input>
+
+
+  <input id="e_title" type="text" placeholder="Title of assignment" name="title" style="width: calc(100% - 26px)">  </input>
+
+  <div style="margin: 20px 0px 8px 5px;">Topic (enter or select)<br/>
+  <span style="font-size: 10px;">if you do both, both will be added</span></div>
+
+  <input type="text" placeholder="Topic" name="text_topic" style="width: calc(100% - 26px)">  </input>
+
+  <div id="topic_dropdown_container">
+    <input style="display:none;" type="text" name="topic_ids" id="topic_ids"> </input>
+    <div id="selected_topics"> </div>
+    <select style="width:100%" id="topic_maker" name=select_topic>
+    </select>
+  </div>
+<table><tr>
+  <td><div class="small_btn" id="add_topic_btn"> + </div></td>
+  <td><div class="small_btn" id="remove_topic_btn"> - </div></td>
+</tr></table>
+  <div style="font-size: 17px; margin: 12px 0px 8px 5px;"> Enter the assignment details </div>
+  <textarea id="details" name="description" placeholder="Description" style="width: calc(100% - 26px)"></textarea>
+
+  <div style="margin: 15px 0px 0px 5px;"> Users assigned:<br/><span style="font-size: 10px;">(make sure you add yourself too)</span></div>
+
+  <div id="dropdown_container">
+    <input style="display:none;" type="text" name="ids" id="ids"> </input>
+    <div id="selected_usernames"> </div>
+    <select  style="width:calc(100% - 2px)" id="discussion_maker">
+    </select>
+  </div>
+  <table><tr>
+  <td><div class="small_btn" id="add_user_btn"> + </div></td>
+  <td><div class="small_btn" id="remove_user_btn"> - </div></td>
+</tr></table>
+
+  <div style="margin: 15px 0px 0px 5px;"> Discussions:<br/><span style="font-size: 10px;">(optional)</span></div>
+
+  <div id="discussion_dropdown_container">
+    <input style="display:none;" type="text" name="discussion_ids" id="discussion_ids"> </input>
+    <div id="selected_discussions"> </div>
+    <select style="width:calc(100% - 2px)" id="discussion_select">
+    </select>
+  </div>
+  <table><tr>
+  <td><div class="small_btn" id="add_discussion_btn"> + </div></td>
+  <td><div class="small_btn" id="remove_discussion_btn"> - </div></td>
+  </tr></table>
+
+
+  <div style="margin: 7px 0px 8px 5px;"> Cutoff date </div>
+
+  <input id="e_date" type="date" placeholder="Cutoff date" name="end_date" value="1990-01-15" style="width: calc(100% - 26px); height: 17px;">
+
+  <br/>
+  <br/>
+
+  <script>
+
+    restrictions_on = false; // theyll get toggled onload
+    function toggle_restrictions()
+    {
+      e_title = document.getElementById("e_title");
+      details = document.getElementById("details");
+
+      if ( restrictions_on == false )
+        restrictions_on = true;
+      else
+        restrictions_on = false;
+
+      if ( restrictions_on == true )
+      {
+        e_title.setAttribute("required", "");
+        details.setAttribute("required", "");
+      }
+
+      if ( restrictions_on == false )
+      {
+        e_title.removeAttribute("required");
+        details.removeAttribute("required");
+      }
+    }
+    toggle_restrictions();
+
+  </script>
+
+  <input onchange="toggle_restrictions()" type="checkbox" checked></input>
+  <span style="margin-left: 10px;">Enable restrictions </span>
+  <br/>
+  <br/>
+  <input id="e_submit" type="submit" value="Create assignment"></input>
+</form>
+</div>
+
+
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px; width: 25%; position: absolute; top: 187px; left: 34%;">
+
+  <div style="font-size: 21px; margin-left: 5px; margin-bottom: 29px;"> Create/edit/delete topics </div>
+  <hr/>
+
+  <form action="/assignments/create_topic" method="post">
+
+    <div style="margin: 25px 0px 8px 5px;"><b>Create:</b> Enter the topic title </div>
+    <input type="text" placeholder="Title of topic" name="title" style="width: calc(100% - 26px)">  </input>
+    <input style="margin-top: 9px;" type="submit" value="Create topic"></input>
+
+  </form>
+  <br/>
+  <hr/>
+
+  <form action="/assignments/edit_topic" method="post">
+
+    <div style="margin: 25px 0px 8px 5px;"><b>Edit:</b> Edit a topic title </div>
+    <select onchange="fill_topic_edit(this)" style="width:100%; margin: 8px 0px 8px 0px;" id="edit_topic_dropdown" name="edit_topic_id"></select>
+
+    <input id="edit_topic_title" type="text" placeholder="Title of topic" name="title" style="width: calc(100% - 26px)"></input>
+    <input style="margin-top: 9px;" type="submit" value="Update topic"></input>
+
+  </form>
+  <br/>
+  <hr/>
+
+  <form action="/assignments/delete_topic" method="post">
+
+    <div style="margin: 25px 0px 8px 5px;"><b>Delete:</b> Select a topic to delete </div>
+    <select style="width:100%; margin: 8px 0px 8px 0px;" id="delete_topic_dropdown" name="delete_topic_id"></select>
+    <input style="margin-top: 2px;" type="submit" value="Delete topic"></input>
+
+  </form>
+
+</div>
+
+
+<div class="text_border" style="width: fit-content; background-color: rgba(255, 255, 255, 0.8); padding: 15px; width: 25%; position: absolute; top: 187px; left: 62%;">
+
+  <div style="font-size: 21px; margin-left: 5px; margin-bottom: 29px;"> Edit/delete assignments </div>
+  <hr/>
+
+
+  <div style="margin: 25px 0px 8px 5px;"><b>Edit:</b> Edit a assignment </div>
+  <select onchange="fill_assignment_data(this)" style="width:100%; margin: 8px 0px 8px 0px;" id="edit_assignment_dropdown" name="edit_assignment_id"></select>
+
+  
+  <br/>
+  <hr/>
+
+  <form action="/assignments/delete_assignment" method="post">
+
+    <div style="margin: 25px 0px 8px 5px;"><b>Delete:</b> Select the assignment you want to delete </div>
+    <select style="width:100%; margin: 8px 0px 8px 0px;" id="delete_assignment_dropdown" name="delete_assignment_id"></select>
+    <input style="margin-top: 2px;" type="submit" value="Delete assignment"></input>
+
+  </form>
+
+</div>
+
+<script>
+
+
+
+  function fill_topic_edit(e)
+  {
+    title = document.getElementById("edit_topic_title");
+    title.value = topics[e.selectedIndex].name;
+  }
+
+  users = users.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  users = JSON.parse(users);
+
+  console.log(users);
+
+  assignments = assignments.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  assignments = JSON.parse(assignments);
+
+  console.log(assignments);
+
+  discussions = discussions.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  discussions = JSON.parse(discussions);
+
+  console.log(discussions);
+
+
+  topics = topics.replace(/&quot;/g,'"') // always have to replace this for the strings sent to the front-end
+  topics = JSON.parse(topics);
+  if (topics.length > 0)
+    document.getElementById("edit_topic_title").value = topics[0].name;
+  console.log(topics);
+
+
+
+  console.log(assignments);
+
+
+  dropdown = document.getElementById("discussion_maker");
+
+  selected_usernames = document.getElementById("selected_usernames");
+  container = document.getElementById("dropdown_container");
+  ids = document.getElementById("ids");
+
+
+  // add the users to the dropdown, so that the user can make them members of the created discussion
+  function fill_dropdown () 
+  {
+    inner = "";
+    gets = 0;
+    for (i = 0; i < users.length; i = i + 1)
+    {
+      if (ids_arr.includes( users[i].id )) // do not include already chosen users in the dropdown
+        continue;
+      inner = inner + "<option value=\"" + users[i].id + "\" >" + users[i].username + " ( " + users[i].name + " )</option>";
+      gets = 1;
+    }
+
+    if (gets == 0) // hide the dropdown, if all the users were chosen as members of the discussion
+      dropdown.style.display = "none";
+    else
+      dropdown.style.display = "initial";
+
+    dropdown.innerHTML = inner;
+  }
+
+  // show the chosen users above the dropdown
+  function fill_usernames_and_ids ()
+  {
+    inner = "";
+    for (i = 0; i < usernames_arr.length; i = i + 1)
+    {
+      inner = inner + "<div class=\"chosen_user\">" + usernames_arr[i];
+      inner = inner + "</div>";
+    }
+    selected_usernames.innerHTML = inner;
+
+    v = "";
+    for (i = 0; i < ids_arr.length; i = i + 1)
+    {
+      v = v + ids_arr[i];
+      if (i != ids_arr.length - 1)
+        v = v + ",";
+    }
+    ids.setAttribute("value", v); // all the id-s of the users that need to be added as member of the discussiona are stored in an <input type="text">, waiting to be sent to the backend though POST
+  }
+
+  add_user_btn = document.getElementById("add_user_btn");
+  add_user_btn.addEventListener("click", function(){ // each time a new user is added as a member for the discussion, the dropdown has to be refilled (to exclude that user) and their id needs be added to the <iput type="text"> that contains all chosen user ids
+    ids_arr.push(dropdown.options[dropdown.selectedIndex].value);
+    usernames_arr.push(dropdown.options[dropdown.selectedIndex].text);
+
+    fill_usernames_and_ids();
+    fill_dropdown();
+    console.log(ids_arr);
+  });
+
+  remove_user_btn = document.getElementById("remove_user_btn");
+  remove_user_btn.addEventListener("click", function(){ // just like adding users, but the last user is removed from the -d and username arrays, leading to the dropdown being refilled and the chosen user elemnts being remade
+    ids_arr.splice(-1);
+    usernames_arr.splice(-1);
+
+    fill_usernames_and_ids();
+    fill_dropdown();
+    console.log(ids_arr);
+  });
+
+  // fill the dropdown initially
+  fill_dropdown();
+  fill_usernames_and_ids(); // does this even have to be here?
+
+
+
+
+
+  edit_topic_dropdown = document.getElementById("edit_topic_dropdown");
+
+  for (i = 0; i < topics.length; i = i + 1)
+  {
+    if (have_topic == true && topics[i].id == id)
+    {
+      inner = inner + "<option value=\"" + topics[i].id + "\" selected>" + topics[i].name + "</option>";
+      document.getElementById("edit_topic_title").value = topics[i].name;
+      continue;
+    }
+    inner = inner + "<option value=\"" + topics[i].id + "\" >" + topics[i].name + "</option>";
+  }
+
+  edit_topic_dropdown.innerHTML = inner;
+
+
+
+  delete_topic_dropdown = document.getElementById("delete_topic_dropdown");
+
+  delete_topic_dropdown.innerHTML = inner;
+
+
+
+  edit_assignment_dropdown = document.getElementById("edit_assignment_dropdown");
+
+  inner = "";
+  for (i = 0; i < assignments.length; i = i + 1)
+  inner = inner + "<option value=\"" + assignments[i].id + "\" >" + assignments[i].name + "</option>";
+
+  edit_assignment_dropdown.innerHTML = "<option style=\"display:none\" disabled selected value> -- select an assignment -- </option>" + inner;
+  console.log("done");
+
+
+  delete_assignment_dropdown = document.getElementById("delete_assignment_dropdown");
+
+  delete_assignment_dropdown.innerHTML = inner;
+
+
+
+
+
+
+
+  // <div id="topic_dropdown_container">
+  //   <input style="display:none;" type="text" name="topic_ids" id="topic_ids"> </input>
+  //   <div id="selected_topics"> </div>
+  //   <select  style="width:calc(100% - 2px)" id="topic_maker">
+  //   </select>
+  // </div>
+
+  topic_dropdown = document.getElementById("topic_maker"); 
+  selected_topics = document.getElementById("selected_topics");
+  topic_container = document.getElementById("topic_dropdown_container");
+  topic_ids = document.getElementById("topic_ids");
+
+  
+  // add the topics to the dropdown, so that the user can add them to the created assignment
+  function fill_topic_dropdown () 
+  {
+    inner = "";
+    gets = 0;
+    for (i = 0; i < topics.length; i = i + 1)
+    {
+      if (topic_ids_arr.includes( topics[i].id )) // do not include already chosen users in the dropdown
+        continue;
+      inner = inner + "<option value=\"" + topics[i].id + "\" >" + topics[i].name + "</option>";
+      gets = 1;
+    }
+
+    if (gets == 0) // hide the dropdown, if all the users were chosen as members of the discussion
+      topic_dropdown.style.display = "none";
+    else
+      topic_dropdown.style.display = "initial";
+
+    topic_dropdown.innerHTML = inner;
+  }
+
+  // show the chosen users above the dropdown
+  function fill_topic_names_and_ids ()
+  {
+    inner = "";
+    for (i = 0; i < topics_arr.length; i = i + 1)
+    {
+      inner = inner + "<div class=\"chosen_topic\">" + topics_arr[i];
+      inner = inner + "</div>";
+    }
+    selected_topics.innerHTML = inner;
+
+    v = "";
+    for (i = 0; i < topic_ids_arr.length; i = i + 1)
+    {
+      v = v + topic_ids_arr[i];
+      if (i != topic_ids_arr.length - 1)
+        v = v + ",";
+    }
+    topic_ids.setAttribute("value", v); // all the id-s of the users that need to be added as member of the discussiona are stored in an <input type="text">, waiting to be sent to the backend though POST
+  }
+
+  add_topic_btn = document.getElementById("add_topic_btn");
+  add_topic_btn.addEventListener("click", function(){ // each time a new user is added as a member for the discussion, the dropdown has to be refilled (to exclude that user) and their id needs be added to the <iput type="text"> that contains all chosen user topic_ids
+    topic_ids_arr.push(topic_dropdown.options[topic_dropdown.selectedIndex].value);
+    topics_arr.push(topic_dropdown.options[topic_dropdown.selectedIndex].text);
+
+    fill_topic_names_and_ids();
+    fill_topic_dropdown();
+    console.log(topic_ids_arr);
+  });
+
+  remove_topic_btn = document.getElementById("remove_topic_btn");
+  remove_topic_btn.addEventListener("click", function(){ // just like adding users, but the last user is removed from the -d and username arrays, leading to the dropdown being refilled and the chosen user elemnts being remade
+    topic_ids_arr.splice(-1);
+    topics_arr.splice(-1);
+
+    fill_topic_names_and_ids();
+    fill_topic_dropdown();
+    console.log(topic_ids_arr);
+  });
+
+  // fill the dropdown initially
+  fill_topic_dropdown();
+  fill_topic_names_and_ids(); // does this even have to be here?
+
+  var e_title = document.getElementById("e_title");
+  var e_id = document.getElementById("e_id");
+  var e_details = document.getElementById("details");
+  var e_date = document.getElementById("e_date");
+  var e_submit = document.getElementById("e_submit");
+
+  function fill_assignment_data(e)
+  {
+    // form = document.getElementById("create_edit_assignment_form");
+    // form.setAttribute("action", "/assignments/edit_assignment");
+
+    title = document.getElementById("create_edit_assignment_title");
+    title.innerHTML = "<b>Edit</b> the title, topic and description of the assignment";
+
+    discussion_ids_arr.splice(0, discussion_ids_arr.length);
+    discussions_arr.splice(0, discussions_arr.length);
+    topic_ids_arr.splice(0, topic_ids_arr.length);
+    topics_arr.splice(0, topics_arr.length);
+    ids_arr.splice(0, ids_arr.length);
+    usernames_arr.splice(0, usernames_arr.length);
+
+    a = assignments[e.selectedIndex-1];
+    e_id.value = a.id;
+    e_title.value = a.name;
+    e_details.value = a.description.replace(/&lt;br\/&gt;/g, "\r\n");
+    e_date.value = a.end_date;
+    e_submit.value = "Update assignment";
+
+    if ( typeof a.users_assigned != 'undefined' )
+    {
+      u = [];
+      if ( a.users_assigned.includes(',') )
+        u = a.users_assigned.split(',');
+      else
+        u.push(a.users_assigned);
+      for (i = 0; i < users.length; i = i + 1)
+        if ( u.includes( users[i].id ) )
+        {
+          ids_arr.push(users[i].id);
+          usernames_arr.push(users[i].username + " ( " + users[i].name + " )");
+        }
+
+
+    }
+
+    if ( typeof a.topics != 'undefined' )
+    {
+      t = [];
+      if ( a.topics.includes(',') )
+        t = a.topics.split(',');
+      else
+        t.push(a.topics);
+      for (i = 0; i < topics.length; i = i + 1)
+        if ( t.includes( topics[i].id ) )
+        {
+          topic_ids_arr.push(topics[i].id);
+          topics_arr.push(topics[i].name);
+        }
+    }
+
+    if ( typeof a.discussion_ids != 'undefined' )
+    {
+      d = [];
+      if ( a.discussion_ids.includes(',') )
+        d = a.discussion_ids.split(',');
+      else
+        d.push(a.discussion_ids);
+      for (i = 0; i < discussions.length; i = i + 1)
+        if ( d.includes( discussions[i].id ) )
+        {
+          discussion_ids_arr.push(discussions[i].id);
+          discussions_arr.push(discussions[i].name);
+        }
+    }
+
+    console.log("discussion_ids_arr");
+    console.log(discussion_ids_arr);
+    console.log("discussions_arr");
+    console.log(discussions_arr);
+    console.log(topic_ids_arr);
+    console.log(topics_arr);
+    console.log(ids_arr);
+    console.log(usernames_arr);
+
+    fill_dropdown();
+    fill_usernames_and_ids();
+    fill_topic_dropdown();
+    fill_topic_names_and_ids();
+    fill_discussion_select();
+    fill_discussions_and_ids();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  discussion_select = document.getElementById("discussion_select");
+
+  // add the discussions to the discussion_select, so that the user can make them members of the created discussion
+  function fill_discussion_select () 
+  {
+    inner = "";
+    gets = 0;
+    for (i = 0; i < discussions.length; i = i + 1)
+    {
+      if (discussion_ids_arr.includes( discussions[i].id )) // do not include already chosen discussions in the discussion_select
+        continue;
+      inner = inner + "<option value=\"" + discussions[i].id + "\" >" + discussions[i].name + "</option>";
+      gets = 1;
+    }
+
+    if (gets == 0) // hide the discussion_select, if all the discussions were chosen as members of the discussion
+      discussion_select.style.display = "none";
+    else
+      discussion_select.style.display = "initial";
+
+    discussion_select.innerHTML = inner;
+  }
+
+  // show the chosen discussions above the discussion_select
+  function fill_discussions_and_ids ()
+  {
+    inner = "";
+    for (i = 0; i < discussions_arr.length; i = i + 1)
+    {
+      inner = inner + "<div class=\"chosen_discussion\">" + discussions_arr[i];
+      inner = inner + "</div>";
+    }
+    selected_discussions.innerHTML = inner;
+
+    v = "";
+    for (i = 0; i < discussion_ids_arr.length; i = i + 1)
+    {
+      v = v + discussion_ids_arr[i];
+      if (i != discussion_ids_arr.length - 1)
+        v = v + ",";
+    }
+    discussion_ids.setAttribute("value", v); // all the id-s of the discussions that need to be added as member of the discussiona are stored in an <input type="text">, waiting to be sent to the backend though POST
+  }
+
+  add_discussion_btn = document.getElementById("add_discussion_btn");
+  add_discussion_btn.addEventListener("click", function(){ // each time a new user is added as a member for the discussion, the discussion_select has to be refilled (to exclude that user) and their id needs be added to the <iput type="text"> that contains all chosen user ids
+    discussion_ids_arr.push(discussion_select.options[discussion_select.selectedIndex].value);
+    discussions_arr.push(discussion_select.options[discussion_select.selectedIndex].text);
+
+    fill_discussions_and_ids();
+    fill_discussion_select();
+    console.log("discussion_ids_arr");
+    console.log(discussion_ids_arr);
+  });
+
+  remove_discussion_btn = document.getElementById("remove_discussion_btn");
+  remove_discussion_btn.addEventListener("click", function(){ // just like adding discussions, but the last user is removed from the -d and username arrays, leading to the discussion_select being refilled and the chosen user elemnts being remade
+    discussion_ids_arr.splice(-1);
+    discussions_arr.splice(-1);
+
+    fill_discussions_and_ids();
+    fill_discussion_select();
+    console.log("discussion_ids_arr");
+    console.log(discussion_ids_arr);
+  });
+
+  // fill the discussion_select initially
+  fill_discussion_select();
+  fill_discussions_and_ids(); // does this even have to be here?
+
+  if ( have_assignment == true )
+  {
+    iter = -1;
+    for (i = 0; i < assignments.length; i = i + 1)
+      if ( assignments[i].id == id )
+      {
+        iter = i;
+        break;
+      }
+
+    title = document.getElementById("create_edit_assignment_title");
+    title.innerHTML = "<b>Edit</b> the title, topic and description of the assignment";
+
+    discussion_ids_arr.splice(0, discussion_ids_arr.length);
+    discussions_arr.splice(0, discussions_arr.length);
+    topic_ids_arr.splice(0, topic_ids_arr.length);
+    topics_arr.splice(0, topics_arr.length);
+    ids_arr.splice(0, ids_arr.length);
+    usernames_arr.splice(0, usernames_arr.length);
+
+    a = assignments[iter];
+    e_id.value = a.id;
+    e_title.value = a.name;
+    e_details.value = a.description.replace(/&lt;br\/&gt;/g, "\r\n");
+    e_date.value = a.end_date;
+    e_submit.value = "Update assignment";
+
+    if ( typeof a.users_assigned != 'undefined' )
+    {
+      u = [];
+      if ( a.users_assigned.includes(',') )
+        u = a.users_assigned.split(',');
+      else
+        u.push(a.users_assigned);
+      for (i = 0; i < users.length; i = i + 1)
+        if ( u.includes( users[i].id ) )
+        {
+          ids_arr.push(users[i].id);
+          usernames_arr.push(users[i].username + " ( " + users[i].name + " )");
+        }
+
+    }
+
+  }
+</script>
+
+<style>
+
+  .small_btn
+  {
+    border: 3px solid var(--tc_3);
+    width: 15px;
+    height: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 23px;
+    padding: 4px 4px 5px 7px;
+    color: var(--tc_3);
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: 0.15s;
+    display: block;
+    margin: 7px 0px 7px 0px;
+  }
+
+  .small_btn:hover
+  {
+    color: var(--tc_1);
+    border-color: var(--tc_1);
+  }
+
+  #dropdown_container, #topic_dropdown_container, #discussion_dropdown_container
+  {
+    display: block;
+  }
+
+  .chosen_user, .chosen_topic, .chosen_discussion
+  {
+    border: 3px solid var(--tc_2);
+    border-radius: 7px;
+    padding: 5px 7px;
+    background-color: rgba(255, 255, 255, 0.65);
+    width: fit-content;
+    margin-top: 10px;
+  }
+
+  #add_user_btn, #add_topic_btn, #add_discussion_btn
+  {
+    padding: 3px 5px 8px 7px;
+  }
+
+  #remove_user_btn, #remove_topic_btn, #remove_topic_btn
+  {
+    padding: 4px 4px 7px 7px;
+    font-size: 27px;
+    line-height:  23px;
+  }
+
+  div
+  {
+    font-size: 17px;
+  }
+
+</style>
