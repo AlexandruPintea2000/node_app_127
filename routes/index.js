@@ -3,6 +3,7 @@ var nodemailer= require('nodemailer');
 var router = express.Router();
 var fs = require('fs');
 const path = require('path')
+const axios = require('axios')
 
 var User = require('../models/user');
 
@@ -23,7 +24,7 @@ router.get('*', function(req,res,next){
     next()
 });
 
-router.get('*', function(req,res,next()){
+router.get('*', function(req,res,next){
 url = req.originalUrl;
 console.log("gets to the * function");
 axios.get(url).catch((error) => {
