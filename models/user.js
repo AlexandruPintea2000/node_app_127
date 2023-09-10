@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
+var fs = require('fs');
+var path = require('path');
 console.log("done");
 // user schema
 var UserSchema = mongoose.Schema({
