@@ -29,7 +29,7 @@ router.get('*', function(req,res,next){
 	console.log(error);
 	console.log("error.errno");
 	console.log(error.errno);
-        if (error)
+        if (error.errno == -4078)
             res.render('404', { previous_url: url });
         else
             next()
