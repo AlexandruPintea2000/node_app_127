@@ -472,6 +472,8 @@
     }
 
     their_add_edit_hide_delete();
+
+	
   </script>
   
   
@@ -494,8 +496,52 @@
 
   <td><input onclick="localStorage.setItem('refresh', true); send_socket_msg();" style="padding: 3px 6px 2px 9px; margin-top: -3px; font-size: 31px; font-family: bold_font; border: 3px solid var(--tc_5); border-radius: 10px 25px 25px 10px;      background-color: var(--otc_5);
       color: var(--tc_5);
-" type="button" value="&#8669;" title="Send message to members"></input></td></tr>
+" type="button" value="&#8669;" id="send_msg" title="Send message to members"></input></td></tr>
   <tr>
+
+<script>
+    send_msg = document.getElementById("send_msg")
+    nav = document.getElementById("nav")
+    li = document.createElement("li");
+    li.innerHTML = ("<input type=\"checkbox\" id="realtime_toggle" checked/> Real-time");
+    document.getElementById("nav").appendChild(li);
+
+	function send_not_realtime ()
+	{
+	      text = document.getElementById("text").value;
+	      discussion = document.getElementById("discussion_dropdown").value;
+	      var xhr = new XMLHttpRequest();
+	      xhr.open("POST", "/messages/create_message", true);
+	      xhr.setRequestHeader('Content-Type', 'application/json');
+	      xhr.send(JSON.stringify({
+		discussion: discussion,
+		text: text
+	      }));
+	
+	      // alert("gets")
+	
+	      location.reload();
+	      location.reload();
+	
+	      // get_updated_user();
+	}
+	
+    realtime = true;
+    realtime_toggle = document.getElementById("realtime_toggle")
+    realtime_toggle.addEventListener("click", function () {
+	    if ( realtime == true )
+		    realtime = false;
+	    else
+		    realtime = true;
+
+	    if ( realtime == true )
+		    send_msg.setAttribute( "onclick", localStorage.setItem('refresh', true); send_socket_msg(); )
+	    else
+		    send_msg.setAttribute( "onclick", localStorage.setItem('refresh', true); send_not_realtime(); )
+    })
+	
+</script>
+	  
   </form>
 
   <td id="hide_td"><a title="Start a new discussion" id="create_discussion" href="/discussions/create_discussion:"> Create Discussion </a></td>
