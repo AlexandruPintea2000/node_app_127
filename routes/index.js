@@ -18,7 +18,7 @@ function check_maintenance ()
 }
 
 router.get('*', function(req,res,next){
-            next_function = false;
+            next_function = true;
   if ( check_maintenance() == true && !req.originalUrl.includes("/users/login") && typeof req.session.user == 'undefined' )
     res.render('maintenance');
   else
@@ -27,10 +27,11 @@ router.get('*', function(req,res,next){
     console.log("gets to the * function");
     axios.get(url).catch((error) => {
         if (error.errno == -4078)
+	{
             res.render('404', { previous_url: url });
-        else
-            next_function = true;
-    });
+            next_function = false;
+	}
+});
   }
 	if ( next_function == true )
 		next();
